@@ -1,0 +1,23 @@
+{
+  "bookNow": "Reserva ahora",
+  "bookNowPrompt": "¡No lo pienses más, reserva ya!",
+  "cesarDestination": "Destino Cesar Tours",
+  "contactUs": "Contactanos",
+  "destinationLocation": "Dirección de Destino",
+  "destinationLocationPlaceholder": "Ingresa la dirección de destino",
+  "distance": "DISTANCIA",
+  "home": "Inicio",
+  "oneWayOption": "Solo ida",
+  "pickupLocation": "Dirección de Origen",
+  "pickupLocationPlaceholder": "Ingresa la dirección de origen",
+  "reservations": "Reservaciones",
+  "reviews_section_title": "Reseñas de quienes confían en nuestro servicio",
+  "roundTripOption": "Ida y vuelta",
+  "selectVehicle": "Seleccionar Vehiculo",
+  "services": "Servicios",
+  "time": "TIEMPO DE VIAJE",
+  "title": "Bienvenido a Cesar Tours para hacer tu mundo mas facil",
+  "travelFastAndSafe": "Viaja rápido y seguro con Cesar Tours. Disfruta de un traslado cómodo desde el aeropuerto hasta tu hotel ¡Reserva ahora y comienza tu aventura sin preocupaciones!",
+  "tripTypeLabel": "Tipo de viaje",
+  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!"
+}

@@ -1,0 +1,72 @@
+.card {
+  height: 200px;
+  border-radius: 10px;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    .person-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      .person-pic {
+        height: 70px;
+        width: 70px;
+        border-radius: 56px;
+        overflow: hidden;
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        .person-name {
+          font-size: 18px;
+        }
+      }
+      .stars {
+        display: flex;
+        gap: 1px;
+        svg {
+          margin-left: -2px;
+          width: 15px;
+          height: 15px;
+          fill: #f59e0b;
+          stroke-width: 1px;
+          stroke: rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+    .date {
+      margin-top: 5px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}

@@ -1,0 +1,105 @@
+@use "../../index.scss" as *;
+
+.hero-section {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+  // de esta forma podemos tener una imagen con un color degradado superpuesto a la imagen
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
+    url("/images/heroImg.webp") lightgray 50% / cover no-repeat;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #f2f2f2;
+    h3 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    h1 {
+      font-size: 68px;
+      font-weight: 600;
+    }
+    p {
+      width: 600px;
+      height: 50px;
+      text-align: center;
+      overflow-wrap: break-word; // Permite que las palabras largas se ajusten
+      word-wrap: break-word; // Soporte adicional para navegadores antiguos
+      word-break: break-word;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    a {
+      margin-top: 30px;
+      background-color: #f24b0f;
+      width: 210px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 400;
+      color: #f2f2f2;
+      animation: fadeIn 2s 1 ease;
+      transition: all 0.3s;
+      &:hover {
+        scale: 1.1;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .hero-section {
+    .wrapper {
+      h3 {
+        font-size: 20px;
+      }
+      h1 {
+        font-size: 48px;
+      }
+      p {
+        width: 90%; // Ajusta el ancho a un 90% del contenedor padre
+        font-size: 14px; // Reduce el tamaño de fuente en pantallas más pequeñas
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .hero-section {
+    .wrapper {
+      h3 {
+        font-size: 18px;
+      }
+      h1 {
+        font-size: 38px;
+      }
+      a {
+        height: 40px;
+        width: 180px;
+        margin-top: 50px;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

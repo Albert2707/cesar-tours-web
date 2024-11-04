@@ -1,0 +1,40 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "gulp && vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@egjs/flicking-plugins": "^4.7.1",
+    "@egjs/react-flicking": "^4.11.4",
+    "@reach/combobox": "^0.18.0",
+    "@react-google-maps/api": "^2.20.3",
+    "@vis.gl/react-google-maps": "^1.4.0",
+    "react": "^18.3.1",
+    "react-date-picker": "^11.0.0",
+    "react-dom": "^18.3.1",
+    "sass": "^1.80.6",
+    "use-places-autocomplete": "^4.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/gulp": "^4.0.17",
+    "@types/node": "^22.8.7",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "gulp": "^5.0.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.11.0",
+    "vite": "^5.4.10"
+  }
+}
