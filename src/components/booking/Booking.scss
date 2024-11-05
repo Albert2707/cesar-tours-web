@@ -1,4 +1,5 @@
 @use "../../index.scss" as *;
+
 .booking {
   background: $primary-bg-color;
   display: flex;
@@ -11,14 +12,20 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    width: 70%;
+    width: 100%;
     align-items: center;
     gap: 20px;
+
+    h2{
+      color:#f2f2f2;
+      font-size: 32px;
+    }
     .steps {
       display: flex;
       gap: 5px;
       justify-content: center;
       align-items: center;
+
       .step {
         width: 39px;
         display: flex;
@@ -29,15 +36,18 @@
         height: 39px;
         flex-shrink: 0;
       }
+
       .step.done {
         background-color: #62abd9;
       }
+
       .steps-progress {
         height: 6px;
         width: 300px;
         overflow: hidden;
         border-radius: 30px;
         background-color: #f0f0f0;
+
         .progress {
           transition: all 0.3 ease-in-out;
           height: 100%;
@@ -46,30 +56,35 @@
         }
       }
     }
+
     .booking-container {
       background-color: #f2f2f2;
-      width: 100%;
-      margin-top:10px;
+      width: 70%;
+      margin-top: 10px;
       padding: 2rem;
       height: 600px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+
       .left {
         flex: 1;
         height: 100%;
         display: flex;
         justify-content: center;
+
         .booking-form {
           padding: 0 2rem;
           display: flex;
           width: 80%;
           gap: 3px;
           flex-direction: column;
+
           label {
             margin: 20px 0 5px 0;
           }
+
           input {
             border-radius: 10px;
             padding: 5px 10px;
@@ -79,6 +94,7 @@
             outline: transparent;
             appearance: none;
           }
+
           select {
             border-radius: 10px;
             padding: 15px 10px;
@@ -93,17 +109,20 @@
             align-items: center;
             overflow: hidden;
             width: 100%;
+
             .passengerNo,
             .baggageNo {
               width: 50%;
               display: flex;
               flex-direction: column;
             }
+
             .passengerNo {
               input {
                 border-radius: 10px 0 0 10px;
               }
             }
+
             .baggageNo {
               input {
                 border-radius: 0 10px 10px 0;
@@ -112,44 +131,54 @@
           }
         }
       }
+
       .right {
         flex: 1;
         width: 100%;
         height: 100%;
         overflow: hidden;
+
         .map {
           height: calc(100% - 105px);
           border-radius: 10px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
+
           .map_container {
             height: 100%;
             width: 100%;
           }
+
           .location-info {
             display: flex;
             width: 100%;
+
             div {
               padding: 12px;
             }
+
             .distance {
               width: 50%;
               display: flex;
               flex-direction: column;
+              gap: 5px;
               border-radius: 0px 0px 0px 10px;
-              border: 1px solid rgba(0, 0, 0, 0.3);
+              border: 1px solid rgba(0, 0, 0, 0.2);
               background: #f2f2f2;
             }
+
             .time {
+              gap: 5px;
               width: 50%;
               display: flex;
               flex-direction: column;
               border-radius: 0px 0px 10px 0px;
-              border: 1px solid rgba(51, 55, 64, 0.3);
+              border: 1px solid rgba(51, 55, 64, 0.2);
               background: #f2f2f2;
             }
           }
+
           button {
             border: none;
             width: 200px;

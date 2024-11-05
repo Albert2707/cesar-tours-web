@@ -4,7 +4,9 @@ import useTranslate from "../../../../hooks/Translate";
 import { useIdiom } from "../../../../context/idiomContext";
 import { IdiomTypes } from "../../../../context/idiomTypes";
 
-export const Directions = forwardRef(() => {
+export const Directions = forwardRef(({ origin }: {
+  origin: string
+}) => {
   const { idiom } = useIdiom() as IdiomTypes;
   const map = useMap();
   const { translate } = useTranslate();
@@ -14,7 +16,7 @@ export const Directions = forwardRef(() => {
   const [directionsRenderer, setDirectionsRenderer] =
     useState<google.maps.DirectionsRenderer>();
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const routeIndex =0;
+  const routeIndex = 0;
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
@@ -30,7 +32,7 @@ export const Directions = forwardRef(() => {
     if (!routesLibrary || !map) return;
     setDirectionsService(new routesLibrary.DirectionsService());
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-  }, [routesLibrary, map]);
+  }, [routesLibrary, map, origin]);
 
   // Use directions service
   useEffect(() => {
@@ -38,7 +40,7 @@ export const Directions = forwardRef(() => {
 
     directionsService
       .route({
-        origin: "Santo Domingo, Dominican Republic",
+        origin,
         destination: "Samana, Dominican Republic",
         travelMode: google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
@@ -72,8 +74,7 @@ export const Directions = forwardRef(() => {
       <div className="time">
         <span>{translate("time")}</span>
         <span>
-          {" "}
-          {leg ? traducirDuracion(leg.duration?.text as string) : "---"}{" "}
+          {leg ? traducirDuracion(leg.duration?.text as string) : "---"}
         </span>
       </div>
     </div>

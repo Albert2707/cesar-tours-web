@@ -1,4 +1,5 @@
 import Booking from "./components/booking/Booking";
+import Experience from "./components/experience/Experience";
 import HeroSection from "./components/heroSection/HeroSection";
 import Navbar from "./components/navbar/Navbar";
 import Reviews from "./components/reviews/Reviews";
@@ -12,6 +13,7 @@ function App() {
       <HeroSection />
       <Reviews />
       <Booking />
+      <Experience />
     </>
   );
 }
