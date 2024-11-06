@@ -38,7 +38,7 @@ const reviews: ReviewsCardType[] = [
     img: "https://images.pexels.com/photos/3761507/pexels-photo-3761507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     name: "Pedro Sánchez",
     date: "15 de agosto",
-    rating: 5,
+    rating: 4.5,
     comment: "Muy satisfecho",
     desc: "El viaje fue muy cómodo y llegamos a tiempo. Excelente atención y coordinación.",
   },
@@ -46,7 +46,7 @@ const reviews: ReviewsCardType[] = [
     img: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     name: "Lucia Fernandez",
     date: "21 de junio",
-    rating: 5,
+    rating: 4,
     comment: "¡Increíble!",
     desc: "Un servicio de calidad, puntual y con gran atención al detalle. Muy recomendable.",
   },
@@ -55,6 +55,14 @@ const reviews: ReviewsCardType[] = [
     name: "David Martinez",
     date: "29 de noviembre",
     rating: 5,
+    comment: "Más que satisfecho",
+    desc: "Todo salió a la perfección. Sin contratiempos y con un trato muy cordial. Sin duda, 5 estrellas bien merecidas.",
+  },
+  {
+    img: "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "David Martinez",
+    date: "29 de noviembre",
+    rating: 3.5,
     comment: "Más que satisfecho",
     desc: "Todo salió a la perfección. Sin contratiempos y con un trato muy cordial. Sin duda, 5 estrellas bien merecidas.",
   },
@@ -76,7 +84,10 @@ const Reviews = () => {
           plugins={plugins}
           defaultIndex={0}
           duration={500}
+          circularFallback={"bound"}
+          bound={true}
           //   useFindDOMNode={true}
+          align={{ camera: "5%", panel: "40px" }}
           ref={flickingRef}
         >
           {reviews.map((e) => (

@@ -2,6 +2,7 @@
 
 .hero-section {
   background-repeat: no-repeat;
+  scroll-margin-top: 80px;
   background-size: 100%;
   display: flex;
   align-items: center;
@@ -18,14 +19,23 @@
     justify-content: center;
     align-items: center;
     color: #f2f2f2;
+
     h3 {
       font-size: 24px;
       font-weight: 500;
+
+      @include mobile {
+        text-align: center;
+      }
     }
+
     h1 {
-      font-size: 68px;
+      // font-size: 68px;
+      font-size: calc(3vw + 1.5rem);
+      text-align: center;
       font-weight: 600;
     }
+
     p {
       width: 600px;
       height: 50px;
@@ -36,6 +46,7 @@
       font-size: 16px;
       font-weight: 400;
     }
+
     a {
       margin-top: 30px;
       background-color: #f24b0f;
@@ -50,6 +61,7 @@
       color: #f2f2f2;
       animation: fadeIn 2s 1 ease;
       transition: all 0.3s;
+
       &:hover {
         scale: 1.1;
       }
@@ -63,12 +75,16 @@
       h3 {
         font-size: 20px;
       }
-      h1 {
-        font-size: 48px;
-      }
+
       p {
         width: 90%; // Ajusta el ancho a un 90% del contenedor padre
         font-size: 14px; // Reduce el tamaño de fuente en pantallas más pequeñas
+      }
+
+      a {
+        width: 180px;
+        height: 50px;
+        font-size: 18px;
       }
     }
   }
@@ -80,12 +96,10 @@
       h3 {
         font-size: 18px;
       }
-      h1 {
-        font-size: 38px;
-      }
+
       a {
         height: 40px;
-        width: 180px;
+        width: 150px;
         margin-top: 50px;
         font-size: 16px;
       }
@@ -98,6 +112,7 @@
     transform: translateX(-200px);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;

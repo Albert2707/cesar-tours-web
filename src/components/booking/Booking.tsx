@@ -81,83 +81,101 @@ const Booking = () => {
   }
 
   return (
-    <section className="booking">
+    <section className="booking" id="booking">
       <div className="wrapper">
         <h2>{translate("booking_prompt")}</h2>
-        <div className="steps">
-          <div className="step done">1</div>
-          <div className="steps-progress">
-            <div className="progress"></div>
-          </div>
-          <div className="step">2</div>
-          <span className="steps-progress"></span>
-          <div className="step">3</div>
-        </div>
         <div className="booking-container">
-          <div className="left">
-            <form action="" className="booking-form">
-              <label htmlFor="address">Dirección de Origen</label>
-              <input
-                type="text"
-                ref={inputRef}
-                id="address"
-                placeholder="Ingresa la dirección de origen"
-              />
-              <label htmlFor="addressDestination">Dirección de Destino</label>
-              <input
-                type="text"
-                ref={inputDesRef}
-                id="addressDestination"
-                placeholder="Ingresa la dirección de destino"
-              />
-              <label htmlFor="tripType">Tipo de viaje</label>
-              <select name="" id="tripType" value="1">
-                <option value="1">Ida</option>
-                <option value="2">Ida y vuelta</option>
-              </select>
-              <div className="more-info">
-                <div className="passengerNo">
-                  <label htmlFor="passengerNo">No. Pasajeros</label>
-                  <input id="passengerNo" type="number" />
-                </div>
-                <div className="baggageNo">
-                  <label htmlFor="baggageNo">No. Maletas</label>
-                  <input id="baggageNo" type="number" />
-                </div>
-              </div>
-              <label htmlFor="outDate">Fecha de salida</label>
-              <input type="date" id="outDate" />
-              <label htmlFor="outHour">Hora de salida</label>
-              <select id="outHour">
-                <option value="">Tiempo</option>
-                {/* Renderiza las opciones de tiempo */}
-              </select>
-            </form>
+          <div className="steps">
+            <div className="step done">1</div>
+            <div className="steps-progress">
+              <div className="progress"></div>
+            </div>
+            <div className="step">2</div>
+            <span className="steps-progress"></span>
+            <div className="step">3</div>
           </div>
-          <div className="right">
-            <div className="map">
-              <Map ref={mapRef} setIsloaded={setIsloaded} setDuration={setDuration} setDistance={setDistance} destination={destination} origin={origin} formattedDestination={formattedDestination} formattedOrigin={formattedOrigin} />
-              <div className="location-info">
-                <div className="distance">
-                  <span>{translate("distance")}</span>
-                  <span> {distance} </span>
+          <div className="container">
+            <div className="left">
+              <form action="" className="booking-form">
+                <div className="form-item">
+                  <label htmlFor="address">{translate("origin_address")}</label>
+                  <input
+                    type="text"
+                    ref={inputRef}
+                    id="address"
+                    placeholder="Ingresa la dirección de origen"
+                  />
                 </div>
-                <div className="time">
-                  <span>{translate("time")}</span>
-                  <span>
-                    {traducirDuracion(duration)}
-                  </span>
+                <div className="form-item">
+
+                  <label htmlFor="addressDestination">{translate("destination_address")}</label>
+                  <input
+                    type="text"
+                    ref={inputDesRef}
+                    id="addressDestination"
+                    placeholder="Ingresa la dirección de destino"
+                  />
                 </div>
+                <div className="form-item">
+
+                  <label htmlFor="tripType">{translate("trip_type")}</label>
+                  <select name="" id="tripType">
+                    <option value="1">{translate("one_way")}</option>
+                    <option value="2">{translate("round_trip")}</option>
+                  </select>
+                </div>
+                <div className="form-item">
+                  <div className="more-info">
+                    <div className="passengerNo">
+                      <label htmlFor="passengerNo">{translate("num_passengers")}</label>
+                      <input id="passengerNo" type="number" />
+                    </div>
+                    <div className="baggageNo">
+                      <label htmlFor="baggageNo">{translate("num_bags")}</label>
+                      <input id="baggageNo" type="number" />
+                    </div>
+                  </div>
+                </div>
+                <div className="form-item">
+
+                  <label htmlFor="outDate">{translate("departure_date")}</label>
+                  <input type="date" id="outDate" />
+                </div>
+                <div className="form-item">
+
+                  <label htmlFor="outHour">{translate("departure_time")}</label>
+                  <select id="outHour">
+                    <option value="">{translate("time")}</option>
+                    {/* Renderiza las opciones de tiempo */}
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div className="right">
+              <div className="map">
+                <Map ref={mapRef} setIsloaded={setIsloaded} setDuration={setDuration} setDistance={setDistance} destination={destination} origin={origin} formattedDestination={formattedDestination} formattedOrigin={formattedOrigin} />
+                <div className="location-info">
+                  <div className="distance">
+                    <span>{translate("distance")}</span>
+                    <span> {distance} </span>
+                  </div>
+                  <div className="time">
+                    <span>{translate("time_trip")}</span>
+                    <span>
+                      {traducirDuracion(duration)}
+                    </span>
+                  </div>
+                </div>
+                <button type="button" onClick={() => {
+                  setOrigin(null);
+                  setDestination(null);
+                  setFormattedOrigin("");
+                  setFormattedDestination("");
+                  if (mapRef.current) {
+                    mapRef.current.setDirections(null);
+                  }
+                }}>{translate("selectVehicle")}</button>
               </div>
-              <button type="button" onClick={() => {
-                setOrigin(null);
-                setDestination(null);
-                setFormattedOrigin("");
-                setFormattedDestination("");
-                if (mapRef.current) {
-                  mapRef.current.setDirections(null);
-                }
-              }}>{translate("selectVehicle")}</button>
             </div>
           </div>
         </div>

@@ -19,10 +19,10 @@ const Navbar = () => {
         <div className="links">
           <ul className="link-list">
             <li>
-              <a href="#">{translate("home")}</a>
+              <a href="#home">{translate("home")}</a>
             </li>
             <li>
-              <a href="#">{translate("reservations")}</a>
+              <a href="#booking">{translate("reservations")}</a>
             </li>
             <li>
               <a href="#">{translate("services")}</a>

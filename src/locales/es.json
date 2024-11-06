@@ -18,9 +18,19 @@
   "selectVehicle": "Seleccionar Vehiculo",
   "services": "Servicios",
   "some_videos": "Algunos videos",
-  "time": "TIEMPO DE VIAJE",
+  "time_trip": "TIEMPO DE VIAJE",
   "title": "Bienvenido a Cesar Tours para hacer tu mundo mas facil",
   "travelFastAndSafe": "Viaja rápido y seguro con Cesar Tours. Disfruta de un traslado cómodo desde el aeropuerto hasta tu hotel ¡Reserva ahora y comienza tu aventura sin preocupaciones!",
   "tripTypeLabel": "Tipo de viaje",
-  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!"
+  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!",
+    "origin_address": "Dirección de Origen",
+    "destination_address": "Dirección de Destino",
+    "trip_type": "Tipo de viaje",
+    "one_way": "Ida",
+    "round_trip": "Ida y vuelta",
+    "num_passengers": "No. Pasajeros",
+    "num_bags": "No. Maletas",
+    "departure_date": "Fecha de salida",
+    "departure_time": "Hora de salida",
+    "time": "Tiempo"
 }
