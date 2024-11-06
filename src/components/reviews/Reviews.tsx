@@ -78,7 +78,7 @@ const Reviews = () => {
 
   return (
     <div className="reviews">
-      <div className="wrapper">
+      <div className="wrappers">
         <Flicking
           circular={true}
           plugins={plugins}

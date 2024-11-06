@@ -6,8 +6,7 @@
   padding: 1rem;
   background-color: #f2f2f2;
 
-  .wrapper {
-    @include responsive-container;
+  .wrappers {
     margin: 0 auto;
     height: 100%;
     display: flex;
@@ -55,5 +54,8 @@
           }
         }
       }
-    }  }
+    }
+
+    @include responsive-container;
+  }
 }
