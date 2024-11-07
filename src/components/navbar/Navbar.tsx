@@ -2,7 +2,6 @@ import { useIdiom } from "../../context/idiomContext";
 import { IdiomTypes } from "../../context/idiomTypes";
 import useTranslate from "../../hooks/Translate";
 import "./Navbar.scss";
-import Select from "react-select";
 
 const Navbar = () => {
   const { setLanguage, idiom } = useIdiom() as IdiomTypes;
@@ -37,7 +36,7 @@ const Navbar = () => {
               <a href="#aboutUs">{translate("aboutUs")}</a>
             </li>
             <li>
-              <a href="#">{translate("contactUs")}</a>
+              <a href="#contact">{translate("contactUs")}</a>
             </li>
             <li>
               <select

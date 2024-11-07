@@ -1,0 +1,72 @@
+@use "../../index.scss" as *;
+
+.footer {
+    background-color: $primary-bg-color;
+    // height: 300px;
+    padding:2rem 0;
+
+    .wrapper {
+        @include responsive-container;
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .top {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                justify-items: center;
+
+                h2 {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: #f2f2f2;
+                }
+
+                .info {
+                    display: flex;
+                    flex-direction: column;
+
+                    // h2 {
+                    //     font-size: 1.5rem;
+                    //     font-weight: bold;
+                    //     color: #f2f2f2;
+                    // }
+                    ul {
+                        list-style-type: none;
+                    }
+                }
+
+                .links {
+                    ul {
+                        list-style-type: none;
+
+                        li {
+                            a {
+                                text-decoration: none;
+                                color: inherit
+                            }
+                        }
+                    }
+                }
+
+                .socials {
+                    display: flex;
+                    flex-direction: column;
+
+                    .social-links {
+                        display: flex;
+                        gap: 10px;
+
+                        svg {
+                            width: 20px;
+                            color:#22A2F2;
+                            height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

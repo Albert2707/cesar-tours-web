@@ -4,7 +4,7 @@ $primary-bg-color: #333740;
 
 @mixin responsive-container {
   width: 100%;
-margin:0 auto; // Centra el contenedor automáticamente
+  margin: 0 auto; // Centra el contenedor automáticamente
 
   @media (min-width: 640px) {
     max-width: 640px;
@@ -41,23 +41,16 @@ body {
 
   section {
     padding: 1rem;
-    min-height: calc(100dvh - 80px);
+    max-height: calc(100vh - 112px);
 
-    // .wrapper {
-    //   max-width: 1400px;
-    //   margin: 0 auto;
-    //   @media (max-width: 1500px) {
-    //     max-width: 1200px;
-    //   }
-    // }
     .wrapper {
       @include responsive-container
     }
   }
 }
 
-@mixin mobile {
-  @media (max-width: 670px) {
+@mixin laptop {
+  @media (max-width: 1440px) {
     @content;
   }
 }
@@ -67,6 +60,14 @@ body {
     @content;
   }
 }
+
+@mixin mobile {
+  @media (max-width: 670px) {
+    @content;
+  }
+}
+
+
 
 .gmnoprint.gm-style-mtc-bbw {
   display: flex;
@@ -79,12 +80,6 @@ body {
   }
 }
 
-// container
-// Mixin para aplicar max-width basado en el tamaño del contenedor
-
-// Clase container que puedes usar en cualquier componente
 .container {
   @include responsive-container;
-  // padding-left: 16px; // Ajusta el padding según tu diseño
-  // padding-right: 16px; // Ajusta el padding según tu diseño
 }

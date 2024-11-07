@@ -7,7 +7,7 @@ import { IdiomTypes } from "../../context/idiomTypes";
 import Select from "react-select";
 import { generateTimeOptions } from "../../utils/functions";
 const debounce = (func, delay) => {
-  let timeoutId;
+  let timeoutId: NodeJS.Timeout;
   return (...args) => {
     if (timeoutId) clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
@@ -203,11 +203,17 @@ const Booking = () => {
                       <label htmlFor="passengerNo">
                         {translate("num_passengers")}
                       </label>
-                      <input id="passengerNo" type="number" />
+                      <input id="passengerNo" type="text" inputMode="numeric" pattern="[0-9]+" onChange={(e) => {
+                        // e.target.validity.patternMismatch;
+                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                      }} />
                     </div>
                     <div className="baggageNo">
                       <label htmlFor="baggageNo">{translate("num_bags")}</label>
-                      <input id="baggageNo" type="number" />
+                      <input id="baggageNo" type="text" inputMode="numeric" pattern="[0-9]+" onChange={(e) => {
+                        // e.target.validity.patternMismatch;
+                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                      }} />
                     </div>
                   </div>
                 </div>

@@ -6,6 +6,7 @@
   background-size: 100%;
   display: flex;
   align-items: center;
+  height: calc(100vh - 112px);
   // de esta forma podemos tener una imagen con un color degradado superpuesto a la imagen
   background:
     linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),

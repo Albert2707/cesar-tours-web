@@ -9,5 +9,5 @@ createRoot(document.getElementById('root')!).render(
     <IdiomContextProvider>
     <App />
     </IdiomContextProvider>
-  </StrictMode>,
+  </StrictMode>
 )

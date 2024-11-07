@@ -87,7 +87,7 @@ const Reviews = () => {
           circularFallback={"bound"}
           bound={true}
           //   useFindDOMNode={true}
-          align={{ camera: "5%", panel: "40px" }}
+          align={{camera: "0%", panel: "0%"  }}
           ref={flickingRef}
         >
           {reviews.map((e) => (
