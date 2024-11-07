@@ -1,3 +1,4 @@
+import AboutUs from "./components/aboutUs/AboutUs";
 import Booking from "./components/booking/Booking";
 import Experience from "./components/experience/Experience";
 import HeroSection from "./components/heroSection/HeroSection";
@@ -14,6 +15,7 @@ function App() {
       <Reviews />
       <Booking />
       <Experience />
+      <AboutUs/>
     </>
   );
 }

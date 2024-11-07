@@ -49,7 +49,8 @@
 
     a {
       margin-top: 30px;
-      background-color: #f24b0f;
+      // background-color: #f24b0f;
+      background-color:#AC3A11;
       width: 210px;
       display: flex;
       justify-content: center;
@@ -57,13 +58,16 @@
       height: 60px;
       border-radius: 10px;
       font-size: 20px;
-      font-weight: 400;
+      font-weight: 700;
       color: #f2f2f2;
       animation: fadeIn 2s 1 ease;
       transition: all 0.3s;
+      animation-delay: 0.3s forwards;
 
       &:hover {
-        scale: 1.1;
+        // scale: 1.05;
+        background-color: #f2f2f2;
+        color:$primary-bg-color;
       }
     }
   }
@@ -109,7 +113,7 @@
 
 @keyframes fadeIn {
   0% {
-    transform: translateX(-200px);
+    transform: translateX(-400px);
     opacity: 0;
   }
 

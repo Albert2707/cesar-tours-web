@@ -16,6 +16,9 @@
             font-size: calc(1.2vw + 1rem);
         }
 
+        h1:nth-child(3){
+            margin-top:30px
+        }
         .experience-pictures {
             overflow: hidden;
             display: grid;

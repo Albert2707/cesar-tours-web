@@ -1,0 +1,16 @@
+@use "../../index.scss" as *;
+
+.aboutUs-section {
+  background-color: #f2f2f2;
+  height: 500px; // Asegúrate de que esta altura permita ver el contenido
+  overflow: hidden;
+  padding: 1rem;
+  .wrapper {
+    height: 100%;
+    justify-content:center ;
+    align-items: center;
+    gap:40px;
+    display: flex;
+    @include responsive-container;
+  }
+}

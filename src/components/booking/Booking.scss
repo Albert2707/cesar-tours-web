@@ -34,8 +34,9 @@
       background-color: #f2f2f2;
       width: 100%;
       overflow: hidden;
-      height: 650px;
+      // height: 550px;
       border-radius: 10px;
+      padding:3rem 0;
       display: flex;
       gap: 30px;
       align-items: center;
@@ -45,7 +46,6 @@
       .steps {
         display: flex;
         gap: 5px;
-        // margin-top: 20px;
         justify-content: center;
         align-items: center;
 
@@ -113,8 +113,7 @@
             padding: 0 1rem;
             gap: 20px;
             flex-direction: column;
-
-            // justify-content: center;
+            justify-content: center;
             .form-item {
               display: flex;
               flex-direction: column;
@@ -123,21 +122,12 @@
                 border-radius: 10px;
                 padding: 5px 10px;
                 border: 1px solid rgba(51, 55, 64, 0.3);
-                background: #f2f2f2;
+                background: transparent;
                 height: 35px;
                 outline: transparent;
+                caret-color: #22A2F2;
                 appearance: none;
               }
-
-              select {
-                border-radius: 10px;
-                padding: 15px 10px;
-                border: 1px solid rgba(51, 55, 64, 0.3);
-                background: #f2f2f2;
-                height: 47px;
-                appearance: none;
-              }
-
               .more-info {
                 display: flex;
                 align-items: center;
@@ -247,13 +237,13 @@
               margin-top: 10px;
               color: #fff;
               text-align: center;
-              font-size: 14px;
+              font-size: 16px;
               cursor: pointer;
               font-weight: 700;
               flex-shrink: 0;
               border-radius: 10px;
               background: #f24b0f;
-
+              // background-color:#AC3A11;
               @include tablet {
                 align-self: center;
               }

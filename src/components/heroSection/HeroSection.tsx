@@ -8,7 +8,7 @@ const HeroSection = () => {
         <h3>{translate("yourDestinationIsOurDestination")} </h3>
         <h1>{translate("cesarDestination")}</h1>
         <p>{translate("travelFastAndSafe")}</p>
-        <a href="#">{translate("bookNow")}</a>
+        <a href="#booking">{translate("bookNow")}</a>
       </div>
     </section>
   );

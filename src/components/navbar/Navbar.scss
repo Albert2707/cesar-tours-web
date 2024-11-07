@@ -25,12 +25,16 @@
       height: 100%;
       display: flex;
       align-items: center;
+      button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        img {
+          height: 80%;
 
-      img {
-        height: 80%;
-
-        @include mobile {
-          height: 70%;
+          @include mobile {
+            height: 70%;
+          }
         }
       }
     }
