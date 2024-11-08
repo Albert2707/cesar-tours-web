@@ -42,7 +42,6 @@ body {
   section {
     padding: 1rem;
     max-height: calc(100vh - 112px);
-
     .wrapper {
       @include responsive-container
     }

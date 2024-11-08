@@ -1,102 +1,125 @@
 @use "../../index.scss" as *;
 
 .contact-section {
-    scroll-margin-top: 80px;
+  scroll-margin-top: 80px;
+  display: flex;
+  background-color: #ffffff;
+  height: calc(100vh - 112px);
+  justify-content: center;
+  align-items: center;
+
+  .wrapper {
+    height: 100%;
     display: flex;
-    height: calc(100vh - 112px);
-    justify-content: center;
+    width: 100%;
     align-items: center;
-
-    .wrapper {
-        background: red;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .left {
-            flex: 1;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: blue;
+    overflow: hidden;
+    .left {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      span {
+        font-size: 40px;
+        font-weight: bold;
+        @include mobile{
+            font-size: 30px;
+            text-align:center
         }
-
-        .right {
-            flex: 1;
-            display: flex;
-            width: 100%;
-            align-items: center;
-            justify-content: center;
-
-            .contact-form {
-                width: 50%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-
-                .phoneInput {
-                    width: 100%;
-                    input {
-                        width: 100%;
-                        border-radius: 0px 5px 5px 0px;
-                        border: none;
-                    }
-
-                    input,
-                    button {
-                        padding: 5px 10px;
-                        height: 41px;
-                    }
-
-                    button {
-                        border: none;
-                        border-right: 1px solid gainsboro;
-                    }
-                }
-
-                .name,
-                .email {
-                    border-radius: 5px;
-                    padding: 5px 10px;
-                    width: 100%;
-                    // border: 1px solid rgba(51, 55, 64, 0.3);
-                    // background: transparent;
-                    height: 35px;
-                    outline: transparent;
-                    caret-color: #22A2F2;
-                    appearance: none;
-                    // width: 100%;
-                    // height: 41px;
-                    // border-radius:5px;
-                    // padding:0 1rem;
-                    border: none;
-                    // outline: transparent;
-                }
-
-                ;
-
-                textarea {
-                    padding: 5px 10px;
-                    outline:none;
-                    width: 100%;
-                    resize: none;
-                    border: none;
-                    border-radius: 5px;
-
-                }
-
-                .message-button {
-                    border: none;
-                    padding: 1rem;
-                    pointer-events: none;
-                    cursor: pointer;
-                    border-radius: 5px;
-
-                }
-            }
-        }
+      }
+      img {
+        width: 100%;
+      }
     }
+
+    .right {
+      flex: 1;
+      //   background: #d3d3d3;
+      display: flex;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+
+      .contact-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        .form-item {
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          .phoneInput {
+            input {
+              width: 100%;
+              border: 1px solid gainsboro;
+
+              border-radius: 0px 5px 5px 0px;
+            }
+            input,
+            button {
+              padding: 5px 10px;
+              height: 47px;
+            }
+
+            button {
+              border: none;
+              border: 1px solid gainsboro;
+            }
+          }
+
+          .name,
+          .email {
+            border-radius: 5px;
+            padding: 5px 10px;
+            // border: 1px solid rgba(51, 55, 64, 0.3);
+            // background: transparent;
+            height: 35px;
+            outline: transparent;
+            caret-color: #22a2f2;
+            appearance: none;
+            // width: 100%;
+            // height: 41px;
+            // border-radius:5px;
+            // padding:0 1rem;
+            border: 1px solid gainsboro;
+            // outline: transparent;
+          }
+
+          textarea {
+            padding: 5px 10px;
+            outline: none;
+            // width: 100%;
+            resize: none;
+            border: none;
+            border-radius: 5px;
+            border: 1px solid gainsboro;
+          }
+        }
+        .message-button {
+          border: none;
+          padding: 1rem;
+          pointer-events: none;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  @include mobile{
+    max-height: fit-content;
+    height: auto;
+    // height: 190%;
+  }
 }

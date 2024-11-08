@@ -203,17 +203,35 @@ const Booking = () => {
                       <label htmlFor="passengerNo">
                         {translate("num_passengers")}
                       </label>
-                      <input id="passengerNo" type="text" inputMode="numeric" pattern="[0-9]+" onChange={(e) => {
-                        // e.target.validity.patternMismatch;
-                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                      }} />
+                      <input
+                        id="passengerNo"
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]+"
+                        onChange={(e) => {
+                          // e.target.validity.patternMismatch;
+                          e.target.value = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                        }}
+                      />
                     </div>
                     <div className="baggageNo">
                       <label htmlFor="baggageNo">{translate("num_bags")}</label>
-                      <input id="baggageNo" type="text" inputMode="numeric" pattern="[0-9]+" onChange={(e) => {
-                        // e.target.validity.patternMismatch;
-                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                      }} />
+                      <input
+                        id="baggageNo"
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]+"
+                        onChange={(e) => {
+                          // e.target.validity.patternMismatch;
+                          e.target.value = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -293,7 +311,7 @@ const Booking = () => {
             </div>
             <div className="right">
               <div className="map">
-                <Map
+                {/* <Map
                   ref={mapRef}
                   setIsloaded={setIsloaded}
                   setDuration={setDuration}
@@ -302,7 +320,7 @@ const Booking = () => {
                   origin={origin}
                   formattedDestination={formattedDestination}
                   formattedOrigin={formattedOrigin}
-                />
+                /> */}
                 <div className="location-info">
                   <div className="distance">
                     <span>{translate("distance")}</span>

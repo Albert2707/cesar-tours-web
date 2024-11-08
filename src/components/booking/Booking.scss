@@ -7,7 +7,9 @@
   scroll-margin-top: 80px;
   align-items: center;
   padding: 2rem !important;
-  height: calc(100dvh - 112px);
+  min-height: calc(100vh - 112px);
+  max-height: fit-content !important;
+  height: auto;
   overflow: hidden;
 
   .wrapper {
@@ -36,7 +38,7 @@
       // height: 550px;
       height: 100%;
       border-radius: 10px;
-      // padding: 1rem 0;
+      padding: 32px 0;
       display: flex;
       gap: 30px;
       align-items: center;
