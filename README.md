@@ -7,7 +7,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 ```bash
 pnpm -v
 ```
-> Si el resultado indica que ```shell pnpm``` no está instalado, necesitarás instalarlo ejecutando:
+> Si el resultado indica que ```pnpm``` no está instalado, necesitarás instalarlo ejecutando:
 
 Si no lo tienes instalado, ejecuta:
 ```shell
