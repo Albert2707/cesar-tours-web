@@ -1,36 +1,38 @@
 # Cesar Tours
-Una empresa enfocada en brindar el mejor servicio a sus clientes. Ofrece servicios como, transporte, rent house, rent car, etc.
+Cesar Tours es una empresa enfocada en brindar el mejor servicio a sus clientes, ofreciendo servicios como transporte, alquiler de casas (rent house), alquiler de autos (rent car), entre otros.
 
 ## Requisitos previos
-Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:## Como compilar el proyecto:
+Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 - Tener instalado 'pnpm'. Puedes verificar esto con el siguiente comando:
 ```bash
 pnpm -v
 ```
--Si no lo tienes instalado ejecuta:
+> Si el resultado es que pnpm no es encontrado necesitaras instalarlo.
+
+Si no lo tienes instalado, ejecuta:
 ```bash
 npm install -g pnpm
 ```
 ## Instalación
-- Clonar el repositorio en tu maquina local
+1. Clonar el repositorio en tu máquina local
 ```bash
 git clone https://github.com/Albert2707/cesar-tours-web.git
 ```
-Accede al direcctorio del proyecto
+2. Accede al directorio del proyecto
 ```bash
 cd cesar-tours-web
 ```
-Instala todas las dependencias necesarias
+3. Instala todas las dependencias necesarias
 ```bash
 pnpm install
 ```
 ## Ejecución del Proyecto 
-En Linus o macOS:
+- En **Linus** o **macOS**:
 ```bash
 pnpm dev
 ```
-Endwindows:
+- En **windows**:
 ```bash
 pnpm dev:w
 ```
-
+¡Y listo! El proyecto estará en ejecución.
