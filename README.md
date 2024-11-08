@@ -10,7 +10,7 @@ pnpm -v
 > Si el resultado indica que ```pnpm``` no está instalado, necesitarás instalarlo ejecutando:
 
 Si no lo tienes instalado, ejecuta:
-```shell
+```bash
 npm install -g pnpm
 ```
 ## Instalación
