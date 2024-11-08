@@ -1,5 +1,5 @@
 # Cesar Tours
-![Logo cesar tours](images/Cesar-logo.png)
+![Logo cesar tours](public/images/Cesar-logo.png)
 Cesar Tours es una empresa enfocada en brindar el mejor servicio a sus clientes, ofreciendo servicios como transporte, alquiler de casas (rent house), alquiler de autos (rent car), entre otros.
 
 ## Requisitos previos
