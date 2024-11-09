@@ -15,8 +15,8 @@ const Footer = () => {
                 <h2 className="address-title">Direccion</h2>
                 <ul>
                   <li>Punta cana, bavaro</li>
-                  <li>(809) 987-000</li>
-                  <li>probando@email.com</li>
+                  <li>+1 (849) 258-7373</li>
+                  <li>almontesaldanacesarjunior@gmail.com</li>
                 </ul>
               </div>
               <div className="links">

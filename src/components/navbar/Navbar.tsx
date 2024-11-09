@@ -40,7 +40,7 @@ const Navbar = () => {
             </li>
             <li>
               <select
-              style={{background:"rgba(242, 242, 242, 0.9)", fontWeight:500}}
+                style={{ background: "rgba(242, 242, 242, 0.9)", fontWeight: 500 }}
                 name=""
                 value={idiom}
                 id=""
@@ -52,7 +52,7 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="mobile-menu">
-            <button>
+            <button arial-label="menu-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

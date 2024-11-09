@@ -2,7 +2,10 @@ import "./Contact.scss";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import useTranslate from "../../hooks/Translate";
-import { Resend } from "resend";
+import toast, { Toaster } from 'react-hot-toast';
+import { EmailService } from "../../services/emailService";
+import { render } from '@react-email/render';
+import Email from "../email/Email";
 // import Email from "../email/Email";
 // await resend.batch.send([
 //   {
@@ -18,20 +21,34 @@ import { Resend } from "resend";
 //     html: '<p>it works!</p>',
 //   },
 // ]);
+
 const Contact = () => {
-  const resend = new Resend("re_f4PncFpH_5wnh6FQ2EurxLnR9FfNThEGc");
   const send = async () => {
-    console.log("se envia");
-    resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: 'albertjohan2707@gmail.com',
-      subject: 'Hello World',
-      html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-    });
+    try {
+      const html = await render(<Email url={"https://netflix.com"} />, {
+        pretty: true,
+      });
+      const props = {
+        email: "albertjohan2707@gmail.com",
+        name: "Albert",
+        message: "HOla mundito",
+        html
+      }
+       await EmailService.sendEmail(props);
+      // console.log(response);
+      toast.success("Email enviado con éxito");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+
+        toast.error(error.message);
+      }
+    }
+
   };
   const { translate } = useTranslate();
   return (
     <section className="contact-section" id="contact">
+      <Toaster />
       <div className="wrapper">
         <div className="left">
           <span>Nos encantaría saber de usted. </span>
@@ -56,8 +73,8 @@ const Contact = () => {
                 defaultCountry="do"
                 className="phoneInput"
                 charAfterDialCode=" "
-                // value={phone}
-                // onChange={(phone) => setPhone(phone)}
+              // value={phone}
+              // onChange={(phone) => setPhone(phone)}
               />
             </div>
             <div className="form-item">
@@ -67,7 +84,7 @@ const Contact = () => {
               </label>
               <textarea name="" id="" cols={10} rows={5} />
             </div>
-            <button className="message-button" type="button" onClick={send}>
+            <button className="message-button" type="button" arial-label="send message" onClick={send}>
               {translate("send_message")}
             </button>
           </form>

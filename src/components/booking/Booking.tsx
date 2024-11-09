@@ -333,6 +333,7 @@ const Booking = () => {
                 </div>
                 <button
                   type="button"
+                  arial-label="clear"
                   onClick={() => {
                     setOrigin(null);
                     setDestination(null);
