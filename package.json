@@ -14,6 +14,7 @@
     "@egjs/flicking-plugins": "^4.7.1",
     "@egjs/react-flicking": "^4.11.4",
     "@reach/combobox": "^0.18.0",
+    "@react-email/components": "^0.0.28",
     "@react-google-maps/api": "^2.20.3",
     "@vis.gl/react-google-maps": "^1.4.0",
     "react": "^18.3.1",
@@ -21,6 +22,7 @@
     "react-dom": "^18.3.1",
     "react-international-phone": "^4.3.0",
     "react-select": "^5.8.2",
+    "resend": "4.0.1-alpha.0",
     "sass": "^1.80.6",
     "use-places-autocomplete": "^4.0.1"
   },

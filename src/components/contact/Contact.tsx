@@ -2,7 +2,33 @@ import "./Contact.scss";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import useTranslate from "../../hooks/Translate";
+import { Resend } from "resend";
+// import Email from "../email/Email";
+// await resend.batch.send([
+//   {
+//     from: 'Acme <onboarding@resend.dev>',
+//     to: ['foo@gmail.com'],
+//     subject: 'hello world',
+//     html: '<h1>it works!</h1>',
+//   },
+//   {
+//     from: 'Acme <onboarding@resend.dev>',
+//     to: ['bar@outlook.com'],
+//     subject: 'world hello',
+//     html: '<p>it works!</p>',
+//   },
+// ]);
 const Contact = () => {
+  const resend = new Resend("re_f4PncFpH_5wnh6FQ2EurxLnR9FfNThEGc");
+  const send = async () => {
+    console.log("se envia");
+    resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: 'albertjohan2707@gmail.com',
+      subject: 'Hello World',
+      html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+    });
+  };
   const { translate } = useTranslate();
   return (
     <section className="contact-section" id="contact">
@@ -41,7 +67,7 @@ const Contact = () => {
               </label>
               <textarea name="" id="" cols={10} rows={5} />
             </div>
-            <button className="message-button" type="button">
+            <button className="message-button" type="button" onClick={send}>
               {translate("send_message")}
             </button>
           </form>
