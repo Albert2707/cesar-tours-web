@@ -25,9 +25,9 @@
       span {
         font-size: 40px;
         font-weight: bold;
-        @include mobile{
-            font-size: 30px;
-            text-align:center
+        @include mobile {
+          font-size: 30px;
+          text-align: center;
         }
       }
       img {
@@ -56,11 +56,17 @@
           display: flex;
           flex-direction: column;
           gap: 5px;
+          input,
+          textarea {
+            transition: all 0.5s ease;
+          }
+
           .phoneInput {
+            border-radius: 5px;
+            transition: all 0.5s ease;
             input {
               width: 100%;
               border: 1px solid gainsboro;
-
               border-radius: 0px 5px 5px 0px;
             }
             input,
@@ -68,10 +74,15 @@
               padding: 5px 10px;
               height: 47px;
             }
-
             button {
               border: none;
               border: 1px solid gainsboro;
+            }
+          }
+
+          .phone-invalid{
+            input, button{
+              border: 1px solid #e11d48;
             }
           }
 
@@ -106,7 +117,7 @@
         .message-button {
           border: none;
           padding: 1rem;
-        //   pointer-events: none;
+          //   pointer-events: none;
           cursor: pointer;
           border-radius: 5px;
         }
@@ -117,7 +128,7 @@
       flex-direction: column;
     }
   }
-  @include mobile{
+  @include mobile {
     max-height: fit-content;
     height: auto;
     // height: 190%;

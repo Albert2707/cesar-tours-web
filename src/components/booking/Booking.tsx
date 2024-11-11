@@ -311,7 +311,7 @@ const Booking = () => {
             </div>
             <div className="right">
               <div className="map">
-                {/* <Map
+                <Map
                   ref={mapRef}
                   setIsloaded={setIsloaded}
                   setDuration={setDuration}
@@ -320,7 +320,7 @@ const Booking = () => {
                   origin={origin}
                   formattedDestination={formattedDestination}
                   formattedOrigin={formattedOrigin}
-                /> */}
+                />
                 <div className="location-info">
                   <div className="distance">
                     <span>{translate("distance")}</span>

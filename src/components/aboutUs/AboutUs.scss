@@ -153,13 +153,13 @@
 
 @include mobile {
   .aboutUs-section {
-    height: 100vh;
+    height: 110vh;
     padding:2rem;
     .wrapper {
       flex-wrap: unset;
       flex-direction: column;
       // height: 80%;
-      gap: 70px;
+      gap: 60px;
 
       // height: auto;
       .card-aboutUs {

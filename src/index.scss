@@ -46,6 +46,9 @@ body {
       @include responsive-container
     }
   }
+  .invalid{
+    border:1px solid #e11d48 !important;
+  }
 }
 
 @mixin laptop {
@@ -61,7 +64,7 @@ body {
 }
 
 @mixin mobile {
-  @media (max-width: 670px) {
+  @media (max-width: 680px) {
     @content;
   }
 }

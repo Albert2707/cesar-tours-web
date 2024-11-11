@@ -47,6 +47,7 @@
 
       .steps {
         display: flex;
+        width: 100%;
         gap: 5px;
         justify-content: center;
         align-items: center;
@@ -92,8 +93,11 @@
           }
 
           @media (max-width: 390px) {
-            width: 80px;
+            width: 20%;
           }
+        }
+        @media (max-width: 390px) {
+         padding:0 1rem;
         }
       }
 
