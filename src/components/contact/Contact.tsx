@@ -9,24 +9,10 @@ import {
   Controller,
   FieldErrors,
 } from "react-hook-form";
-import { EmailProps, EmailService } from "../../services/emailService";
+import { EmailService } from "../../services/emailService";
 import { render } from "@react-email/render";
 import Email from "../email/Email";
-// import Email from "../email/Email";
-// await resend.batch.send([
-//   {
-//     from: 'Acme <onboarding@resend.dev>',
-//     to: ['foo@gmail.com'],
-//     subject: 'hello world',
-//     html: '<h1>it works!</h1>',
-//   },
-//   {
-//     from: 'Acme <onboarding@resend.dev>',
-//     to: ['bar@outlook.com'],
-//     subject: 'world hello',
-//     html: '<p>it works!</p>',
-//   },
-// ]);
+import { EmailProps } from "../../models/Email";
 type Inputs = {
   name: string;
   message: string;
@@ -55,7 +41,13 @@ const Contact = () => {
       };
       toast.promise(EmailService.sendEmail(props), {
         loading: translate("sending"),
-        success: translate("message_sent"),
+        success: () => {
+          setValue("name", "");
+          setValue("message", "");
+          setValue("email", "");
+          setValue("phone", "+1");
+          return translate("message_sent");
+        },
         error: translate("message_failed"),
       });
     } catch (error: unknown) {
@@ -76,10 +68,6 @@ const Contact = () => {
       return toast.error(translate("fill_all_fields"));
     }
     await send({ email, name, message, html });
-    setValue("name", "");
-    setValue("message", "");
-    setValue("email", "");
-    setValue("phone", "");
   };
   const onError = (errors: FieldErrors<Inputs>) => {
     if (errors.name) {

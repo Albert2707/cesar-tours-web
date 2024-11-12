@@ -1,86 +1,81 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
-import { forwardRef, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import useTranslate from "../../../../hooks/Translate";
 import { useIdiom } from "../../../../context/idiomContext";
 import { IdiomTypes } from "../../../../context/idiomTypes";
 
-export const Directions = forwardRef(
-  ({ origin, destination }: { origin: string; destination: string }) => {
-    const { idiom } = useIdiom() as IdiomTypes;
-    const map = useMap();
-    const { translate } = useTranslate();
-    const routesLibrary = useMapsLibrary("routes");
-    const [directionsService, setDirectionsService] =
-      useState<google.maps.DirectionsService>();
-    const [directionsRenderer, setDirectionsRenderer] =
-      useState<google.maps.DirectionsRenderer | null>(null);
-    const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-    const routeIndex = 0;
-    const selected = routes[routeIndex];
-    const leg = selected?.legs[0];
+type DirectionsProps = {
+  origin: string;
+  destination: string;
+};
 
-    function traducirDuracion(str: string) {
-      if (idiom === "es") {
-        return str.replace("hours", "horas").replace(/(mins|min)/, "minutos");
-      }
-      return str;
+export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
+  const { idiom } = useIdiom() as IdiomTypes;
+  const { translate } = useTranslate();
+
+  const map = useMap();
+  const routesLibrary = useMapsLibrary('routes');
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>();
+  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
+  const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
+  const routeIndex=0;
+  const selected = routes[routeIndex];
+  const leg = selected?.legs[0];
+
+  function traducirDuracion(str: string) {
+    if (idiom === "es") {
+      return str.replace(/(hours|hour)/, "horas").replace(/(mins|min)/, "minutos");
     }
-
-    // Initialize directions service
-    useEffect(() => {
-      if (!routesLibrary) return;
-      setDirectionsService(new routesLibrary.DirectionsService());
-    }, [routesLibrary]);
-
-    // Use directions service and update renderer with new directions
-    useEffect(() => {
-      if (!directionsService || !origin || !destination) return;
-
-      // Remove previous route if directionsRenderer exists
-      if (directionsRenderer) {
-        directionsRenderer.setMap(null); // Clear previous route
-      }
-      if (!routesLibrary) return;
-      const newDirectionsRenderer = new routesLibrary.DirectionsRenderer({
-        map,
-      });
-      setDirectionsRenderer(newDirectionsRenderer);
-
-      // Request new directions
-      directionsService
-        .route({
-          origin,
-          destination,
-          travelMode: google.maps.TravelMode.DRIVING,
-          provideRouteAlternatives: true,
-        })
-        .then((response) => {
-          newDirectionsRenderer.setDirections(response); // Set new route
-          setRoutes(response.routes);
-        });
-
-      return () => newDirectionsRenderer.setMap(null); // Clean up on unmount
-    }, [directionsService, origin, destination, routesLibrary, map]);
-
-    // Update direction route
-    useEffect(() => {
-      if (!directionsRenderer) return;
-      directionsRenderer.setRouteIndex(routeIndex);
-    }, [routeIndex, directionsRenderer]);
-
-    return (
-      <div className="location-info">
-        <div className="distance">
-          <span>{translate("distance")}</span>
-          <span> {leg ? leg.distance?.text : "---"} </span>
-        </div>
-        <div className="time">
-          <span>{translate("time")}</span>
-          <span>
-            {leg ? traducirDuracion(leg.duration?.text as string) : "---"}
-          </span>
-        </div>
-      </div>
-    );
+    return str;
   }
-);
+
+  // Initialize directions service
+  useEffect(() => {
+    if (!routesLibrary || !map) return;
+    setDirectionsService(new routesLibrary.DirectionsService());
+    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+  }, [routesLibrary, map]);
+
+  // Use directions service and update renderer with new directions
+  useEffect(() => {
+    if (!directionsService || !directionsRenderer || !origin || !destination) return;
+    // Clear previous route
+    directionsRenderer.setMap(null);
+    // Request new directions
+    directionsService.route({
+      origin,
+      destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: true
+    })
+    .then(response => {
+      directionsRenderer.setMap(map); // Attach renderer to map
+      directionsRenderer.setDirections(response);
+      setRoutes(response.routes);
+    })
+    .catch(error => console.error("Error fetching directions:", error));
+
+    return () => directionsRenderer.setMap(null); // Clean up on unmount
+  }, [directionsService, directionsRenderer, origin, destination, map]);
+
+  useEffect(() => {
+    if (directionsRenderer && routeIndex < routes.length) {
+      directionsRenderer.setRouteIndex(routeIndex);
+    }
+  }, [routeIndex, directionsRenderer, routes.length]);
+
+  if (!leg) return null;
+
+  return (
+    <div className="location-info">
+      <div className="distance">
+        <span>{translate("distance")}</span>
+        <span> {leg.distance?.text || "---"} </span>
+      </div>
+      <div className="time">
+        <span>{translate("time")}</span>
+        <span>{leg.duration ? traducirDuracion(leg.duration.text) : "---"}</span>
+      </div>
+    </div>
+  );
+};

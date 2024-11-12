@@ -32,6 +32,9 @@
       }
       img {
         width: 100%;
+        @include mobile{
+          width: 400px;
+        }
       }
     }
 
@@ -120,6 +123,9 @@
           //   pointer-events: none;
           cursor: pointer;
           border-radius: 5px;
+          @include mobile{
+            width: 80%;
+          }
         }
       }
     }
@@ -131,6 +137,7 @@
   @include mobile {
     max-height: fit-content;
     height: auto;
+    padding-bottom:2rem;
     // height: 190%;
   }
 }

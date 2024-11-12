@@ -6,3 +6,7 @@ export interface ReviewsCardType {
     comment: string;
     desc: string;
   }
+  export interface Geo{
+    lat?: number
+    lng?: number
+  }

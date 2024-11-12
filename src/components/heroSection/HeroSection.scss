@@ -8,9 +8,12 @@
   align-items: center;
   height: calc(100vh - 112px);
   // de esta forma podemos tener una imagen con un color degradado superpuesto a la imagen
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
-    url("/images/heroImg.webp") lightgray 50% / cover no-repeat;
+  // background:
+  //   linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
+  //   url("/images/heroImg.webp") lightgray 50% / cover no-repeat;
+    background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), 
+    url("/images/hero.jpg") lightgray 50% / cover no-repeat;
 
   .wrapper {
     display: flex;
