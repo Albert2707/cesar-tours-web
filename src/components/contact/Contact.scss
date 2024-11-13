@@ -119,10 +119,18 @@
         }
         .message-button {
           border: none;
-          padding: 1rem;
-          //   pointer-events: none;
+          width: 200px;
+          height: 50px;
+          margin-top: 10px;
+          color: #222;
+          text-align: center;
+          font-size: 16px;
           cursor: pointer;
-          border-radius: 5px;
+          font-weight: 500;
+          flex-shrink: 0;
+          border-radius: 50px;
+          padding: 1rem;
+          border-radius: 50px;
           @include mobile{
             width: 80%;
           }
