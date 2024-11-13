@@ -15,8 +15,8 @@ const MobileMenu: FC<Props> = ({ isOpen, setIsOpen }) => {
     const { setLanguage, idiom } = useIdiom() as IdiomTypes;
     const { translate } = useTranslate();
     const options = [
-        { value: "es", label: translate("Spanish"), image: "./public/images/espana-1.webp", labelOnSelect: "es" },
-        { value: "en", label: translate("English"), image: "./public/images/estados-unidos-de-america_1_.webp", labelOnSelect: "us" },
+        { value: "es", label: translate("Spanish"), labelOnSelect: "es" },
+        { value: "en", label: translate("English"), labelOnSelect: "us" },
       ];
     const variants = {
         initial: {
@@ -118,6 +118,7 @@ const MobileMenu: FC<Props> = ({ isOpen, setIsOpen }) => {
                   option: (baseStyles, state) => ({
                     ...baseStyles,
                     textAlign:"center",
+                    fontSize:"24px",
                     backgroundColor: state.isFocused ? "rgba(242, 75, 15, 0.1)" : "transparent",
                     color: state.isFocused ? "orange" : "inherit",
                     "&:active": {
@@ -147,8 +148,7 @@ const MobileMenu: FC<Props> = ({ isOpen, setIsOpen }) => {
                   }),
                 }}
                 formatOptionLabel={(option) => (
-                  <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                    {option.image && <img src={option.image} alt="" style={{ width: "30px", height: "30px" }} />}
+                  <div style={{ display: "flex", alignItems: "center", gap: "5px", justifyContent:"center" }}>
                     <span>
                       {/* {context === "menu" ? option.label : option.labelOnSelect} */}
                       {option.label}
