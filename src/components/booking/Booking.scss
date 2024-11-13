@@ -36,7 +36,7 @@
       width: 100%;
       overflow: hidden;
       // height: 550px;
-      height: 100%;
+      height: 600px;
       border-radius: 10px;
       padding: 32px 0;
       display: flex;
@@ -178,7 +178,6 @@
         .right {
           flex: 1;
           width: min(80%, 600px);
-          // background-color: red;
           padding: 0 1rem;
 
           .map {
@@ -252,7 +251,7 @@
             button {
               border: none;
               width: 200px;
-              height: 48px;
+              height: 50px;
               align-self: flex-end;
               margin-top: 10px;
               color: #fff;
@@ -261,7 +260,7 @@
               cursor: pointer;
               font-weight: 700;
               flex-shrink: 0;
-              border-radius: 10px;
+              border-radius: 50px;
               background: #f24b0f;
 
               @include tablet {
