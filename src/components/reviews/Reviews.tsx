@@ -5,7 +5,7 @@ import "@egjs/react-flicking/dist/flicking.css";
 import { Arrow, AutoPlay, Pagination } from "@egjs/flicking-plugins";
 import "@egjs/flicking-plugins/dist/pagination.css";
 import "@egjs/flicking-plugins/dist/arrow.css";
-import ReviewCard from "./components/reviewCard/ReviewCard";
+import ReviewCard from "./ReviewCard";
 import { ReviewsCardType } from "../../models/reviewCardType";
 import { useRef } from "react";
 
