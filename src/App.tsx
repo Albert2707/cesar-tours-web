@@ -7,7 +7,7 @@ const Navbar = lazy(() => import("./components/navbar/Navbar"))
 const AboutUs = lazy(() => import("./components/aboutUs/AboutUs"))
 const Contact = lazy(() => import("./components/contact/Contact"))
 const Footer = lazy(() => import("./components/footer/Footer"))
-
+import { FloatingWhatsApp } from 'react-floating-whatsapp'
 function App() {
 
   useEffect(() => {
@@ -26,6 +26,7 @@ function App() {
       <AboutUs/>
       <Contact/>
       <Footer/>
+      <FloatingWhatsApp phoneNumber="+18098541810" accountName="Albert Joan" chatMessage="Hola ¿Como podemos ayudarte?"  placeholder="Reserva ya" avatar="" buttonStyle={{animation:"none", animationDuration:"0", transition:"none", transform:"none"}}/>
     </>
   );
 }
