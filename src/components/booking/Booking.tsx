@@ -7,6 +7,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
 import { AnimatePresence, motion } from "framer-motion";
+import Vehicle from "./components/steps/Vehicle";
 // import { Geo } from "../../models/reviewCardType";
 
 // const debounce = (func, delay) => {
@@ -304,30 +305,9 @@ const Booking = () => {
               </div>
             </APIProvider>
           }
-
             {
               step === 2 && (
-                <>
-                  <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                    type="button"
-                    arial-label="clear"
-                    onClick={() => {
-                      setStep(1);
-                    }}
-                  >
-                    {translate("volver")}
-                  </motion.button >
-                  <button
-                    type="button"
-                    arial-label="clear"
-                    onClick={() => {
-                      setStep(3);
-                    }}
-                  >
-                    {translate("Pagar")}
-                  </button>
-                </>
-
+                <Vehicle/>
               )
             }
           {
