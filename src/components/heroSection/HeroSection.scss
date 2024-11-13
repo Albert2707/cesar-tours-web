@@ -1,18 +1,17 @@
 @use "../../index.scss" as *;
 
 .hero-section {
-  background-repeat: no-repeat;
   scroll-margin-top: 80px;
   background-size: 100%;
   display: flex;
+  overflow: hidden;
   align-items: center;
   height: calc(100vh - 112px);
-  // de esta forma podemos tener una imagen con un color degradado superpuesto a la imagen
-  // background:
-  //   linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
-  //   url("/images/heroImg.webp") lightgray 50% / cover no-repeat;
-    background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), 
+  background-attachment: fixed;
+  // clip-path: polygon(0 0, 100% 0, 100% 65%, 0% 100%);
+  // de esta forma podemos tener una imagen con un color degradado superpuesto a la 
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%),
     url("/images/hero.jpg") lightgray 50% / cover no-repeat;
 
   .wrapper {
@@ -35,32 +34,31 @@
 
     h1 {
       // font-size: 68px;
-      font-size: calc(3vw + 1.5rem);
+      font-size: calc(3vw + 1.8rem);
       text-align: center;
       font-weight: 600;
     }
 
     p {
-      width: 600px;
+      width: 750px;
       height: 50px;
       text-align: center;
       overflow-wrap: break-word; // Permite que las palabras largas se ajusten
       word-wrap: break-word; // Soporte adicional para navegadores antiguos
       word-break: break-word;
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 600;
     }
 
     a {
       margin-top: 30px;
-      // background-color: #f24b0f;
-      background-color:#AC3A11;
-      width: 210px;
+      background-color: #f24b0f;
+      width: 250px;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 60px;
-      border-radius: 10px;
+      height: 70px;
+      border-radius: 50px;
       font-size: 20px;
       font-weight: 700;
       color: #f2f2f2;
@@ -70,27 +68,44 @@
 
       &:hover {
         // scale: 1.05;
+        transform: translateY(-5px);
         background-color: #f2f2f2;
-        color:$primary-bg-color;
+        color: $primary-bg-color;
       }
     }
   }
 }
 
+// @include laptop{
+//   .hero-section {
+//     clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
+//   }
+// }
+
+@include tablet {
+  .hero-section {
+    clip-path: none;
+  }
+}
 @include mobile {
   .hero-section {
     .wrapper {
       h3 {
-        font-size: 20px;
+        font-size: 18px;
       }
-
+      h1 {
+        // font-size: 68px;
+        font-size: calc(3vw + 2.5rem);
+        text-align: center;
+        font-weight: 600;
+      }
       p {
-        width: 90%; // Ajusta el ancho a un 90% del contenedor padre
+        width: 80%; // Ajusta el ancho a un 90% del contenedor padre
         font-size: 14px; // Reduce el tamaño de fuente en pantallas más pequeñas
       }
 
       a {
-        width: 180px;
+        width: 200px;
         height: 50px;
         font-size: 18px;
       }
