@@ -36,14 +36,14 @@
       width: 100%;
       overflow: hidden;
       // height: 550px;
-      height: 600px;
+      height: 700px;
       border-radius: 10px;
       padding: 32px 0;
       display: flex;
-      gap: 30px;
+      gap: 50px;
       align-items: center;
       flex-direction: column;
-      justify-content: center;
+      // justify-content: space-between;
 
       .steps {
         display: flex;
@@ -68,7 +68,9 @@
         }
 
         .step.done {
-          background-color: #62abd9;
+          background-color: #22A2F2;
+          font-weight: 600;
+          color: #fff;
         }
 
         .steps-progress {
@@ -83,7 +85,7 @@
             transition: all 1s ease-in-out;
             height: 100%;
             width: 100%;
-            background-color: #62abd9;
+            background-color: #22A2F2;
             border-radius: 30px;
             transform-origin: 0%;
             transform: scaleX(0);
@@ -113,6 +115,8 @@
         display: flex;
         flex-direction: row;
         height: auto;
+        //agregando este tamano
+        width: 80%;
         // align-items: center;
 
         .left {
@@ -249,19 +253,21 @@
             }
 
             button {
-              border: none;
+              border: 1px solid transparent;
+              background-color: transparent;
+              color:#222;
               width: 200px;
               height: 50px;
               align-self: flex-end;
               margin-top: 10px;
-              color: #fff;
+              // color: #fff;
               text-align: center;
               font-size: 16px;
               cursor: pointer;
               font-weight: 700;
               flex-shrink: 0;
               border-radius: 50px;
-              background: #f24b0f;
+              border-color: #f24b0f;
 
               @include tablet {
                 align-self: center;

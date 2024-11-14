@@ -1,20 +1,155 @@
 .select-vehicle {
-  display: flex;
-  width: 100%;
-  padding: 0 2rem;
+  width: 80%;
   margin: 0 auto;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
 
   .booking-info {
     flex: 1;
     width: 100%;
+    display: flex;
+    height:600px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 20px;
+    
+    .container-info {
+      padding: 1rem;
+      display: flex;
+      height: 100%;
+      border-radius: 10px;
+      flex-direction: column;
+      gap:10px;
+      background-color: #d3d3d3;
 
-    h2 {
+      h2 {
+        color: #222;
+      }
+
+      div {
+        display: flex;
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 5px;
+
+        span:first-child {
+          font-weight: 600;
+        }
+        span:last-child{
+          font-size:14px;
+        }
+      }
+    }
+
+    .back-button {
+      border: 1px solid transparent;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+      height: 40px;
       color: #222;
+      text-align: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      border-radius: 50px;
+      border-color: #f24b0f;
+      transition: all 0.3s ease-in-out;
+
+      svg {
+        stroke-width: 2;
+        width: 15px;
+        height: 15px;
+        transition: all 0.3s ease-in-out;
+      }
+      &:hover svg{
+transform: translateX(-5px)
+      }
+
+      span {
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      &:hover {
+        border-color: transparent;
+        background-color: #f24b0f;
+        color: white;
+      }
     }
   }
 
   .vehicle-list {
-    flex: 3;
-    width: 100%;
+    flex: 4;
+    overflow-y:scroll ;
+    width: min(80%, 500px);
+    display: flex;
+    padding: 1rem;
+    gap:10px;
+    flex-direction: column;
+    // background-color: blue;
+
+    .vehicle {
+      display: flex;
+      gap: 20px;
+      align-items: start;
+
+      .vehicle-img {
+        width: 50%;
+        // background-color: red;
+
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .more {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+
+        button {
+          border: 1px solid transparent;
+          width: 100px;
+          background-color: transparent;
+          height: 40px;
+          align-self: flex-end;
+          color: #222;
+          text-align: center;
+          font-size: 12px;
+          cursor: pointer;
+          font-weight: 700;
+          flex-shrink: 0;
+          border-radius: 50px;
+          border-color: #f24b0f;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            border-color: transparent;
+            background-color: #f24b0f;
+            color: white;
+          }
+        }
+
+        div {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+          svg {
+            color: #222;
+            width: 25px;
+            height: 25px;
+            stroke-width: 2;
+          }
+        }
+      }
+    }
   }
+
 }
