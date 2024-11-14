@@ -8,7 +8,7 @@ const HeroSection = () => {
     target: wrapperRef,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const { translate } = useTranslate();
   return (
     <section className="hero-section" id="home">

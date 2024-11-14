@@ -6,7 +6,6 @@ import { generateTimeOptions } from "../../utils/functions";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
-import { AnimatePresence, motion } from "framer-motion";
 import Vehicle from "./components/steps/Vehicle";
 // import { Geo } from "../../models/reviewCardType";
 
@@ -307,7 +306,7 @@ const Booking = () => {
           }
             {
               step === 2 && (
-                <Vehicle/>
+                <Vehicle setStep={setStep}/>
               )
             }
           {
