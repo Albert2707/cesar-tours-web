@@ -286,10 +286,8 @@ const Booking = () => {
                         />
                       }
                     </Map>
-                    {originAddress && destinationAddress && (
 
                       <Directions origin={originAddress} destination={destinationAddress} />
-                    )}
                     <button
                       type="button"
                       arial-label="clear"

@@ -1,10 +1,10 @@
 .select-vehicle {
   margin: 0 auto;
   border-radius: 10px;
-  height: 100%;
-  padding: 0 2rem;
+  width: 90%;
+  height: 90%;
   display: flex;
-  // background-color: blue;
+  padding: 1rem;
 
   .booking-info {
     flex: 1;
@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 1rem;
+    // padding: 0 1rem;
     gap: 20px;
 
     .container-info {
@@ -95,68 +95,118 @@
 
     .vehicle {
       display: flex;
-      gap: 20px;
-      align-items: start;
+      border-bottom: 1px solid #d3d3d3;
 
       .vehicle-img {
-        width: 200px;
+        width: 600px;
 
         img {
           width: 100%;
           object-fit: cover;
         }
       }
-      .trip-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        span:nth-child(2) {
-          font-size: 16px;
-          font-weight: 700;
-        }
-        button {
-          border: 1px solid transparent;
-          width: 100px;
-          background-color: transparent;
-          height: 40px;
-          align-self: flex-end;
-          color: #222;
-          text-align: center;
-          font-size: 12px;
-          cursor: pointer;
-          font-weight: 700;
-          flex-shrink: 0;
-          border-radius: 50px;
-          border-color: #f24b0f;
-          transition: all 0.3s ease-in-out;
-
-          &:hover {
-            border-color: transparent;
-            background-color: #f24b0f;
-            color: white;
-          }
-        }
-      }
 
       .features {
         display: flex;
-        justify-content: flex-end;
-        margin-right: 5px;
-        .more {
+        width: 100%;
+        flex-direction: column;
+        height: 60%;
+        margin: auto 0;
+        padding: 1rem;
+        justify-content: center;
+        .vehicle-info {
           display: flex;
-          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          justify-content: space-between;
+          span {
+            font-size: 18px;
+            width: 100%;
+          }
+          span:nth-child(2) {
+            // margin-left:5px;
+            // width: 100%;
+            text-align: end;
+            margin-right: 10px;
+            font-weight: 700;
+          }
+        }
+        // .capabilities {
+        //   display: flex;
+        //   flex-direction: column;
+        //   height: 100%;
+        //   gap: 10px;
+        //   span {
+        //     font-size: 18px;
+        //   }
+        //   // align-items: center;
+        // }
+        // segundo div donde esta el boton y precio del viajes
+        .book-now {
+          display: flex;
+          height: 100%;
           align-items: center;
-          div {
+          justify-content: space-between;
+          width: 100%;
+          .more {
+            gap: 20px;
             display: flex;
-            justify-content: center;
-            gap: 15px;
             align-items: center;
+            div {
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+              align-items: center;
+              color: #888;
 
-            svg {
-              color: #222;
-              width: 25px;
-              height: 25px;
-              stroke-width: 2;
+              svg {
+                width: 25px;
+                height: 25px;
+                stroke-width: 2;
+              }
+            }
+          }
+
+          button {
+            // border: 1px solid transparent;
+            width: 100px;
+            border: none;
+            position: relative;
+            height: 45px;
+            color: #222;
+            text-align: center;
+            background-color: transparent;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            flex-shrink: 0;
+            border-radius: 50px;
+            // border-color: #f24b0f;
+            transition: all 0.3s ease-in-out;
+
+            // &:hover {
+            //   border-color: transparent;
+            //   background-color: #f24b0f;
+            //   color: white;
+            // }
+            &::before {
+              content: "";
+              border: 1px solid #f24b0f;
+              height: 45px;
+              width: 15px;
+              border-radius: 50px;
+              top:-1px;
+              left: -1px;
+              position: absolute;
+              transition:all 0.3s ease-in-out;
+            }
+            &:hover::before {
+              width: 100px;
+              // left: -1px;
+            }
+            &:active::before {
+            scale:0.875;
+              // left: -1px;
             }
           }
         }
