@@ -1,3 +1,5 @@
+@use "../../../../index.scss" as *;
+
 .select-vehicle {
   margin: 0 auto;
   border-radius: 10px;
@@ -88,21 +90,24 @@
     flex: 5;
     overflow-y: scroll;
     display: flex;
-    height: 550px;
+    height: 560px;
     padding: 1rem;
     gap: 20px;
     flex-direction: column;
 
     .vehicle {
       display: flex;
-      border-bottom: 1px solid #d3d3d3;
+      // overflow: hidden;
+      border-bottom: 1px solid #d3d3d36b;
 
       .vehicle-img {
         width: 600px;
+        height: 170px;
 
         img {
           width: 100%;
-          object-fit: cover;
+          height: 100%;
+          object-fit: contain;
         }
       }
 
@@ -212,5 +217,8 @@
         }
       }
     }
+  }
+  @include mobile{
+    flex-direction: column;
   }
 }

@@ -127,7 +127,7 @@
           height: 100%;
           display: flex;
           // background-color: blue;
-          // width: min(80%, 500px);
+          width: 100%;
           justify-content: center;
 
           .booking-form {
@@ -184,6 +184,8 @@
 
         .right {
           flex: 1;
+          width: 100%;
+
           // width: min(80%, 600px);
           // padding: 0 1rem;
 

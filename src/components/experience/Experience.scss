@@ -23,8 +23,9 @@
     .experience-pictures {
       overflow: hidden;
       display: grid;
-      height: 700px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      height: 800px;
+      width: 100%;
+      grid-template-columns: repeat(3, minmax(300px, 1fr));
       grid-template-rows: repeat(8, 1fr);
       gap: 10px;
 
