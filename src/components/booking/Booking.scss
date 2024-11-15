@@ -38,12 +38,12 @@
       // height: 550px;
       height: 700px;
       border-radius: 10px;
-      padding: 32px 0;
+      // padding: 32px 0;
       display: flex;
       gap: 50px;
+      justify-content: center;
       align-items: center;
       flex-direction: column;
-      // justify-content: space-between;
 
       .steps {
         display: flex;
@@ -68,7 +68,7 @@
         }
 
         .step.done {
-          background-color: #22A2F2;
+          background-color: #22a2f2;
           font-weight: 600;
           color: #fff;
         }
@@ -85,12 +85,12 @@
             transition: all 1s ease-in-out;
             height: 100%;
             width: 100%;
-            background-color: #22A2F2;
+            background-color: #22a2f2;
             border-radius: 30px;
             transform-origin: 0%;
             transform: scaleX(0);
           }
-          .progress.done{
+          .progress.done {
             transform: scaleX(1);
           }
 
@@ -107,7 +107,7 @@
           }
         }
         @media (max-width: 390px) {
-         padding:0 1rem;
+          padding: 0 1rem;
         }
       }
 
@@ -116,7 +116,7 @@
         flex-direction: row;
         height: auto;
         //agregando este tamano
-        width: 80%;
+        width: 90%;
         // align-items: center;
 
         .left {
@@ -124,7 +124,7 @@
           height: 100%;
           display: flex;
           // background-color: blue;
-          width: min(80%, 500px);
+          // width: min(80%, 500px);
           justify-content: center;
 
           .booking-form {
@@ -146,7 +146,7 @@
                 background: transparent;
                 height: 35px;
                 outline: transparent;
-                caret-color: #22A2F2;
+                caret-color: #22a2f2;
                 appearance: none;
               }
 
@@ -181,8 +181,8 @@
 
         .right {
           flex: 1;
-          width: min(80%, 600px);
-          padding: 0 1rem;
+          // width: min(80%, 600px);
+          // padding: 0 1rem;
 
           .map {
             height: 100%;
@@ -216,7 +216,7 @@
 
                 span {
                   @include tablet {
-                    font-size: calc(.2vw + .8rem);
+                    font-size: calc(0.2vw + 0.8rem);
                   }
                 }
 
@@ -237,7 +237,7 @@
 
                 span {
                   @include tablet {
-                    font-size: calc(.2vw + .8rem);
+                    font-size: calc(0.2vw + 0.8rem);
                   }
                 }
 
@@ -248,14 +248,14 @@
               }
 
               @include mobile {
-                flex-direction: column
+                flex-direction: column;
               }
             }
 
             button {
               border: 1px solid transparent;
               background-color: transparent;
-              color:#222;
+              color: #222;
               width: 200px;
               height: 50px;
               align-self: flex-end;
@@ -268,7 +268,11 @@
               flex-shrink: 0;
               border-radius: 50px;
               border-color: #f24b0f;
-
+              transition: all 0.3s ease-in-out;
+              &:hover {
+                background-color: #f24b0f;
+                color: #fff;
+              }
               @include tablet {
                 align-self: center;
                 width: 100%;
@@ -285,10 +289,10 @@
               height: 500px;
             }
           }
-          @include tablet{
+          @include tablet {
             padding: 0 1rem 0 0;
           }
-          @include mobile{
+          @include mobile {
             padding: 0 1rem;
           }
         }
@@ -298,19 +302,16 @@
           gap: 20px;
           align-items: center;
         }
-
       }
 
       @include tablet {
         height: 80%;
-        ;
       }
 
       @include mobile {
         height: auto;
         padding: 1rem 0;
       }
-
     }
   }
 }
