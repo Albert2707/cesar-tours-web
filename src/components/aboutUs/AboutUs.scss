@@ -91,7 +91,7 @@
         border-bottom: 2px solid #f24b0f;
       }
 
-      &:hover{
+      &:hover {
         transform: translateY(-5px);
       }
     }
@@ -159,7 +159,7 @@
 @include mobile {
   .aboutUs-section {
     height: 110vh;
-    padding:2rem;
+    padding: 2rem;
     .wrapper {
       flex-wrap: unset;
       flex-direction: column;
@@ -197,5 +197,12 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 376px) {
+  .aboutUs-section {
+    height: 100vh;
+    padding:4rem 2rem 2rem 2rem ;
   }
 }
