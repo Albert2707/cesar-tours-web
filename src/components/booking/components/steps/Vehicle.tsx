@@ -6,16 +6,20 @@ interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const vehicles = [1, 2, 3];
 const Vehicle: FC<Props> = ({ setStep }) => {
+  const vehicles = [
+    { img: "images/suburban.png", name: "Tahoe Suburban", price: "350,50" },
+    { img: "images/coaster.png", name: "Toyota Coaster", price: "300,00" },
+    { img: "images/hiace.png", name: "Toyota Hiace", price: "250,61" },
+  ];
   const variants = {
     initial: {
       x: 100,
-      opacity:0
+      opacity: 0,
     },
     animate: {
       x: 0,
-      opacity:1,
+      opacity: 1,
       transition: {
         duration: 0.3,
         staggerChildren: 0.3,
@@ -73,20 +77,26 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         animate="animate"
         variants={variants}
       >
-        {vehicles.map(() => (
-          <motion.div key={crypto.randomUUID()} variants={variants} className="vehicle">
+        {vehicles.map((e) => (
+          <motion.div
+            key={crypto.randomUUID()}
+            variants={variants}
+            className="vehicle"
+          >
             <div className="vehicle-img">
               <img
-                src="images/suburban.png"
+                src={e.img}
                 alt="Tahoe Suburban"
+                width={200}
+                height={1200}
                 loading="lazy"
               />
             </div>
 
             <div className="features">
               <div className="vehicle-info">
-                <span>Tahoe Suburban</span>
-                <span className="price">$&nbsp;250.61</span>
+                <span>{e.name}</span>
+                <span className="price">$&nbsp;{e.price}</span>
               </div>
 
               <div className="book-now">
