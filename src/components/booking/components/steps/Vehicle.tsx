@@ -1,17 +1,21 @@
 import { motion } from "framer-motion";
 import "./Vehicle.scss";
 import { FC } from "react";
+import useTranslate from "../../../../hooks/Translate";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Vehicle: FC<Props> = ({ setStep }) => {
+  const { translate } = useTranslate();
+
   const vehicles = [
     { img: "images/suburban.png", name: "Tahoe Suburban", price: "350,50" },
     { img: "images/coaster.png", name: "Toyota Coaster", price: "300,00" },
     { img: "images/hiace.png", name: "Toyota Hiace", price: "250,61" },
   ];
+  
   const variants = {
     initial: {
       x: 100,
@@ -67,7 +71,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               d="M15.75 19.5 8.25 12l7.5-7.5"
             />
           </svg>
-          <span>volver</span>
+          <span>{translate("back")}</span>
         </button>
       </div>
 

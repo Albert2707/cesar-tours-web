@@ -96,7 +96,7 @@ const Contact = () => {
             onSubmit={handleSubmit(onSubmit, onError)}
           >
             <div className="form-item">
-              <label htmlFor="name">Nombre</label>
+              <label htmlFor="name">{translate("name")}</label>
               <input
                 id="name"
                 type="text"
@@ -105,7 +105,7 @@ const Contact = () => {
               />
             </div>
             <div className="form-item">
-              <label htmlFor="email">Correo electrónico</label>
+              <label htmlFor="email">{translate("email")}</label>
               <input
                 type="email"
                 {...register("email", { required: true })}
@@ -113,10 +113,7 @@ const Contact = () => {
               />
             </div>
             <div className="form-item">
-              <label htmlFor="">
-                {/* {translate("phone")} */}
-                Telefono
-              </label>
+              <label htmlFor="">{translate("phone")}</label>
               <Controller
                 name="phone"
                 control={control}
@@ -142,8 +139,8 @@ const Contact = () => {
             </div>
             <div className="form-item">
               <label htmlFor="">
-                {/* {translate("message")} */}
-                Mensaje
+                {translate("message")}
+                
               </label>
               <textarea
                 id=""

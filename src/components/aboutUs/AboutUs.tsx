@@ -1,12 +1,14 @@
+import useTranslate from "../../hooks/Translate";
 import "./AboutUs.scss";
 
 const AboutUs = () => {
+  const { translate } = useTranslate();
   return (
     <div className="aboutUs-section" id="aboutUs">
       <div className="wrapper">
         <div className="card-aboutUs">
           <div className="card-header">
-            <div className="header" style={{backgroundColor:"#4BBFBF"}}>
+            <div className="header" style={{ backgroundColor: "#4BBFBF" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -30,18 +32,13 @@ const AboutUs = () => {
             <h3>Vision</h3>
           </div>
           <div className="card-body">
-            <p>
-              Ser la empresa líder en servicios turísticos integrales,
-              reconocida por proporcionar experiencias memorables y de alta
-              calidad a los viajeros de todo el mundo, facilitando sus aventuras
-              con comodidad, seguridad y eficiencia.
-            </p>
+            <p>{translate("vision")}</p>
           </div>
         </div>
 
         <div className="card-aboutUs">
           <div className="card-header">
-            <div className="header" style={{backgroundColor:"#22A2F2"}}>
+            <div className="header" style={{ backgroundColor: "#22A2F2" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -60,17 +57,13 @@ const AboutUs = () => {
             <h3>Misión</h3>
           </div>
           <div className="card-body">
-            <p>
-              Ofrecer soluciones turísticas completas y personalizadas,
-              enfocadas en la satisfacción del cliente, con excelencia y respeto
-              por las comunidades locales.
-            </p>
+            <p>{translate("mision")}</p>
           </div>
         </div>
 
         <div className="card-aboutUs">
           <div className="card-header">
-            <div className="header" style={{backgroundColor:"#F24B0F"}}>
+            <div className="header" style={{ backgroundColor: "#F24B0F" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -86,13 +79,18 @@ const AboutUs = () => {
                 />
               </svg>
             </div>
-            <h3>Valores</h3>
+            <h3>{translate("values")}</h3>
           </div>
           <div className="card-body">
             <p className="par">
-              Excelencia en el servicio <br /> Integridad <br /> Innovación{" "}
-              <br />
-              Responsabilidad <br /> Cuidado por las personas
+              {translate("valores").map((e: string) => {
+                return (
+                  <>
+                    <span key={crypto.randomUUID()}>{e}</span>
+                    <br key={crypto.randomUUID()} />
+                  </>
+                );
+              })}
             </p>
           </div>
         </div>
