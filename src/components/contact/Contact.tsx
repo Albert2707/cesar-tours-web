@@ -75,6 +75,7 @@ const Contact = () => {
     } else if (errors.email) {
       toast.error(translate("email_required"));
     } else if (errors.phone) {
+      console.log(errors.phone)
       toast.error(translate("phone_required"));
     } else if (errors.message) {
       toast.error(translate("message_required"));
@@ -117,12 +118,18 @@ const Contact = () => {
               <Controller
                 name="phone"
                 control={control}
-                rules={{ required: true }}
+                rules={{
+                  required: true,
+                  validate: (value) => {
+                    return value.length >=10 || "El número de teléfono es inválido";
+                  }
+                }}
                 render={({ field }) => (
                   <PhoneInput
                     {...field}
-                    disableDialCodePrefill={true}
+                    // disableDialCodePrefill={true}
                     inputClassName="phone-invalid"
+                    disableDialCodeAndPrefix={true}
                     defaultCountry="do"
                     className={`phoneInput ${errors.phone ? "phone-invalid" : ""}`}
                   />
@@ -140,7 +147,7 @@ const Contact = () => {
             <div className="form-item">
               <label htmlFor="">
                 {translate("message")}
-                
+
               </label>
               <textarea
                 id=""

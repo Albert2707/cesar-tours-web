@@ -16,7 +16,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    // padding: 0 1rem;
     gap: 20px;
 
     .container-info {
@@ -41,6 +40,7 @@
         span:first-child {
           font-weight: 600;
         }
+
         span:last-child {
           font-size: 14px;
         }
@@ -49,10 +49,11 @@
 
     .back-button {
       border: 1px solid transparent;
-      width: 100px;
+      width: 150px;
       display: flex;
       justify-content: center;
       align-items: center;
+      position:relative;
       background-color: transparent;
       height: 40px;
       color: #222;
@@ -60,28 +61,45 @@
       cursor: pointer;
       flex-shrink: 0;
       border-radius: 50px;
-      border-color: #f24b0f;
       transition: all 0.3s ease-in-out;
 
+      &::before {
+        content: "";
+        border: 1px solid #f24b0f;
+        height: 40px;
+        width: 25px;
+        border-radius: 50px;
+        top: -2px;
+        right: -2px;
+        position: absolute;
+        transition: all 0.3s ease-in-out;
+      }
+
+      &:hover::before {
+        width: 150px;
+      }
+
+      &:active::before {
+        scale: 0.875;
+      }
+      &:active {
+        scale: 0.975;
+      }
       svg {
         stroke-width: 2;
         width: 15px;
         height: 15px;
+        transition-delay: 0.3s;
         transition: all 0.3s ease-in-out;
       }
+
       &:hover svg {
         transform: translateX(-5px);
       }
 
       span {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 700;
-      }
-
-      &:hover {
-        border-color: transparent;
-        background-color: #f24b0f;
-        color: white;
       }
     }
   }
@@ -97,7 +115,6 @@
 
     .vehicle {
       display: flex;
-      // overflow: hidden;
       border-bottom: 1px solid #d3d3d36b;
 
       .vehicle-img {
@@ -119,44 +136,37 @@
         margin: auto 0;
         padding: 1rem;
         justify-content: center;
+
         .vehicle-info {
           display: flex;
           width: 100%;
           height: 100%;
           justify-content: space-between;
+
           span {
             font-size: 18px;
             width: 100%;
           }
+
           span:nth-child(2) {
-            // margin-left:5px;
-            // width: 100%;
             text-align: end;
             margin-right: 10px;
             font-weight: 700;
           }
         }
-        // .capabilities {
-        //   display: flex;
-        //   flex-direction: column;
-        //   height: 100%;
-        //   gap: 10px;
-        //   span {
-        //     font-size: 18px;
-        //   }
-        //   // align-items: center;
-        // }
-        // segundo div donde esta el boton y precio del viajes
+
         .book-now {
           display: flex;
           height: 100%;
           align-items: center;
           justify-content: space-between;
           width: 100%;
+
           .more {
             gap: 20px;
             display: flex;
             align-items: center;
+
             div {
               display: flex;
               justify-content: center;
@@ -173,11 +183,11 @@
           }
 
           button {
-            // border: 1px solid transparent;
-            width: 100px;
+            width: 150px;
             border: none;
             position: relative;
-            height: 45px;
+            font-size: 14px;
+            height: 40px;
             color: #222;
             text-align: center;
             background-color: transparent;
@@ -186,39 +196,37 @@
             font-weight: 700;
             flex-shrink: 0;
             border-radius: 50px;
-            // border-color: #f24b0f;
             transition: all 0.3s ease-in-out;
 
-            // &:hover {
-            //   border-color: transparent;
-            //   background-color: #f24b0f;
-            //   color: white;
-            // }
             &::before {
               content: "";
               border: 1px solid #f24b0f;
-              height: 45px;
-              width: 15px;
+              height: 40px;
+              width: 25px;
               border-radius: 50px;
-              top:-1px;
-              left: -1px;
+              top: -2px;
+              left: -2px;
               position: absolute;
-              transition:all 0.3s ease-in-out;
+              transition: all 0.3s ease-in-out;
             }
+
             &:hover::before {
-              width: 100px;
-              // left: -1px;
+              width: 150px;
             }
+
             &:active::before {
-            scale:0.875;
-              // left: -1px;
+              scale: 0.875;
+            }
+            &:active {
+              scale: 0.975;
             }
           }
         }
       }
     }
   }
-  @include mobile{
+
+  @include mobile {
     flex-direction: column;
   }
 }

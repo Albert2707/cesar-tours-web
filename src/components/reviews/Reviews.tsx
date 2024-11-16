@@ -85,7 +85,6 @@ const Reviews = () => {
           defaultIndex={0}
           duration={500}
           circularFallback={"bound"}
-          bound={true}
           //   useFindDOMNode={true}
           align={{camera: "0%", panel: "0%"  }}
           ref={flickingRef}

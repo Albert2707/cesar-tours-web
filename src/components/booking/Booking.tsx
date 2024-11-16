@@ -8,8 +8,12 @@ import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
 import Vehicle from "./components/steps/Vehicle";
 import { Toaster, toast } from "react-hot-toast";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { enUS } from "date-fns/locale/en-US";
+import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
+import { useIdiom } from "../../context/idiomContext";
+import { IdiomTypes } from "../../context/idiomTypes";
 // import { Geo } from "../../models/reviewCardType";
 
 // const debounce = (func, delay) => {
@@ -28,11 +32,16 @@ interface Inputs {
   trip_type?: number;
   passengerNo?: number;
   bagsNo?: number;
+  hour?:string
 }
 
 const Booking = () => {
+  registerLocale("en", enUS);
+  registerLocale("es", es);
+  const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
+  const [startDate, setStartDate] = useState(new Date());
   const [originAddress, setOriginAddress] = useState<any>(null);
   const [values, setValues] = useState<Inputs>({ passengerNo: 1, bagsNo: 0 });
   const [destinationAddress, setDestinationAddress] = useState<any>(null);
@@ -141,10 +150,6 @@ const Booking = () => {
                               borderColor: "none", // Color del borde en hover
                             },
                           }),
-                          // input: (baseStyles) => ({
-                          //   ...baseStyles,
-                          //   outline: "transparent",
-                          // }),
                           menu: (baseStyles) => ({
                             ...baseStyles,
                             borderRadius: "10px",
@@ -217,10 +222,6 @@ const Booking = () => {
                                   borderColor: "none", // Color del borde en hover
                                 },
                               }),
-                              // input: (baseStyles) => ({
-                              //   ...baseStyles,
-                              //   outline: "transparent",
-                              // }),
                               menu: (baseStyles) => ({
                                 ...baseStyles,
                                 borderRadius: "10px",
@@ -268,18 +269,6 @@ const Booking = () => {
                             menuPosition="fixed"
                             isSearchable={false}
                           />
-                          {/* <input
-                            id="passengerNo"
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]+"
-                            onChange={(e) => {
-                              e.target.value = e.target.value.replace(
-                                /[^0-9]/g,
-                                ""
-                              );
-                            }}
-                          /> */}
                         </div>
                         <div className="baggageNo">
                           <label htmlFor="baggageNo">
@@ -306,10 +295,6 @@ const Booking = () => {
                                   borderColor: "none", // Color del borde en hover
                                 },
                               }),
-                              // input: (baseStyles) => ({
-                              //   ...baseStyles,
-                              //   outline: "transparent",
-                              // }),
                               menu: (baseStyles) => ({
                                 ...baseStyles,
                                 borderRadius: "10px",
@@ -357,19 +342,6 @@ const Booking = () => {
                             menuPosition="fixed"
                             isSearchable={false}
                           />
-                          {/* <input
-                            id="baggageNo"
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]+"
-                            onChange={(e) => {
-                              // e.target.validity.patternMismatch;
-                              e.target.value = e.target.value.replace(
-                                /[^0-9]/g,
-                                ""
-                              );
-                            }}
-                          /> */}
                         </div>
                       </div>
                     </div>
@@ -377,7 +349,8 @@ const Booking = () => {
                       <label htmlFor="outDate">
                         {translate("departure_date")}
                       </label>
-                      <DatePicker className="datePicker"/>
+                      <DatePicker className="datePicker" selected={startDate} onChange={(date) => setStartDate(date as Date)} locale={idiom}
+                        dateFormat={idiom=== "es"?"dd/MM/yyyy":"MM/dd/yyy"} /> 
                       {/* <input type="date" id="outDate" /> */}
                     </div>
                     <div className="form-item">
@@ -386,6 +359,7 @@ const Booking = () => {
                       </label>
                       <Select
                         options={hours}
+                        value={hours.find((e) => e.value === values.hour)}
                         styles={{
                           control: (baseStyles) => ({
                             ...baseStyles,
@@ -443,6 +417,11 @@ const Booking = () => {
                             paddingLeft: "0", // Asegura que el texto esté centrado en el control
                           }),
                         }}
+                        onChange={(e) => {
+                          setValues((prev) => {
+                            return { ...prev, hour:e?.value };
+                          });
+                        }}
                         placeholder={translate("time")}
                         isSearchable={false}
                         menuPortalTarget={document.body}
@@ -473,8 +452,8 @@ const Booking = () => {
                         <Marker
                           position={destinationAddress}
                           clickable={true}
-                          onClick={() => alert("marker was clicked!")}
-                          title={"clickable google.maps.Marker"}
+                          // onClick={() => alert("marker was clicked!")}
+                          // title={"clickable google.maps.Marker"}
                         />
                       )}
                     </Map>
@@ -485,9 +464,13 @@ const Booking = () => {
                     <button
                       type="submit"
                       arial-label="clear"
+                      className="btn-selectec-vehicle"
                       onClick={() => {
                         if (!values.trip_type)
-                          return toast.error("Debe completar todos los campos");
+                          return toast.error("Seleccione un tipo de viaje");
+                        if (!values.passengerNo) return toast.error("Seleccione un número de pasajeros");
+                        if (!values.hour) return toast.error("Seleccione una hora");
+                        // if(!values.bagsNo) return toast.error("Seleccione un número de bolsas");
                         // if(!originAddress) return toast.error("Debe completar todos los campos")
                         // if(!destinationAddress) return toast.error("Debe completar todos los campos")
                         setStep(2);
