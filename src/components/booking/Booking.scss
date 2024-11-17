@@ -258,7 +258,7 @@
               height: 40px;
               align-self: flex-end;
               margin-top: 10px;
-              position:relative;
+              position: relative;
               text-align: center;
               font-size: 14px;
               cursor: pointer;
@@ -294,6 +294,10 @@
                 align-self: center;
                 width: 100%;
                 margin-bottom: 4px;
+                border: 1px solid #f24b0f;
+                &::before {
+                  display: none;
+                }
               }
 
               @include mobile {
@@ -325,11 +329,11 @@
 
       @include tablet {
         height: 80%;
+        padding: 1rem 0;
       }
 
       @include mobile {
         height: auto;
-        padding: 1rem 0;
       }
     }
   }
