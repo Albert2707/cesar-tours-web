@@ -1,7 +1,7 @@
 import "./Contact.scss";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import useTranslate from "../../hooks/Translate";
+import useTranslate from "../../hooks/translations/Translate";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useForm,
@@ -9,10 +9,10 @@ import {
   Controller,
   FieldErrors,
 } from "react-hook-form";
-import { EmailService } from "../../services/emailService";
+import { EmailService } from "../../services/email/emailService";
 import { render } from "@react-email/render";
 import Email from "../email/Email";
-import { EmailProps } from "../../models/Email";
+import { EmailProps } from "../../models/email/Email";
 type Inputs = {
   name: string;
   message: string;

@@ -1,6 +1,6 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { FC, useEffect, useState } from "react";
-import useTranslate from "../../../../hooks/Translate";
+import useTranslate from "../../../../hooks/translations/Translate";
 import { useIdiom } from "../../../../context/idiomContext";
 import { IdiomTypes } from "../../../../context/idiomTypes";
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import useTranslate from "../../../../hooks/Translate";
+import useTranslate from "../../../../hooks/translations/Translate";
 // import { Geo } from "./models/reviewCardType";
 // interface Geo{
 //   lat: number

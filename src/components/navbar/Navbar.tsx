@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useIdiom } from "../../context/idiomContext";
 import { IdiomTypes } from "../../context/idiomTypes";
-import useTranslate from "../../hooks/Translate";
+import useTranslate from "../../hooks/translations/Translate";
 import MobileMenu from "./components/mobileMenu/MobileMenu";
 import "./Navbar.scss";
 import { AnimatePresence } from "framer-motion";
@@ -75,7 +75,7 @@ const Navbar = () => {
                       borderColor: "#f2f2f2",
                     },
                   }),
-                  menuPortal: (base) => ({ ...base, zIndex: 9999 }) ,
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                   menu: (baseStyles) => ({
                     ...baseStyles,
                     borderRadius: "10px",
@@ -154,6 +154,85 @@ const Navbar = () => {
             </li> */}
           </ul>
           <div className="mobile-menu">
+            <Select
+              options={options}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  backgroundColor: "transparent",
+                  borderRadius: "10px",
+                  height: "40px",
+                  display: "flex",
+                  width: "100px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "12px",
+                  borderColor: "gray",
+                  boxShadow: "none",
+                  "&:hover": {
+                    borderColor: "#f2f2f2",
+                  },
+                }),
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                menu: (baseStyles) => ({
+                  ...baseStyles,
+                  borderRadius: "10px",
+                  fontSize: "12px",
+                  backgroundColor: "#f2f2f2",
+                  fontWeight: 600,
+                  // zIndex: 9999, // Asegura que el menú esté al frente
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isFocused
+                    ? "rgba(242, 75, 15, 0.1)"
+                    : "transparent",
+                  color: state.isFocused ? "orange" : "inherit",
+                  "&:active": {
+                    backgroundColor: "rgba(242, 75, 15, 0.1)",
+                  },
+                }),
+                indicatorSeparator: (styles) => ({
+                  ...styles,
+                  display: "none",
+                }),
+                dropdownIndicator: (styles) => ({
+                  ...styles,
+                  display: "none",
+                }),
+                valueContainer: (baseStyles) => ({
+                  ...baseStyles,
+                  padding: "0",
+                  margin: "0 8px",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  margin: "0",
+                  color: "#f2f2f2",
+                  paddingLeft: "0",
+                }),
+              }}
+              formatOptionLabel={(option) => (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <span>{option.label}</span>
+                </div>
+              )}
+              placeholder={translate("travelType")}
+              isSearchable={false}
+              value={options.find((option) => option.value === idiom)}
+              closeMenuOnScroll={true}
+              menuPortalTarget={document.body}
+              menuPlacement="auto"
+              menuPosition="fixed"
+              onChange={(e) => setLanguage(e?.value as "es" | "en")}
+            />
             <button arial-label="menu-button" onClick={toggleMenu}>
               {isOpen ? (
                 <svg

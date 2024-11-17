@@ -1,5 +1,5 @@
 import "./Experience.scss"
-import useTranslate from '../../hooks/Translate';
+import useTranslate from '../../hooks/translations/Translate';
 const Experience = () => {
     const { translate } = useTranslate();
     return (

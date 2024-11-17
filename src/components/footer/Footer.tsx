@@ -1,4 +1,4 @@
-import useTranslate from "../../hooks/Translate";
+import useTranslate from "../../hooks/translations/Translate";
 import "./Footer.scss";
 const Footer = () => {
   const { translate } = useTranslate();
