@@ -1,8 +1,8 @@
 import { useState } from "react";
-import useTranslate from "../../hooks/Translate";
+import useTranslate from "../../hooks/translations/Translate";
 import "./Booking.scss";
 import Select from "react-select";
-import { generateTimeOptions } from "../../utils/functions";
+import { generateTimeOptions } from "../../utils/functions/functions";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
@@ -14,6 +14,7 @@ import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import { useIdiom } from "../../context/idiomContext";
 import { IdiomTypes } from "../../context/idiomTypes";
+import { useBookingStore } from "../../hooks/booking/useBookingStore";
 // import { Geo } from "../../models/reviewCardType";
 
 // const debounce = (func, delay) => {
@@ -28,11 +29,16 @@ import { IdiomTypes } from "../../context/idiomTypes";
 // const { VITE_GOOGLE_API_KEY } = import.meta.env;
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
-interface Inputs {
-  trip_type?: number;
-  passengerNo?: number;
-  bagsNo?: number;
-  hour?:string
+// interface Inputs {
+//   trip_type?: number;
+//   passengerNo?: number;
+//   bagsNo?: number;
+//   hour?: string;
+// }
+
+interface TripType {
+  value: number;
+  label: string;
 }
 
 const Booking = () => {
@@ -41,9 +47,8 @@ const Booking = () => {
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
   const [originAddress, setOriginAddress] = useState<any>(null);
-  const [values, setValues] = useState<Inputs>({ passengerNo: 1, bagsNo: 0 });
+  const { passengerNo,departureDate,departureHour, bagsNo, trip_type, setDepartureHour,setTripType,setDepartureDate,setNoPassenger,setBagsNo} = useBookingStore();
   const [destinationAddress, setDestinationAddress] = useState<any>(null);
   const hours = generateTimeOptions();
   const noPassengers = [];
@@ -58,7 +63,7 @@ const Booking = () => {
   //   useState<google.maps.places.PlaceResult | null>(null);
   // const [destinationPlace, setDestinationPlace] =
   //   useState<google.maps.places.PlaceResult | null>(null);
-  const tripType = [
+  const tripType: TripType[] = [
     { value: 1, label: translate("one_way") },
     { value: 2, label: translate("round_trip") },
   ];
@@ -127,13 +132,12 @@ const Booking = () => {
                         isOrigin={false}
                       />
                     </div>
+                    {/* Trip type/ tipo de viaje */}
                     <div className="form-item">
                       <label htmlFor="tripType">{translate("trip_type")}</label>
                       <Select
                         options={tripType}
-                        value={tripType.find(
-                          (e) => e.value === values.trip_type
-                        )}
+                        value={tripType.find((e) => e.value === trip_type)}
                         styles={{
                           control: (baseStyles) => ({
                             ...baseStyles,
@@ -188,13 +192,13 @@ const Booking = () => {
                         }}
                         placeholder={translate("travelType")}
                         onChange={(e) => {
-                          setValues((prev) => {
-                            return { ...prev, trip_type: e?.value };
-                          });
+                          const { value } = e as TripType;
+                          setTripType(value);
                         }}
                         isSearchable={false}
                       />
                     </div>
+                    {/*baggageNo, passengerNo*/}
                     <div className="form-item">
                       <div className="more-info">
                         <div className="passengerNo">
@@ -204,7 +208,7 @@ const Booking = () => {
                           <Select
                             options={noPassengers}
                             value={noPassengers.find(
-                              (e) => e.value === values.passengerNo
+                              (e) => e.value === passengerNo
                             )}
                             styles={{
                               control: (baseStyles) => ({
@@ -260,9 +264,8 @@ const Booking = () => {
                             }}
                             placeholder={translate("travelType")}
                             onChange={(e) => {
-                              setValues((prev) => {
-                                return { ...prev, passengerNo: e?.value };
-                              });
+                              const {value} = e as {value:number}
+                              setNoPassenger(value)
                             }}
                             menuPortalTarget={document.body}
                             menuPlacement="auto"
@@ -277,7 +280,7 @@ const Booking = () => {
                           <Select
                             options={noBags}
                             value={noBags.find(
-                              (e) => e.value === values.bagsNo
+                              (e) => e.value ===bagsNo
                             )}
                             styles={{
                               control: (baseStyles) => ({
@@ -333,9 +336,8 @@ const Booking = () => {
                             }}
                             placeholder={translate("travelType")}
                             onChange={(e) => {
-                              setValues((prev) => {
-                                return { ...prev, passengerNo: e?.value };
-                              });
+                              const {value} = e as {value:number}
+                              setBagsNo(value)
                             }}
                             menuPortalTarget={document.body}
                             menuPlacement="auto"
@@ -345,21 +347,28 @@ const Booking = () => {
                         </div>
                       </div>
                     </div>
+                    {/* Departure date/ fecha de salida */}
                     <div className="form-item">
                       <label htmlFor="outDate">
                         {translate("departure_date")}
                       </label>
-                      <DatePicker className="datePicker" selected={startDate} onChange={(date) => setStartDate(date as Date)} locale={idiom}
-                        dateFormat={idiom=== "es"?"dd/MM/yyyy":"MM/dd/yyy"} /> 
+                      <DatePicker
+                        className="datePicker"
+                        selected={departureDate}
+                        onChange={(date) => setDepartureDate(date as Date)}
+                        locale={idiom}
+                        dateFormat={idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"}
+                      />
                       {/* <input type="date" id="outDate" /> */}
                     </div>
+                    {/* Departure hour / hora de partida */}
                     <div className="form-item">
                       <label htmlFor="outHour">
                         {translate("departure_time")}
                       </label>
                       <Select
                         options={hours}
-                        value={hours.find((e) => e.value === values.hour)}
+                        value={hours.find((e) => e.value === departureHour)}
                         styles={{
                           control: (baseStyles) => ({
                             ...baseStyles,
@@ -418,9 +427,8 @@ const Booking = () => {
                           }),
                         }}
                         onChange={(e) => {
-                          setValues((prev) => {
-                            return { ...prev, hour:e?.value };
-                          });
+                          const {value} = e as {value:string}
+                          setDepartureHour(value)
                         }}
                         placeholder={translate("time")}
                         isSearchable={false}
@@ -466,10 +474,14 @@ const Booking = () => {
                       arial-label="clear"
                       className="btn-selectec-vehicle"
                       onClick={() => {
-                        if (!values.trip_type)
+                        if (!trip_type)
                           return toast.error("Seleccione un tipo de viaje");
-                        if (!values.passengerNo) return toast.error("Seleccione un número de pasajeros");
-                        if (!values.hour) return toast.error("Seleccione una hora");
+                        if (!passengerNo)
+                          return toast.error(
+                            "Seleccione un número de pasajeros"
+                          );
+                        if (!departureHour)
+                          return toast.error("Seleccione una hora");
                         // if(!values.bagsNo) return toast.error("Seleccione un número de bolsas");
                         // if(!originAddress) return toast.error("Debe completar todos los campos")
                         // if(!destinationAddress) return toast.error("Debe completar todos los campos")

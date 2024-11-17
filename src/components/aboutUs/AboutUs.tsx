@@ -1,4 +1,4 @@
-import useTranslate from "../../hooks/Translate";
+import useTranslate from "../../hooks/translations/Translate";
 import "./AboutUs.scss";
 
 const AboutUs = () => {
