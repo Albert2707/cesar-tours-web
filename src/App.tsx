@@ -1,15 +1,45 @@
-import { lazy, useEffect } from "react";
-const HeroSection = lazy(() => import("./components/heroSection/HeroSection"))
-const Booking = lazy(() => import("./components/booking/Booking"))
-const Experience = lazy(() => import("./components/experience/Experience"))
-const Reviews = lazy(() => import("./components/reviews/Reviews"))
-const Navbar = lazy(() => import("./components/navbar/Navbar"))
-const AboutUs = lazy(() => import("./components/aboutUs/AboutUs"))
-const Contact = lazy(() => import("./components/contact/Contact"))
-const Footer = lazy(() => import("./components/footer/Footer"))
-import { FloatingWhatsApp } from 'react-floating-whatsapp'
+import {Suspense, useEffect } from "react";
+
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import Home from "./pages/home/Home";
+import NotFound from "./pages/notFound/NotFound";
+import FallBack from "./pages/fallBack/FallBack";
+import Checkout from "./pages/checkout/Checkout";
+import Navbar from "./components/navbar/Navbar";
 function App() {
 
+  const Layout = () => {
+    return (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    )
+  }
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <Home />
+        },
+        {
+          path: '/checkout',
+          element: <Checkout />
+        }
+      ]
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    }
+  ]);
   useEffect(() => {
     const { hash } = window.location;
     if (hash) history.replaceState(null, "", window.location.pathname);
@@ -17,17 +47,9 @@ function App() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <HeroSection/>
-      <Reviews/>
-      <Booking />
-      <Experience/>
-      <AboutUs/>
-      <Contact/>
-      <Footer/>
-      <FloatingWhatsApp phoneNumber="+18098541810" accountName="Albert Joan" chatMessage="Hola ¿Como podemos ayudarte?"  placeholder="Reserva ya" avatar="" buttonStyle={{animation:"none", animationDuration:"0", transition:"none", transform:"none"}}/>
-    </>
+    <Suspense fallback={<FallBack />}>
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }
 
