@@ -114,6 +114,9 @@
         font-size: 12px;
       }
     }
+    @include mobile{
+    height: 400px;
+    }
   }
 
   .vehicle-list {
@@ -267,6 +270,9 @@
       @include mobile {
         flex-direction: column;
       }
+    }
+    @include mobile {
+      height: 100%;
     }
   }
 
