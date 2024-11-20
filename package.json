@@ -30,6 +30,7 @@
     "react-hot-toast": "^2.4.1",
     "react-international-phone": "^4.3.0",
     "react-query": "^3.39.3",
+    "react-router-dom": "^6.28.0",
     "react-select": "^5.8.2",
     "resend": "4.0.1-alpha.0",
     "sass": "^1.80.6",
