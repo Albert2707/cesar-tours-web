@@ -12,7 +12,7 @@ const HeroSection = () => {
   const { translate } = useTranslate();
   return (
     <section className="hero-section" id="home">
-      <motion.div className="wrapper" ref={wrapperRef} style={{ y }}>
+      <motion.div initial={{ opacity: 0, x: -100 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.3 }} className="wrapper" ref={wrapperRef} style={{ y }}>
         <h3>{translate("yourDestinationIsOurDestination")} </h3>
         <h1>{translate("cesarDestination")}</h1>
         <p>{translate("travelFastAndSafe")}</p>

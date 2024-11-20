@@ -58,13 +58,6 @@ const Experience = () => {
                             alt="" loading="lazy"
                         />
                     </div>
-                    {/* <div className="picture">
-
-                        <img
-                            src="https://images.pexels.com/photos/7089997/pexels-photo-7089997.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                            alt="" loading="lazy"
-                        />
-                    </div> */}
                 </div>
                 <h1>
                     {translate("some_videos")}
@@ -72,13 +65,13 @@ const Experience = () => {
                 <div className="experience-videos">
                     <div className="video">
 
-                        <video controls autoPlay muted loop>
+                        <video controls={false} autoPlay muted loop>
                             <source src="videos/video1.mp4" type="video/mp4" />
                         </video>
                     </div>
                     <div className="video">
 
-                        <video controls autoPlay muted loop>
+                        <video controls={false} autoPlay muted loop>
                             <source src="videos/video2.mp4" type="video/mp4" />
                         </video>
                     </div>

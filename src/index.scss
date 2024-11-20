@@ -3,8 +3,6 @@
 $primary-bg-color: #333740;
 
 @mixin responsive-container {
-  // width: 100%;
-  // margin: 0 auto; // Centra el contenedor automáticamente
 
   @media (min-width: 640px) {
     max-width: 640px;

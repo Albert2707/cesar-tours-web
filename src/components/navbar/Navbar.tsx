@@ -6,6 +6,7 @@ import MobileMenu from "./components/mobileMenu/MobileMenu";
 import "./Navbar.scss";
 import { AnimatePresence } from "framer-motion";
 import Select from "react-select";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { setLanguage, idiom } = useIdiom() as IdiomTypes;
@@ -44,7 +45,8 @@ const Navbar = () => {
         <div className="links">
           <ul className="link-list">
             <li>
-              <a href="#home">{translate("home")}</a>
+              <NavLink to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>{translate("home")}</NavLink>
+              {/* <a href="#home">{translate("home")}</a> */}
             </li>
             <li>
               <a href="#booking">{translate("reservations")}</a>
