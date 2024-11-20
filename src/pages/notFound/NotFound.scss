@@ -1,0 +1,86 @@
+@use "../../index.scss" as *;
+
+.not-found {
+    height: 100vh;
+    display: flex;
+    background-color: $primary-bg-color;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    gap: 20px;
+
+    .left {
+        img {
+            width: 250px;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    .line {
+        height: 150px;
+        width: 1px;
+        background-color: gray;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+
+        .title {
+            color: #f2f2f2;
+            font-weight: bold;
+            text-align: center;
+            font-size: calc(1.5vw + 1.2rem);
+            @include mobile{
+                font-size:60px
+               
+            }
+        }
+
+        button {
+            width: 100px;
+            height: 40px;
+            background-color: transparent;
+            border-radius: 50px;
+            border: 1px solid #f24b0f;
+            display: flex;
+            cursor: pointer;
+            justify-content: center;
+            color: #f2f2f2;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+
+            svg {
+                width: 15px;
+                height: 15px;
+                transition: all 0.3s ease-in-out;
+                stroke-width: 2;
+            }
+
+            span {
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            &:hover {
+                background: #f2f2f2;
+                color: $primary-bg-color;
+                border-color: transparent;
+
+                svg {
+                    transform: translateX(-5px);
+                }
+            }
+        }
+    }
+}
