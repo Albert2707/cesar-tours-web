@@ -5,14 +5,14 @@ type Inputs = {
   passengerNo?: number;
   bagsNo?: number;
   departureHour?: string;
-  departureDate?: Date;
+  departureDate: Date;
 };
 
 const values:Inputs ={
     passengerNo: 1,
     bagsNo: 0,
     trip_type: 1, 
-    departureDate: new Date()
+    departureDate: new Date(),
 }
 type Actions = {
   setTripType: (trip_type: number) => void;
