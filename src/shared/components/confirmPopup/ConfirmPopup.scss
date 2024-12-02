@@ -1,0 +1,68 @@
+@use "../../../index.scss" as *;
+
+.confirm-popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container {
+        background-color: #f2f2f2;
+        width: 400px;
+        height: 150px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        justify-content: space-between;
+
+        .mesagge {
+            font-size: 24px;
+            color: #222;
+            font-weight: 600;
+        }
+        .sub-message {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+             justify-content: flex-end;
+
+            button {
+                width: 100px;
+                height: 40px;
+                // background-color: transparent;
+                border-radius: 50px;
+                // border: 1px solid #f24b0f;
+                display: flex;
+                border: none;
+                cursor: pointer;
+                justify-content: center;
+                color: #f2f2f2;
+                align-items: center;
+                transition: all 0.3s ease-in-out;
+                position: relative;
+                font-weight: 600;
+
+                &:hover {
+                    transform: translateY(-2px)
+                }
+            }
+
+            button:nth-child(1) {
+                // background-color: $primary-bg-color;
+                background-color: #222;
+            }
+            button:nth-child(2) {
+                color:$primary-bg-color;
+                background-color: #d3d3d3;
+            }
+        }
+    }
+}
