@@ -20,17 +20,15 @@ const Orders = () => {
   });
 
   const orderStatus = (status: number): { name: string; class: string } => {
-    let order = { name: "", class: "" };
     if (status === 0) {
-      order = { name: "Agendada", class: "pending" };
+      return{ name: "Agendada", class: "pending" };
     } else if (status === 1) {
-      order = { name: "En proceso", class: "in-progress" };
+      return { name: "En proceso", class: "in-progress" };
     } else if (status === 2) {
-      order = { name: "Completada", class: "completed" };
+      return{ name: "Completada", class: "completed" };
     } else {
-      order = { name: "Cancelada", class: "cancelled" };
+      return { name: "Cancelada", class: "cancelled" };
     }
-    return order;
   };
 
   const order = () => {
