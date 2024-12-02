@@ -17,7 +17,6 @@ interface Props {
 
 export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
   const [placeAutocomplete, setPlaceAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-  const [inputValue, setInputValue] = useState(""); // Para almacenar el valor del input
   const inputRef = useRef<HTMLInputElement>(null);
   const places = useMapsLibrary("places");
   const {translate} = useTranslate();
@@ -64,7 +63,6 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
       <input
         ref={inputRef}
         placeholder={isOrigin ? translate("origin"): translate("destination")}
-        onChange={(e) => setInputValue(e.target.value)}
       />
     </>
   );
