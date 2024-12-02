@@ -1,0 +1,109 @@
+@use "../../index.scss" as *;
+
+.orders {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    .filter {
+        align-self: flex-start;
+        display: flex;
+        gap: 5px;
+    }
+
+    .table {
+        width: 100%;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        height: 450px;
+        background-color: #f9f9f9;
+
+        .tbl-header,
+        .tbl-body-row {
+            display: grid;
+            width: 100%;
+            grid-template-columns: repeat(8, 1fr); // Misma estructura de columnas
+            align-items: center;
+        }
+
+        .tbl-header {
+            font-weight: bold;
+
+            .cell {
+                padding: 15px;
+                width: 100px;
+                text-align: center;
+
+                &:nth-child(5),
+                &:nth-child(6) {
+                    width: 150px;
+                }
+            }
+        }
+
+        .tbl-body {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            .tbl-body-row {
+                border-bottom: 1px solid #e0e0e0;
+                padding: 10px 0;
+
+                &:last-child {
+                    border-color: transparent
+                }
+
+                .cell {
+                    padding: 10px 15px;
+                    width: 100px;
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: center;
+
+                    &:nth-child(5),
+                    &:nth-child(6) {
+                        width: 150px;
+                    }
+                }
+                .cell.pending {
+                    background-color: #faefe6; /* Color de fondo para pendiente */
+                    color: #d97706; /* Color del texto para pendiente */
+                }
+                
+                .cell.in-progress {
+                    background-color: #fff3cd; /* Color de fondo para en proceso */
+                    color: #f59e0b; /* Color del texto para en proceso */
+                }
+                
+                .cell.completed {
+                    background-color: #eef7f1; /* Color de fondo para completada */
+                    color: #47a967; /* Color del texto para completada */
+                }
+                
+                .cell.cancelled {
+                    background-color: #f8d7da; /* Color de fondo para cancelada */
+                    color: #dc3545; /* Color del texto para cancelada */
+                }
+            }
+        }
+    }
+    .pagination{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        .page-numbers{
+            width: 30px;
+            display: flex;
+            gap: 5px;
+        }
+    }
+}
