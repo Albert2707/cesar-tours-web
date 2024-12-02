@@ -64,7 +64,6 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
     }
   }, [routeIndex, directionsRenderer, routes.length]);
 
-  // if (!leg) return null;
 
   return (
     <div className="location-info">

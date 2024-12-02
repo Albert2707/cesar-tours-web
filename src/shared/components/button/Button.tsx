@@ -13,8 +13,6 @@ const Button: FC<Props> = ({children, properties: { type,onClickfn } }) => {
     return (
         <button className={`btn-${type}`} onClick={onClickfn}>
 {children}
-
-            {/* {text} */}
         </button>
     )
 }

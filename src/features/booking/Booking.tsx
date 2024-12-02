@@ -294,8 +294,6 @@ const Booking = () => {
                         <Marker
                           position={destinationAddress}
                           clickable={true}
-                          // onClick={() => alert("marker was clicked!")}
-                          // title={"clickable google.maps.Marker"}
                         />
                       )}
                     </Map>
@@ -316,9 +314,6 @@ const Booking = () => {
                           );
                         if (!departureHour)
                           return toast.error("Seleccione una hora");
-                        // if(!values.bagsNo) return toast.error("Seleccione un número de bolsas");
-                        // if(!originAddress) return toast.error("Debe completar todos los campos")
-                        // if(!destinationAddress) return toast.error("Debe completar todos los campos")
                         setStep(2);
                       }}
                     >
