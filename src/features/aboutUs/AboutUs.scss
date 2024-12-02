@@ -116,34 +116,19 @@
   .aboutUs-section {
     height: 90vh;
 
-    // padding:2rem;
     .wrapper {
       flex-wrap: unset;
       flex-direction: column;
-      // height: 80%;
       gap: 80px;
 
-      // height: auto;
       .card-aboutUs {
         .card-header {
-          // .header {
-          //   height: 70px;
-          //   width: 70px;
-
-          //   svg {
-          //     height: 25px;
-          //     width: 25px;
-          //     stroke-width: 2;
-          //   }
-          // }
-
           h3 {
             font-size: 14px;
           }
         }
 
         .card-body {
-          // hei
           top: 45%;
 
           P {
@@ -163,10 +148,8 @@
     .wrapper {
       flex-wrap: unset;
       flex-direction: column;
-      // height: 80%;
       gap: 60px;
 
-      // height: auto;
       .card-aboutUs {
         height: 200px;
 
@@ -187,7 +170,6 @@
         }
 
         .card-body {
-          // hei
           top: 35%;
 
           P {
