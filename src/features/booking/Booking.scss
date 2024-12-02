@@ -1,0 +1,403 @@
+@use "../../index.scss" as *;
+
+.booking {
+  background: $primary-bg-color;
+  display: flex;
+  justify-content: center;
+  scroll-margin-top: 80px;
+  align-items: center;
+  padding: 2rem !important;
+  min-height: calc(100vh - 112px);
+  max-height: fit-content !important;
+  height: auto;
+  overflow: hidden;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      justify-self: center;
+      color: #f2f2f2;
+      font-size: calc(1.3vw + 1rem);
+
+      @include mobile {
+        text-align: center;
+      }
+    }
+
+    .booking-container {
+      background-color: #f2f2f2;
+      box-sizing: border-box;
+      width: 100%;
+      overflow: hidden;
+      height: 700px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .steps {
+        display: flex;
+        width: 100%;
+        height: 10%;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+
+        .step {
+          width: 39px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(51, 55, 64, 0.2);
+          border-radius: 56px;
+          height: 39px;
+          font-weight: 600;
+          flex-shrink: 0;
+          transition-delay: 0.5s;
+          transition: all 0.5s ease-in-out;
+        }
+
+        .step.done {
+          background-color: #22a2f2;
+          font-weight: 600;
+          color: #fff;
+        }
+
+        .steps-progress {
+          height: 6px;
+          width: 300px;
+          overflow: hidden;
+          border-radius: 30px;
+          background-color: rgba(51, 55, 64, 0.2);
+
+          .progress {
+            transition: all 1s ease-in-out;
+            height: 100%;
+            width: 100%;
+            background-color: #22a2f2;
+            border-radius: 30px;
+            transform-origin: 0%;
+            transform: scaleX(0);
+          }
+
+          .progress.done {
+            transform: scaleX(1);
+          }
+
+          @include tablet {
+            width: 200px;
+          }
+
+          @include mobile {
+            width: 100px;
+          }
+
+          @media (max-width: 390px) {
+            width: 20%;
+          }
+        }
+
+        @media (max-width: 390px) {
+          padding: 0 1rem;
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        height: 90%;
+        padding: 1rem;
+        align-items: center;
+        width: 90%;
+
+        .left {
+          flex: 1;
+          height: 100%;
+          display: flex;
+          width: 100%;
+          justify-content: center;
+
+          .booking-form {
+            display: flex;
+            width: 80%;
+            padding: 0 1rem;
+            gap: 20px;
+            flex-direction: column;
+
+            .form-item {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+
+              .datePicker {
+                width: 95%;
+
+                h2 {
+                  color: black;
+                }
+              }
+
+              input {
+                border-radius: 10px;
+                padding: 5px 10px;
+                border: 1px solid rgba(51, 55, 64, 0.3);
+                background: transparent;
+                height: 35px;
+                outline: transparent;
+                caret-color: #22a2f2;
+                appearance: none;
+              }
+
+              .more-info {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                gap: 10px;
+
+                .passengerNo,
+                .baggageNo {
+                  width: 50%;
+                  display: flex;
+                  flex-direction: column;
+                }
+
+                // .passengerNo {
+                //   input {
+                //     border-radius: 10px;
+                //     background-color: red;;
+                //   }
+                // }
+
+                // .baggageNo {
+                //   input {
+                //     border-radius: 0 10px 10px 0;
+                //   }
+                // }
+              }
+            }
+
+            .departure-date {
+              display: flex;
+              justify-content: space-between;
+              // gap: 20px;
+              width: 100%;
+
+              .departure-datePicker,
+              .departure-hour {
+                display: flex;
+                flex-direction: column;
+
+                input {
+                  border-radius: 10px;
+                  padding: 5px 10px;
+                  border: 1px solid rgba(51, 55, 64, 0.3);
+                  background: transparent;
+                  height: 35px;
+                  outline: transparent;
+                  caret-color: #22a2f2;
+                  appearance: none;
+                }
+              }
+
+              .departure-datePicker {
+                flex: 4;
+                width: 100%;
+                overflow: hidden;
+
+                .datePicker {
+                  width: 91%;
+
+                  h2 {
+                    color: black;
+                  }
+                }
+              }
+
+              .departure-hour {
+                flex: 2;
+              }
+            }
+
+          }
+        }
+
+        .right {
+          flex: 1;
+          width: 100%;
+          height: 100%;
+
+          .map {
+            height: 85%;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+
+            .location-info {
+              display: flex;
+              width: 100%;
+
+              div {
+                padding: 12px;
+              }
+
+              .distance {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                border-radius: 0px 0px 0px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                background: #f2f2f2;
+
+                span {
+                  @include tablet {
+                    font-size: calc(0.2vw + 0.8rem);
+                  }
+                }
+
+                @include mobile {
+                  width: auto;
+                  border-radius: unset;
+                }
+              }
+
+              .time {
+                gap: 5px;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                border-radius: 0px 0px 10px 0px;
+                border: 1px solid rgba(51, 55, 64, 0.2);
+                background: #f2f2f2;
+
+                span {
+                  @include tablet {
+                    font-size: calc(0.2vw + 0.8rem);
+                  }
+                }
+
+                @include mobile {
+                  width: auto;
+                  border-radius: 0px 0px 10px 10px;
+                }
+              }
+
+              @include mobile {
+                flex-direction: column;
+              }
+            }
+
+            .btn-selectec-vehicle {
+              border: 1px solid transparent;
+              background-color: transparent;
+              color: #030136;
+              margin: 5px 3px;
+              width: 200px;
+              height: 40px;
+              align-self: flex-end;
+              margin-top: 10px;
+              position: relative;
+              text-align: center;
+              font-size: 14px;
+              cursor: pointer;
+              font-weight: 700;
+              flex-shrink: 0;
+              border-radius: 50px;
+              transition: all 0.3s ease-in-out;
+
+              &::before {
+                content: "";
+                border: 1px solid #f24b0f;
+                height: 40px;
+                width: 25px;
+                border-radius: 50px;
+                top: -2px;
+                left: -2px;
+                position: absolute;
+                transition: all 0.3s ease-in-out;
+              }
+
+              &:hover::before {
+                width: 200px;
+              }
+
+              &:active::before {
+                scale: 0.875;
+              }
+
+              &:active {
+                scale: 0.975;
+              }
+
+              @include tablet {
+                align-self: center;
+                width: 100%;
+                margin-bottom: 4px;
+                border: 1px solid #f24b0f;
+
+                &::before {
+                  display: none;
+                }
+              }
+
+              @include mobile {
+                margin-bottom: unset;
+              }
+            }
+
+            @include tablet {
+              margin: 0 auto;
+              height: 500px;
+            }
+          }
+
+          @include tablet {
+            padding: 0 1rem 0 0;
+          }
+
+          @include mobile {
+            padding: 0 1rem;
+          }
+        }
+
+        @include mobile {
+          flex-direction: column;
+          gap: 20px;
+          align-items: center;
+        }
+      }
+
+      @include tablet {
+        height: 80%;
+        padding: 1rem 0;
+      }
+
+      @include mobile {
+        height: auto;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .booking {
+    height: auto;
+    max-height: fit-content;
+
+    .wrapper {
+      .booking-container {
+        height: 100%;
+      }
+    }
+  }
+}
