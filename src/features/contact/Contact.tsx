@@ -157,7 +157,7 @@ const Contact = () => {
                 className={errors.message ? "invalid" : ""}
               />
             </div>
-            <button className="message-button" arial-label="send message">
+            <button className="message-button" aria-label="send message">
               {translate("send_message")}
             </button>
           </form>
