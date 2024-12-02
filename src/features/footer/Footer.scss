@@ -54,7 +54,6 @@
                 font-size: 14px;
                 overflow-wrap: break-word;
                 width: 200px;
-                // background-color: red;
                 @include mobile {
                   text-align: center;
                 }
@@ -132,6 +131,5 @@
 
   @include mobile {
     height: auto;
-    // padding: 2rem 1rem 2rem 1rem;
   }
 }
