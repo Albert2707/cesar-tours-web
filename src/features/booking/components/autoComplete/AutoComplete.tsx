@@ -59,11 +59,9 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
   }, [onPlaceSelect, placeAutocomplete]);
 
   return (
-    <>
       <input
         ref={inputRef}
         placeholder={isOrigin ? translate("origin"): translate("destination")}
       />
-    </>
   );
 };
