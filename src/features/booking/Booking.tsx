@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useTranslate from "../../shared/hooks/translations/Translate";
 import "./Booking.scss";
-import Select from "react-select";
 import { generateTimeOptions } from "../../utils/functions/functions";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
@@ -15,10 +14,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useIdiom } from "../../context/idiomContext";
 import { IdiomTypes } from "../../context/idiomTypes";
 import { useBookingStore } from "../../shared/hooks/booking/useBookingStore";
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import SelectBooking from "../../shared/components/selectBooking/SelectBooking";
+
 // const { VITE_GOOGLE_API_KEY } = import.meta.env;
 const center = { lat: 18.6652932, lng: -71.4493516 };
-
 
 interface TripType {
   value: number;
@@ -32,7 +32,18 @@ const Booking = () => {
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
   const [originAddress, setOriginAddress] = useState<any>(null);
-  const { passengerNo, departureDate, departureHour, bagsNo, trip_type, setDepartureHour, setTripType, setDepartureDate, setNoPassenger, setBagsNo } = useBookingStore();
+  const {
+    passengerNo,
+    departureDate,
+    departureHour,
+    bagsNo,
+    trip_type,
+    setDepartureHour,
+    setTripType,
+    setDepartureDate,
+    setNoPassenger,
+    setBagsNo,
+  } = useBookingStore();
   const [destinationAddress, setDestinationAddress] = useState<any>(null);
   const hours = generateTimeOptions();
   const noPassengers = [];
@@ -56,8 +67,10 @@ const Booking = () => {
       });
     }
   };
-  
-  const handleDestinationSelect = (place: google.maps.places.PlaceResult | null) => {
+
+  const handleDestinationSelect = (
+    place: google.maps.places.PlaceResult | null
+  ) => {
     if (place) {
       setDestinationAddress({
         lat: place.geometry?.location?.lat(),
@@ -67,9 +80,9 @@ const Booking = () => {
   };
   const handlePlaceSelect = (
     place: google.maps.places.PlaceResult | null,
-    type: 'origin' | 'destination'
+    type: "origin" | "destination"
   ) => {
-    if (type === 'origin') {
+    if (type === "origin") {
       handleOriginSelect(place);
     } else {
       handleDestinationSelect(place);
@@ -85,7 +98,9 @@ const Booking = () => {
             <div className="step done">1</div>
             <div className="steps-progress">
               <div
-                className={` progress ${step === 2 || step === 3 ? "done" : ""}`}
+                className={` progress ${
+                  step === 2 || step === 3 ? "done" : ""
+                }`}
               ></div>
             </div>
             <div className={` step ${step === 2 || step === 3 ? "done" : ""}`}>
@@ -100,7 +115,12 @@ const Booking = () => {
             <APIProvider apiKey={""}>
               <div className="container">
                 <div className="left">
-                  <motion.form initial={{ y: 0 }} animate={{ y: trip_type === 2 ? 0 : 15 }} action="" className="booking-form">
+                  <motion.form
+                    initial={{ y: 0 }}
+                    animate={{ y: trip_type === 2 ? 0 : 15 }}
+                    action=""
+                    className="booking-form"
+                  >
                     <div className="form-item">
                       <label htmlFor="address">
                         {translate("origin_address")}
@@ -126,67 +146,14 @@ const Booking = () => {
                     {/* Trip type/ tipo de viaje */}
                     <div className="form-item">
                       <label htmlFor="tripType">{translate("trip_type")}</label>
-                      <Select
+                      <SelectBooking
                         options={tripType}
-                        value={tripType.find((e) => e.value === trip_type)}
-                        styles={{
-                          control: (baseStyles) => ({
-                            ...baseStyles,
-                            backgroundColor: "transparent",
-                            borderRadius: "10px",
-                            display: "flex",
-                            height: "47px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            fontSize: "12px",
-                            borderColor: "rgba(51, 55, 64, 0.3)",
-                            boxShadow: "none", // Remueve o cambia el borde en foco
-                            "&:hover": {
-                              borderColor: "none", // Color del borde en hover
-                            },
-                          }),
-                          menu: (baseStyles) => ({
-                            ...baseStyles,
-                            borderRadius: "10px",
-                            fontSize: "12px",
-                            backgroundColor: "#f2f2f2",
-                            fontWeight: 600,
-                          }),
-                          option: (baseStyles, state) => ({
-                            ...baseStyles,
-                            backgroundColor: state.isFocused
-                              ? "rgba(242, 75, 15, 0.1);"
-                              : "transparent", // Cambia el color de fondo en hover
-                            color: state.isFocused ? "orange" : "inherit", // Cambia el color del texto en hover
-                            "&:active": {
-                              backgroundColor: "rgba(242, 75, 15, 0.1)", // Color de fondo al hacer clic
-                            },
-                          }),
-                          indicatorSeparator: (styles) => ({
-                            ...styles,
-                            display: "none",
-                          }),
-                          dropdownIndicator: (styles) => ({
-                            ...styles,
-                            display: "none",
-                          }),
-                          valueContainer: (baseStyles) => ({
-                            ...baseStyles,
-                            padding: "0", // Remueve padding para centralizar mejor el texto
-                            margin: "0 8px", // Ajusta el margen para que el texto esté centrado
-                          }),
-                          singleValue: (baseStyles) => ({
-                            ...baseStyles,
-                            margin: "0", // Remueve margen adicional si lo hay
-                            paddingLeft: "0", // Asegura que el texto esté centrado en el control
-                          }),
-                        }}
-                        placeholder={translate("travelType")}
+                        placeholder="travelType"
                         onChange={(e) => {
                           const { value } = e as TripType;
                           setTripType(value);
                         }}
-                        isSearchable={false}
+                        value={tripType.find((e) => e.value === trip_type)}
                       />
                     </div>
                     {/*baggageNo, passengerNo*/}
@@ -196,144 +163,30 @@ const Booking = () => {
                           <label htmlFor="passengerNo">
                             {translate("num_passengers")}
                           </label>
-                          <Select
+                          <SelectBooking
                             options={noPassengers}
+                            placeholder="travelType"
+                            onChange={(e) => {
+                              const { value } = e as { value: number };
+                              setNoPassenger(value);
+                            }}
                             value={noPassengers.find(
                               (e) => e.value === passengerNo
                             )}
-                            styles={{
-                              control: (baseStyles) => ({
-                                ...baseStyles,
-                                backgroundColor: "transparent",
-                                borderRadius: "10px",
-                                display: "flex",
-                                height: "47px",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                fontSize: "12px",
-                                borderColor: "rgba(51, 55, 64, 0.3)",
-                                boxShadow: "none", // Remueve o cambia el borde en foco
-                                "&:hover": {
-                                  borderColor: "none", // Color del borde en hover
-                                },
-                              }),
-                              menu: (baseStyles) => ({
-                                ...baseStyles,
-                                borderRadius: "10px",
-                                fontSize: "12px",
-                                backgroundColor: "#f2f2f2",
-                                fontWeight: 600,
-                              }),
-                              option: (baseStyles, state) => ({
-                                ...baseStyles,
-                                backgroundColor: state.isFocused
-                                  ? "rgba(242, 75, 15, 0.1);"
-                                  : "transparent", // Cambia el color de fondo en hover
-                                color: state.isFocused ? "orange" : "inherit", // Cambia el color del texto en hover
-                                "&:active": {
-                                  backgroundColor: "rgba(242, 75, 15, 0.1)", // Color de fondo al hacer clic
-                                },
-                              }),
-                              indicatorSeparator: (styles) => ({
-                                ...styles,
-                                display: "none",
-                              }),
-                              dropdownIndicator: (styles) => ({
-                                ...styles,
-                                display: "none",
-                              }),
-                              valueContainer: (baseStyles) => ({
-                                ...baseStyles,
-                                padding: "0", // Remueve padding para centralizar mejor el texto
-                                margin: "0 8px", // Ajusta el margen para que el texto esté centrado
-                              }),
-                              singleValue: (baseStyles) => ({
-                                ...baseStyles,
-                                margin: "0", // Remueve margen adicional si lo hay
-                                paddingLeft: "0", // Asegura que el texto esté centrado en el control
-                              }),
-                            }}
-                            placeholder={translate("travelType")}
-                            onChange={(e) => {
-                              const { value } = e as { value: number }
-                              setNoPassenger(value)
-                            }}
-                            menuPortalTarget={document.body}
-                            menuPlacement="auto"
-                            menuPosition="fixed"
-                            isSearchable={false}
                           />
                         </div>
                         <div className="baggageNo">
                           <label htmlFor="baggageNo">
                             {translate("num_bags")}
                           </label>
-                          <Select
+                          <SelectBooking
                             options={noBags}
-                            value={noBags.find(
-                              (e) => e.value === bagsNo
-                            )}
-                            styles={{
-                              control: (baseStyles) => ({
-                                ...baseStyles,
-                                backgroundColor: "transparent",
-                                borderRadius: " 10px",
-                                display: "flex",
-                                height: "47px",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                fontSize: "12px",
-                                borderColor: "rgba(51, 55, 64, 0.3)",
-                                boxShadow: "none", // Remueve o cambia el borde en foco
-                                "&:hover": {
-                                  borderColor: "none", // Color del borde en hover
-                                },
-                              }),
-                              menu: (baseStyles) => ({
-                                ...baseStyles,
-                                borderRadius: "10px",
-                                fontSize: "12px",
-                                backgroundColor: "#f2f2f2",
-                                fontWeight: 600,
-                              }),
-                              option: (baseStyles, state) => ({
-                                ...baseStyles,
-                                backgroundColor: state.isFocused
-                                  ? "rgba(242, 75, 15, 0.1);"
-                                  : "transparent", // Cambia el color de fondo en hover
-                                color: state.isFocused ? "orange" : "inherit", // Cambia el color del texto en hover
-                                "&:active": {
-                                  backgroundColor: "rgba(242, 75, 15, 0.1)", // Color de fondo al hacer clic
-                                },
-                              }),
-                              indicatorSeparator: (styles) => ({
-                                ...styles,
-                                display: "none",
-                              }),
-                              dropdownIndicator: (styles) => ({
-                                ...styles,
-                                display: "none",
-                              }),
-                              valueContainer: (baseStyles) => ({
-                                ...baseStyles,
-                                padding: "0", // Remueve padding para centralizar mejor el texto
-                                margin: "0 8px", // Ajusta el margen para que el texto esté centrado
-                              }),
-                              singleValue: (baseStyles) => ({
-                                ...baseStyles,
-                                margin: "0", // Remueve margen adicional si lo hay
-                                paddingLeft: "0", // Asegura que el texto esté centrado en el control
-                              }),
-                            }}
-                            placeholder={translate("travelType")}
+                            placeholder="travelType"
                             onChange={(e) => {
-                              const { value } = e as { value: number }
-                              setBagsNo(value)
+                              const { value } = e as { value: number };
+                              setBagsNo(value);
                             }}
-                            menuPortalTarget={document.body}
-                            menuPlacement="auto"
-                            menuPosition="fixed"
-                            isSearchable={false}
+                            value={noBags.find((e) => e.value === bagsNo)}
                           />
                         </div>
                       </div>
@@ -349,7 +202,9 @@ const Booking = () => {
                           selected={departureDate}
                           onChange={(date) => setDepartureDate(date as Date)}
                           locale={idiom}
-                          dateFormat={idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"}
+                          dateFormat={
+                            idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
+                          }
                         />
                         {/* <input type="date" id="outDate" /> */}
                       </div>
@@ -358,84 +213,26 @@ const Booking = () => {
                         <label htmlFor="outHour">
                           {translate("departure_time")}
                         </label>
-                        <Select
+                        <SelectBooking
                           options={hours}
-                          value={hours.find((e) => e.value === departureHour)}
-                          styles={{
-                            control: (baseStyles) => ({
-                              ...baseStyles,
-                              backgroundColor: "transparent",
-                              borderRadius: "10px",
-                              display: "flex",
-                              width: "100%",
-                              height: "47px",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: "12px",
-                              borderColor: "rgba(51, 55, 64, 0.3)",
-                              boxShadow: "none", // Remueve o cambia el borde en foco
-                              "&:hover": {
-                                borderColor: "none", // Color del borde en hover
-                              },
-                            }),
-                            // input: (baseStyles) => ({
-                            //   ...baseStyles,
-                            //   outline: "transparent",
-                            // }),
-                            menu: (baseStyles) => ({
-                              ...baseStyles,
-                              borderRadius: "10px",
-                              fontSize: "12px",
-                              zIndex: "999",
-                              backgroundColor: "#f2f2f2",
-                              fontWeight: 600,
-                            }),
-                            option: (baseStyles, state) => ({
-                              ...baseStyles,
-                              backgroundColor: state.isFocused
-                                ? "rgba(242, 75, 15, 0.1);"
-                                : "transparent", // Cambia el color de fondo en hover
-                              color: state.isFocused ? "orange" : "inherit", // Cambia el color del texto en hover
-                              "&:active": {
-                                backgroundColor: "rgba(242, 75, 15, 0.1)", // Color de fondo al hacer clic
-                              },
-                            }),
-                            indicatorSeparator: (styles) => ({
-                              ...styles,
-                              display: "none",
-                            }),
-                            dropdownIndicator: (styles) => ({
-                              ...styles,
-                              display: "none",
-                            }),
-                            valueContainer: (baseStyles) => ({
-                              ...baseStyles,
-                              padding: "0", // Remueve padding para centralizar mejor el texto
-                              margin: "0 8px", // Ajusta el margen para que el texto esté centrado
-                            }),
-                            singleValue: (baseStyles) => ({
-                              ...baseStyles,
-                              margin: "0", // Remueve margen adicional si lo hay
-                              paddingLeft: "0", // Asegura que el texto esté centrado en el control
-                            }),
-                          }}
+                          placeholder="time"
                           onChange={(e) => {
-                            const { value } = e as { value: string }
-                            setDepartureHour(value)
+                            const { value } = e as { value: string };
+                            setDepartureHour(value);
                           }}
-                          placeholder={translate("time")}
-                          isSearchable={false}
-                          menuPortalTarget={document.body}
-                          menuPlacement="auto"
-                          menuPosition="fixed"
+                          value={hours.find((e) => e.value === departureHour)}
                         />
                       </div>
                     </div>
                     <AnimatePresence>
                       {trip_type === 2 && (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
                           exit={{ opacity: 0 }}
-                          className="departure-date">
+                          className="departure-date"
+                        >
                           {/* Departure date/ fecha de salida */}
                           <div className="departure-datePicker">
                             <label htmlFor="outDate">
@@ -444,9 +241,13 @@ const Booking = () => {
                             <DatePicker
                               className="datePicker"
                               selected={departureDate}
-                              onChange={(date) => setDepartureDate(date as Date)}
+                              onChange={(date) =>
+                                setDepartureDate(date as Date)
+                              }
                               locale={idiom}
-                              dateFormat={idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"}
+                              dateFormat={
+                                idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
+                              }
                             />
                             {/* <input type="date" id="outDate" /> */}
                           </div>
@@ -455,76 +256,16 @@ const Booking = () => {
                             <label htmlFor="outHour">
                               {translate("Hora regreso")}
                             </label>
-                            <Select
+                            <SelectBooking
                               options={hours}
-                              value={hours.find((e) => e.value === departureHour)}
-                              styles={{
-                                control: (baseStyles) => ({
-                                  ...baseStyles,
-                                  backgroundColor: "transparent",
-                                  borderRadius: "10px",
-                                  display: "flex",
-                                  width: "100%",
-                                  height: "47px",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  fontSize: "12px",
-                                  borderColor: "rgba(51, 55, 64, 0.3)",
-                                  boxShadow: "none", // Remueve o cambia el borde en foco
-                                  "&:hover": {
-                                    borderColor: "none", // Color del borde en hover
-                                  },
-                                }),
-                                // input: (baseStyles) => ({
-                                //   ...baseStyles,
-                                //   outline: "transparent",
-                                // }),
-                                menu: (baseStyles) => ({
-                                  ...baseStyles,
-                                  borderRadius: "10px",
-                                  fontSize: "12px",
-                                  zIndex: "999",
-                                  backgroundColor: "#f2f2f2",
-                                  fontWeight: 600,
-                                }),
-                                option: (baseStyles, state) => ({
-                                  ...baseStyles,
-                                  backgroundColor: state.isFocused
-                                    ? "rgba(242, 75, 15, 0.1);"
-                                    : "transparent", // Cambia el color de fondo en hover
-                                  color: state.isFocused ? "orange" : "inherit", // Cambia el color del texto en hover
-                                  "&:active": {
-                                    backgroundColor: "rgba(242, 75, 15, 0.1)", // Color de fondo al hacer clic
-                                  },
-                                }),
-                                indicatorSeparator: (styles) => ({
-                                  ...styles,
-                                  display: "none",
-                                }),
-                                dropdownIndicator: (styles) => ({
-                                  ...styles,
-                                  display: "none",
-                                }),
-                                valueContainer: (baseStyles) => ({
-                                  ...baseStyles,
-                                  padding: "0", // Remueve padding para centralizar mejor el texto
-                                  margin: "0 8px", // Ajusta el margen para que el texto esté centrado
-                                }),
-                                singleValue: (baseStyles) => ({
-                                  ...baseStyles,
-                                  margin: "0", // Remueve margen adicional si lo hay
-                                  paddingLeft: "0", // Asegura que el texto esté centrado en el control
-                                }),
-                              }}
+                              placeholder="time"
                               onChange={(e) => {
-                                const { value } = e as { value: string }
-                                setDepartureHour(value)
+                                const { value } = e as { value: string };
+                                setDepartureHour(value);
                               }}
-                              placeholder={translate("time")}
-                              isSearchable={false}
-                              menuPortalTarget={document.body}
-                              menuPlacement="auto"
-                              menuPosition="fixed"
+                              value={hours.find(
+                                (e) => e.value === departureHour
+                              )}
                             />
                           </div>
                         </motion.div>
@@ -553,8 +294,8 @@ const Booking = () => {
                         <Marker
                           position={destinationAddress}
                           clickable={true}
-                        // onClick={() => alert("marker was clicked!")}
-                        // title={"clickable google.maps.Marker"}
+                          // onClick={() => alert("marker was clicked!")}
+                          // title={"clickable google.maps.Marker"}
                         />
                       )}
                     </Map>
@@ -616,5 +357,4 @@ const Booking = () => {
     </section>
   );
 };
-
 export default Booking;
