@@ -9,7 +9,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    // padding:10px;
     gap: 15px;
     flex-direction: column;
 
@@ -118,7 +117,6 @@
                 border-top: 2px solid #222;
                 border-radius: 999px;
                 animation: spin 1s linear infinite;
-                // margin-right: 5px;
 
             }
         }
@@ -146,7 +144,6 @@
             cursor: pointer;
 
             svg {
-                // color: #f2f2f2;
                 height: 20px;
                 width: 20px;
                 stroke-width: 2;
