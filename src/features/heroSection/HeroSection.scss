@@ -6,7 +6,6 @@
   overflow: hidden;
   align-items: center;
   height: calc(100vh - 112px);
-  // clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
   background:linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%),
   url("/images/hero.jpg") lightgray 50% / cover no-repeat;
   background-attachment: fixed;
@@ -31,7 +30,6 @@
     }
 
     h1 {
-      // font-size: 68px;
       font-size: calc(3vw + 1.8rem);
       text-align: center;
       font-weight: 600;
@@ -41,8 +39,8 @@
       width: 750px;
       height: 50px;
       text-align: center;
-      overflow-wrap: break-word; // Permite que las palabras largas se ajusten
-      word-wrap: break-word; // Soporte adicional para navegadores antiguos
+      overflow-wrap: break-word; 
+      word-wrap: break-word;
       word-break: break-word;
       font-size: 16px;
       font-weight: 600;
@@ -75,12 +73,6 @@
   }
 }
 
-// @include laptop{
-//   .hero-section {
-//     clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
-//   }
-// }
-
 @include tablet {
   .hero-section {
     clip-path: none;
@@ -93,14 +85,13 @@
         font-size: 18px;
       }
       h1 {
-        // font-size: 68px;
         font-size: calc(3vw + 2.5rem);
         text-align: center;
         font-weight: 600;
       }
       p {
-        width: 80%; // Ajusta el ancho a un 90% del contenedor padre
-        font-size: 14px; // Reduce el tamaño de fuente en pantallas más pequeñas
+        width: 80%;
+        font-size: 14px;
       }
 
       a {
