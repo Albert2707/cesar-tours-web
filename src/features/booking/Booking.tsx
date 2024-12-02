@@ -15,8 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useIdiom } from "../../context/idiomContext";
 import { IdiomTypes } from "../../context/idiomTypes";
 import { useBookingStore } from "../../shared/hooks/booking/useBookingStore";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
+import { AnimatePresence,motion } from "framer-motion";
 // const { VITE_GOOGLE_API_KEY } = import.meta.env;
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
@@ -49,21 +48,31 @@ const Booking = () => {
     { value: 1, label: translate("one_way") },
     { value: 2, label: translate("round_trip") },
   ];
-
+  const handleOriginSelect = (place: google.maps.places.PlaceResult | null) => {
+    if (place) {
+      setOriginAddress({
+        lat: place.geometry?.location?.lat(),
+        lng: place.geometry?.location?.lng(),
+      });
+    }
+  };
+  
+  const handleDestinationSelect = (place: google.maps.places.PlaceResult | null) => {
+    if (place) {
+      setDestinationAddress({
+        lat: place.geometry?.location?.lat(),
+        lng: place.geometry?.location?.lng(),
+      });
+    }
+  };
   const handlePlaceSelect = (
     place: google.maps.places.PlaceResult | null,
-    isOrigin: boolean
+    type: 'origin' | 'destination'
   ) => {
-    if (isOrigin) {
-      setOriginAddress({
-        lat: place?.geometry?.location?.lat(),
-        lng: place?.geometry?.location?.lng(),
-      });
+    if (type === 'origin') {
+      handleOriginSelect(place);
     } else {
-      setDestinationAddress({
-        lat: place?.geometry?.location?.lat(),
-        lng: place?.geometry?.location?.lng(),
-      });
+      handleDestinationSelect(place);
     }
   };
   return (
@@ -98,7 +107,7 @@ const Booking = () => {
                       </label>
                       <AutocompleteCustom
                         onPlaceSelect={(place) =>
-                          handlePlaceSelect(place, true)
+                          handlePlaceSelect(place, "origin")
                         }
                         isOrigin={true}
                       />
@@ -109,7 +118,7 @@ const Booking = () => {
                       </label>
                       <AutocompleteCustom
                         onPlaceSelect={(place) =>
-                          handlePlaceSelect(place, false)
+                          handlePlaceSelect(place, "destination")
                         }
                         isOrigin={false}
                       />
