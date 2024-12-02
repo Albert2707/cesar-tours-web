@@ -1,6 +1,6 @@
 export interface VehicleModel {
   id: number;
-  make: string;
+  brand: string;
   model: string;
   capacity: number;
   luggage_capacity: number;

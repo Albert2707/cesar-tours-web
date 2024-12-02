@@ -1,0 +1,55 @@
+@use "../../../../index.scss" as *;
+
+.mobile {
+    display: none;
+
+    .wrapper-mobile {
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .link-list-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            list-style-type: none;
+
+            li {
+                text-align: center;
+                margin: 0 auto;
+
+                a {
+                    color: #f2f2f2;
+                    font-weight: 600;
+                    font-size: 24px;
+                }
+
+                select {
+                    padding: 10px;
+                    border: none;
+                    width: 80%;
+                    border-radius: 5px;
+                    background: #f2f2f2;
+                }
+            }
+        }
+    }
+
+    @include mobile {
+        position: fixed;
+        background-color: rgba(0, 0, 0, .92);
+        top: 80px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        margin: 0 auto;
+    }
+}
+
+@keyframes fadeIn {}
