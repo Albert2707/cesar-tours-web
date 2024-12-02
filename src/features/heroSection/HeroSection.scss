@@ -2,17 +2,15 @@
 
 .hero-section {
   scroll-margin-top: 80px;
-  background-size: 100%;
   display: flex;
   overflow: hidden;
   align-items: center;
   height: calc(100vh - 112px);
-  background-attachment: fixed;
   // clip-path: polygon(0 0, 100% 0, 100% 65%, 0% 100%);
-  // de esta forma podemos tener una imagen con un color degradado superpuesto a la 
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%),
-    url("/images/hero.jpg") lightgray 50% / cover no-repeat;
+  background:linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%),
+  url("/images/hero.jpg") lightgray 50% / cover no-repeat;
+  background-attachment: fixed;
+  background-size: 100%;
 
   .wrapper {
     display: flex;
