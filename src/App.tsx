@@ -14,7 +14,7 @@ const Login = lazy(() => import("./pages/private/sigIn/Siging"));
 const PrivateRoutes = lazy(() => import("./shared/hooks/privateRoutes/PrivateRoutes"));
 const Dashboard = lazy(() => import("./pages/private/dashboard/Dashboard"));
 const AdminLayout = lazy(() => import("./layout/privateLayout/AdminLayout"));
-
+import { HelmetProvider } from 'react-helmet-async';
 function App() {
 
   const router = createBrowserRouter([
@@ -61,11 +61,13 @@ function App() {
     }
     window.scrollTo(0, 0);
   }, []);
-
+  const helmetContext = {};
   return (
+    <HelmetProvider context={helmetContext}>
     <Suspense fallback={<FallBack />}>
       <RouterProvider router={router} />
     </Suspense>
+    </HelmetProvider>
   );
 }
 
