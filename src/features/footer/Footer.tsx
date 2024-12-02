@@ -40,7 +40,6 @@ const Footer = () => {
                 <h2> {translate("social_networks")} </h2>
                 <div className="social-links">
                   <svg
-                    role="img"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +52,6 @@ const Footer = () => {
                     target="_blank"
                   >
                     <svg
-                      role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
