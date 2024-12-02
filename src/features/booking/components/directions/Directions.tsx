@@ -71,13 +71,13 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
       <div className="distance">
         <span>{translate("distance")}</span>
         {
- <span> {leg && leg.distance?.text || "---"} </span>
+ <span> {leg?.distance?.text ?? "---"} </span>
         }
       </div>
       <div className="time">
         <span>{translate("time")}</span>
         {
-          <span>{leg && leg.duration ? traducirDuracion(leg.duration.text) : "---"}</span>
+          <span>{leg?.duration?.text ? traducirDuracion(leg.duration.text) : "---"}</span>
         }
       </div>
     </div>
