@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { ContextProps } from "../models/context/contextProps";
 
 const idiomContext = createContext({});
 
@@ -7,10 +8,7 @@ export const useIdiom = () => {
   return useContext(idiomContext);
 };
 
-interface Props {
-  children: React.ReactNode;
-}
-export const IdiomContextProvider: React.FC<Props> = ({ children }) => {
+export const IdiomContextProvider: React.FC<ContextProps> = ({ children }) => {
   const [idiom, setIdiom] = useState<"es" | "en">(
     (localStorage.getItem("idiom") as "es" | "en") || "es"
   );
