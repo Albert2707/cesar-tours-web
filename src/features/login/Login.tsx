@@ -70,7 +70,6 @@ const Login = () => {
         <input
           style={{ borderColor: errors.email ? "#e11d48" : "#f2f2f2" }}
           type="email"
-          autoComplete="new-email"
           name="email"
           placeholder="Email"
           onChange={(e) => {
@@ -84,7 +83,6 @@ const Login = () => {
         >
           <input
             type={showPassword ? "text" : "password"}
-            autoComplete="new-password"
             name="password"
             placeholder="Password"
             onChange={(e) => {
