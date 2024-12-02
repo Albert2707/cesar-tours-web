@@ -4,7 +4,6 @@ const WhatsApp = () => {
         <div className="ws">
             <a href="https://wa.me/+18492587373?text=Hola,%20%C2%BFc%C3%B3mo%20est%C3%A1s%3F" target="_blank">
                 <svg
-                    role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
