@@ -1,29 +1,24 @@
-import {Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 import {
   createBrowserRouter,
-  Outlet,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./pages/home/Home";
-import NotFound from "./pages/notFound/NotFound";
-import FallBack from "./pages/fallBack/FallBack";
-import Checkout from "./pages/checkout/Checkout";
-import Navbar from "./components/navbar/Navbar";
+import Home from "./pages/public/home/Home";
+import NotFound from "./pages/public/notFound/NotFound";
+import FallBack from "./pages/public/fallBack/FallBack";
+import Checkout from "./pages/public/checkout/Checkout";
+import MainLayout from "./layout/MainLayout";
+import Login from "./pages/private/sigIn/Siging";
+import PrivateRoutes from "./shared/hooks/privateRoutes/PrivateRoutes";
+import Dashboard from "./pages/private/dashboard/Dashboard";
+import AdminLayout from "./layout/privateLayout/AdminLayout";
 function App() {
 
-  const Layout = () => {
-    return (
-      <>
-        <Navbar />
-        <Outlet />
-      </>
-    )
-  }
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <MainLayout />,
       children: [
         {
           path: '/',
@@ -32,6 +27,22 @@ function App() {
         {
           path: '/checkout',
           element: <Checkout />
+        }
+      ]
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/admin",
+      element: <PrivateRoutes>
+        <AdminLayout />
+      </PrivateRoutes>,
+      children:[
+        {
+          path: '/admin/orders',
+          element: <Dashboard />
         }
       ]
     },
