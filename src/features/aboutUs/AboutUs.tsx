@@ -1,11 +1,9 @@
 import { useRef } from "react";
-import useTranslate from "../../shared/hooks/translations/Translate";
 import "./AboutUs.scss";
 import { useInView } from "framer-motion";
 import CardAboutUs from "./components/CardAboutUs";
 
 const AboutUs = () => {
-  const { translate } = useTranslate();
   const viewRef = useRef(null);
   const isInView = useInView(viewRef);
   return (
