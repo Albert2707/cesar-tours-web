@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import Select from "react-select";
 import useTranslate from '../../hooks/translations/Translate';
 
