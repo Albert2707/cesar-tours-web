@@ -564,7 +564,7 @@ const Booking = () => {
                     />
                     <button
                       type="submit"
-                      arial-label="clear"
+                      aria-label="Seleccionar vehiculo"
                       className="btn-selectec-vehicle"
                       onClick={() => {
                         if (!trip_type)
@@ -593,7 +593,7 @@ const Booking = () => {
             <>
               <button
                 type="button"
-                arial-label="clear"
+                aria-label="go back"
                 onClick={() => {
                   setStep(2);
                 }}
@@ -602,7 +602,7 @@ const Booking = () => {
               </button>
               <button
                 type="button"
-                arial-label="clear"
+                aria-label="checkout"
                 onClick={() => {
                   alert("Llegamos");
                 }}
