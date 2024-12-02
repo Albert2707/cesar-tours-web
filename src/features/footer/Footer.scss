@@ -1,0 +1,137 @@
+@use "../../index.scss" as *;
+
+.footer {
+  background-color: $primary-bg-color;
+  height: 200px;
+  padding: 2rem 1rem 1rem 1rem;
+  .wrapper {
+    overflow: hidden;
+    height: 100%;
+    margin:0 auto;
+    .footer-container {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .footer-logo {
+          width: 300px;
+          height: 100px;
+          img {
+            height: 100%;
+            object-fit: contain;
+            width: 100%;
+          }
+          @include tablet {
+            display: none;
+          }
+        }
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #f2f2f2;
+        }
+        .extra {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 40px;
+          justify-items: center;
+          .info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            ul {
+              list-style-type: none;
+              display: flex;
+              flex-direction: column;
+              gap:5px;
+              li {
+                color: #f2f2f2;
+                font-size: 14px;
+                overflow-wrap: break-word;
+                width: 200px;
+                // background-color: red;
+                @include mobile {
+                  text-align: center;
+                }
+              }
+            }
+            @include mobile {
+              justify-content: center;
+              align-items: center;
+            }
+          }
+          @include mobile {
+            grid-template-columns: repeat(1, 1fr);
+          }
+        }
+        .links {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+
+          ul {
+            list-style-type: none;
+            li {
+              a {
+                color: #f2f2f2;
+                text-decoration: none;
+                font-size: 14px;
+              }
+              @include mobile {
+                text-align: center;
+              }
+            }
+          }
+        }
+
+        .socials {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          .social-links {
+            display: flex;
+            gap: 10px;
+
+            svg {
+              width: 25px;
+              color: #22a2f2;
+              height: 25px;
+            }
+            @include mobile {
+              justify-content: center;
+            }
+          }
+        }
+        @include tablet{
+            justify-content: center;
+
+        }
+      }
+      .bottom {
+        display: flex;
+        justify-content: center;
+        .copy {
+          font-size: 14px;
+          color: #f2f2f2;
+          @include mobile{
+            font-size: 12px;
+          }
+        }
+      }
+      @include mobile {
+        gap:40px
+      }
+    }
+    @include responsive-container;
+  }
+
+  @include mobile {
+    height: auto;
+    // padding: 2rem 1rem 2rem 1rem;
+  }
+}
