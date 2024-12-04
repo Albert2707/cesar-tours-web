@@ -1,5 +1,5 @@
 import React from "react";
-import { SEO } from "../../../shared/components/seo/SEO";
+import { Seo } from "../../../shared/components/seo/SEO";
 
 const HeroSection = React.lazy(
   () => import("../../../features/heroSection/HeroSection")
@@ -19,7 +19,7 @@ const WhatsApp = React.lazy(
 const Home = () => {
   return (
     <>
-      <SEO
+      <Seo
         title="Cesar Tour "
         description="Transportation around Dominican Republic"
         name="Cesar Tour"

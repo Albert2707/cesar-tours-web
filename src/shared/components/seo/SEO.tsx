@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Helmet } from "react-helmet-async";
 interface SEOProps {
   title: string;
@@ -6,7 +6,7 @@ interface SEOProps {
   name: string;
   type: string;
 }
-export const SEO: FC<SEOProps> = ({ title, description, name, type }) => {
+export const Seo: FC<SEOProps> = ({ title, description, name, type }) => {
   return (
     <Helmet>
       {/* Standard metadata tags */}
