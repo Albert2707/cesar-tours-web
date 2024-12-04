@@ -5,16 +5,16 @@ import {
   RouterProvider,
 } from "react-router-dom";
 // import Home from "./pages/public/home/Home";
-const Home = lazy(() => import("./pages/public/home/Home"))
 const NotFound = lazy(() => import("./pages/public/notFound/NotFound"));
-const FallBack = lazy(() => import("./pages/public/fallBack/FallBack"));
 const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
-const MainLayout = lazy(() => import("./layout/MainLayout"));
 const Login = lazy(() => import("./pages/private/sigIn/Siging"));
 const PrivateRoutes = lazy(() => import("./shared/hooks/privateRoutes/PrivateRoutes"));
 const Dashboard = lazy(() => import("./pages/private/dashboard/Dashboard"));
 const AdminLayout = lazy(() => import("./layout/privateLayout/AdminLayout"));
 import { HelmetProvider } from 'react-helmet-async';
+import Home from "./pages/public/home/Home";
+import FallBack from "./pages/public/fallBack/FallBack";
+import MainLayout from "./layout/MainLayout";
 function App() {
 
   const router = createBrowserRouter([
