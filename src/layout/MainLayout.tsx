@@ -1,5 +1,5 @@
-import React from 'react'
-import Navbar from '../features/navbar/Navbar'
+import { lazy } from 'react'
+const Navbar = lazy(() => import('../features/navbar/Navbar'))
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {

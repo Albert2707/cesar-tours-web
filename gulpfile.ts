@@ -1,4 +1,3 @@
-// const gulp = require('gulp');
 import gulp from "gulp";
 import * as fs from "fs";
 import en from "./src/locales/en.json";
@@ -14,7 +13,7 @@ function sortChildren(data) {
 
 gulp.task("enFile", async function (done) {
     try {
-      const esPathOutput = "./src/locales/en.json"; // Output file path
+      const esPathOutput = "./src/locales/en.json";
       const sortedData = sortChildren(en);
       fs.writeFile(
         esPathOutput,
@@ -23,10 +22,10 @@ gulp.task("enFile", async function (done) {
         (err) => {
           if (err) {
             console.error("Error writing file:", err);
-            return done(err); // Pass the error to the done callback
+            return done(err);
           }
           console.log("File written successfully.");
-          done(); // Signal completion of the task
+          done();
         }
       );
     } catch (err) {
@@ -36,13 +35,10 @@ gulp.task("enFile", async function (done) {
 
 gulp.task("esFile", async function (done) {
   try {
-    // Sort the data
-    const esPathOutput = "./src/locales/es.json"; // Output file path
+    const esPathOutput = "./src/locales/es.json"; 
 
-    // Sort the data
     const sortedData = sortChildren(es);
 
-    // Write sorted data to the file
     fs.writeFile(
       esPathOutput,
       JSON.stringify(sortedData, null, 2),
@@ -50,10 +46,10 @@ gulp.task("esFile", async function (done) {
       (err) => {
         if (err) {
           console.error("Error writing file:", err);
-          return done(err); // Pass the error to the done callback
+          return done(err);
         }
         console.log("File written successfully.");
-        done(); // Signal completion of the task
+        done();
       }
     );
   } catch (err) {

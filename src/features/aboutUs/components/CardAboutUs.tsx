@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import useTranslate from "../../../shared/hooks/translations/Translate";
 
 interface Cardprops {
@@ -23,7 +23,6 @@ const CardAboutUs: FC<Cardprops> = ({
       style={{
         transform: isInView ? "none" : "translateY(200px)",
         opacity: isInView ? 1 : 0,
-        transition: "all 0.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
       }}
     >
       <div className="card-header">
@@ -34,18 +33,14 @@ const CardAboutUs: FC<Cardprops> = ({
       </div>
       <div className="card-body">
         <p className="">
-        {values === "valores" ? (
-          translate(values).map((e: string) => {
-            return (
-              <>
-                <span key={crypto.randomUUID()}>{e}</span>
-                <br key={crypto.randomUUID()} />
-              </>
-            );
-          })
-        ) : (
-          translate(values)
-        )}
+          {values === "valores"
+            ? translate(values).map((e: string) => (
+                <React.Fragment key={crypto.randomUUID()}>
+                  <span>{e}</span>
+                  <br />
+                </React.Fragment>
+              ))
+            : translate(values)}
         </p>
       </div>
     </div>

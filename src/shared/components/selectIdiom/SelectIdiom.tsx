@@ -5,7 +5,7 @@ import { IdiomTypes } from "../../../context/idiomTypes";
 
 // Definimos estilos comunes reutilizables
 const commonStyles = {
-  borderRadius: "10px",
+  borderRadius: "50px",
   fontSize: "12px",
 };
 
