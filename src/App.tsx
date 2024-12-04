@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-// import Home from "./pages/public/home/Home";
 const NotFound = lazy(() => import("./pages/public/notFound/NotFound"));
 const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Login = lazy(() => import("./pages/private/sigIn/Siging"));
