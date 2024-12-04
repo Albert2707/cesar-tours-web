@@ -34,8 +34,8 @@ const CardAboutUs: FC<Cardprops> = ({
       <div className="card-body">
         <p className="">
           {values === "valores"
-            ? translate(values).map((e: string, index: number) => (
-                <React.Fragment key={index}>
+            ? translate(values).map((e: string) => (
+                <React.Fragment key={crypto.randomUUID()}>
                   <span>{e}</span>
                   <br />
                 </React.Fragment>
