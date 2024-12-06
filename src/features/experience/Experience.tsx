@@ -12,7 +12,7 @@ const Experience = () => {
                 <div className="experience-pictures">
                     <div className="picture">
                         <img
-                            src="images/view.jpg"
+                            src="images/view.webp"
                             alt="" loading="lazy"
                         />
                     </div>
@@ -26,7 +26,7 @@ const Experience = () => {
                     <div className="picture">
 
                         <img
-                            src="images/viva.jpg"
+                            src="images/viva.webp"
                             alt="" loading="lazy"
                         />
                     </div>
@@ -34,28 +34,28 @@ const Experience = () => {
 
 
                         <img
-                            src="images/ocean.jpg"
+                            src="images/ocean.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/beach.jpg"
+                            src="images/beach.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/beach2.jpg"
+                            src="images/beach2.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/travel.jpg"
+                            src="images/travel.webp"
                             alt="" loading="lazy"
                         />
                     </div>

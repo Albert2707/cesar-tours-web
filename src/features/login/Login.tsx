@@ -55,10 +55,10 @@ const Login = () => {
       <Toaster />
       <div className="cesar-img">
         <img
-          src="images/Cesar-logo.png"
+          src="images/Cesar-logo.webp"
           alt="Cesar logo"
           onLoad={() => setIsLoaded(true)}
-        />{" "}
+        />
         :{!isLoaded && <div className="skeleton-img"></div>}
       </div>
       <form
