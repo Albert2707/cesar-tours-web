@@ -11,7 +11,6 @@ const Experience = React.lazy(
 );
 const AboutUs = React.lazy(() => import("../../../features/aboutUs/AboutUs"));
 const Contact = React.lazy(() => import("../../../features/contact/Contact"));
-const Footer = React.lazy(() => import("../../../features/footer/Footer"));
 const WhatsApp = React.lazy(
   () => import("../../../shared/components/whatsApp/WhatsApp")
 );
@@ -32,7 +31,6 @@ const Home = () => {
       <Experience />
       <AboutUs />
       <Contact />
-      <Footer />
     </>
   );
 };
