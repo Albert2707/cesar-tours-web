@@ -88,7 +88,7 @@ const Contact = () => {
       <div className="wrapper">
         <div className="left">
           <span>{translate("contact_message")}</span>
-          <img src="images/tahoe.png" alt="Tahoe" loading="lazy" />
+          <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
         </div>
         <div className="right">
           <form
