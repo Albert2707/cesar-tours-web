@@ -9,9 +9,9 @@ import Button from "../../shared/components/button/Button";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
-  const [skip, setSkip] = useState<number>(0);
+  const [skip, setSkip] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [limit, setLimit] = useState<number>(5);
+  const limit: number = 5;
   const { data, isLoading, error, refetch } = useQuery(`orders`, async () => {
     const res = await OrderServices.getOrders(filter, skip, limit);
     setHasNextPage(res.hasNextPage);
@@ -21,11 +21,11 @@ const Orders = () => {
 
   const orderStatus = (status: number): { name: string; class: string } => {
     if (status === 0) {
-      return{ name: "Agendada", class: "pending" };
+      return { name: "Agendada", class: "pending" };
     } else if (status === 1) {
       return { name: "En proceso", class: "in-progress" };
     } else if (status === 2) {
-      return{ name: "Completada", class: "completed" };
+      return { name: "Completada", class: "completed" };
     } else {
       return { name: "Cancelada", class: "cancelled" };
     }
@@ -88,32 +88,57 @@ const Orders = () => {
 
   useEffect(() => {
     refetch();
-  }, [filter, skip, limit]);
+  }, [filter, skip]);
   return (
     <div className="orders">
       <div className="filter">
         <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("all") }}
+          properties={{
+            type: "filter", onClickfn: () => {
+              setFilter("all")
+              setSkip(1)
+            }
+          }}
         >
           Todos
         </Button>
         <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("0") }}
+          properties={{
+            type: "filter", onClickfn: () => {
+              setFilter("0")
+              setSkip(1)
+            }
+          }}
         >
           Agendadas
         </Button>
         <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("1") }}
+          properties={{
+            type: "filter", onClickfn: () => {
+              setFilter("1")
+              setSkip(1)
+            }
+          }}
         >
           En proceso
         </Button>
         <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("2") }}
+          properties={{
+            type: "filter", onClickfn: () => {
+              setFilter("2")
+              setSkip(1)
+            }
+          }}
         >
           Completadas
         </Button>
         <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("3") }}
+          properties={{
+            type: "filter", onClickfn: () => {
+              setFilter("3")
+              setSkip(1)
+            }
+          }}
         >
           Canceladas
         </Button>
@@ -135,9 +160,8 @@ const Orders = () => {
           properties={{
             type: "filter",
             onClickfn: () => {
-              if (skip === 0) return;
-              setLimit(limit - 5);
-              setSkip(skip - 5);
+              if (skip === 1) return;
+              setSkip(skip - 1);
             },
           }}
         >
@@ -155,8 +179,7 @@ const Orders = () => {
             type: "filter",
             onClickfn: () => {
               if (!hasNextPage) return;
-              setLimit(limit + 5);
-              setSkip(skip + 5);
+              setSkip(skip + 1);
             },
           }}
         >
