@@ -38,8 +38,9 @@
             .cell {
                 padding: 15px;
                 width: 100px;
-                text-align: center;
-
+                display: flex;
+                justify-content: center;
+                &:nth-child(1),
                 &:nth-child(5),
                 &:nth-child(6) {
                     width: 150px;
@@ -67,7 +68,7 @@
                     border-radius: 10px;
                     display: flex;
                     justify-content: center;
-
+                    &:nth-child(1),
                     &:nth-child(5),
                     &:nth-child(6) {
                         width: 150px;
@@ -101,8 +102,9 @@
         justify-content: center;
         gap: 10px;
         .page-numbers{
-            width: 30px;
+            width: 70px;
             display: flex;
+            justify-content: center;
             gap: 5px;
         }
     }
