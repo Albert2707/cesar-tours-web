@@ -59,7 +59,7 @@ const Login = () => {
           alt="Cesar logo"
           onLoad={() => setIsLoaded(true)}
         />
-        :{!isLoaded && <div className="skeleton-img"></div>}
+        {!isLoaded && <div className="skeleton-img"></div>}
       </div>
       <form
         action=""
