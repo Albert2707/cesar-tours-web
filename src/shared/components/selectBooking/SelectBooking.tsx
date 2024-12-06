@@ -70,6 +70,9 @@ const SelectBooking:FC<SelectProps> = ({options, value, onChange,placeholder}) =
     }}
     placeholder={translate(placeholder)}
     onChange={onChange}
+    menuPortalTarget={document.body}
+    menuPlacement="auto"
+    menuPosition="fixed"
     isSearchable={false}
   />
   )
