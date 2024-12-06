@@ -7,15 +7,21 @@ type BookInfo = {
   bagsNo?: number;
   departureHour?: string;
   departureDate: Date;
-  vehicle?: VehicleModel
+  vehicle?: VehicleModel;
+  origin?: string;
+  destination?: string;
+  distance?: string;
+  duration?: string;
+  paymentMethod: "Cash" | "Card";
 };
 
 const values: BookInfo = {
   passengerNo: 1,
+  paymentMethod: "Cash",
   bagsNo: 0,
   trip_type: 1,
   departureDate: new Date(),
-}
+};
 type Actions = {
   setTripType: (trip_type: number) => void;
   setDepartureDate: (date: Date) => void;
@@ -23,6 +29,7 @@ type Actions = {
   setNoPassenger: (passengers: number) => void;
   setVehicle: (vehicle: VehicleModel) => void;
   setBagsNo: (bagsNo: number) => void;
+  setPaymentMethod: (payment: "Cash" | "Card") => void;
 };
 export const useBookingStore = create<BookInfo & Actions>()((set) => ({
   ...values,
@@ -43,5 +50,12 @@ export const useBookingStore = create<BookInfo & Actions>()((set) => ({
     set(() => {
       return { bagsNo };
     }),
-  setVehicle: (vehicle) => set(() => { return { vehicle } })
+  setVehicle: (vehicle) =>
+    set(() => {
+      return { vehicle };
+    }),
+  setPaymentMethod: (payment) =>
+    set(() => {
+      return { paymentMethod: payment };
+    }),
 }));
