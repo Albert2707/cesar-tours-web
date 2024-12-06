@@ -5,12 +5,11 @@ import { IdiomTypes } from "../../../context/idiomTypes";
 
 // Definimos estilos comunes reutilizables
 const commonStyles = {
-  borderRadius: "50px",
   fontSize: "12px",
 };
 
 // Función para aplicar estilos condicionales
-const getOptionStyles = (state:any) => ({
+const getOptionStyles = (state: any) => ({
   backgroundColor: state.isFocused ? "rgba(242, 75, 15, 0.1)" : "transparent",
   color: state.isFocused ? "orange" : "inherit",
 });
@@ -24,7 +23,7 @@ const SelectIdiom = () => {
     { value: "en", label: translate("English"), labelOnSelect: "us" },
   ];
 
-  const formatLabel = (option:any) => (
+  const formatLabel = (option: any) => (
     <div style={{ display: "flex", alignItems: "center", gap: "5px", justifyContent: "center" }}>
       <span>{option.label}</span>
     </div>
@@ -37,6 +36,7 @@ const SelectIdiom = () => {
         control: (baseStyles) => ({
           ...baseStyles,
           ...commonStyles,
+          borderRadius: "50px",
           backgroundColor: "transparent",
           height: "40px",
           display: "flex",
@@ -51,6 +51,7 @@ const SelectIdiom = () => {
         menu: (baseStyles) => ({
           ...baseStyles,
           ...commonStyles,
+          borderRadius: "10px",
           backgroundColor: "#f2f2f2",
           fontWeight: 600,
         }),
