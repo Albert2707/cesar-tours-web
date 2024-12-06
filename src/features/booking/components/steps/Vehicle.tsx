@@ -15,10 +15,11 @@ import useTranslate from "../../../../shared/hooks/translations/Translate";
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
-
+const {VITE_CESAR_API} = import.meta.env
 const Vehicle: FC<Props> = ({ setStep }) => {
+  console.log(VITE_CESAR_API)
   const { idiom } = useIdiom() as IdiomTypes;
-  const { passengerNo, bagsNo, departureHour, departureDate } =
+  const { passengerNo, bagsNo, departureHour, departureDate,setVehicle } =
     useBookingStore();
   const { translate } = useTranslate();
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ const Vehicle: FC<Props> = ({ setStep }) => {
       opacity: 1,
       transition: {
         duration: 0.3,
-        staggerChildren: 0.3,
       },
     },
   };
@@ -63,7 +63,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         >
           <div className="vehicle-img">
             <img
-              src={e.img_url}
+              src={VITE_CESAR_API+"/"+e.img_url}
               alt="Tahoe Suburban"
               width={200}
               height={1200}
@@ -117,7 +117,9 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                   <span>{e.luggage_capacity}</span>
                 </div>
               </div>
-              <button onClick={() => navigate("/checkout")}>BOOK NOW</button>
+              <button onClick={() => {
+                setVehicle(e)
+                navigate("/checkout")}}>BOOK NOW</button>
             </div>
           </div>
         </motion.div>
