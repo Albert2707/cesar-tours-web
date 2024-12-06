@@ -5,7 +5,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 const NotFound = lazy(() => import("./pages/public/notFound/NotFound"));
-const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Login = lazy(() => import("./pages/private/sigIn/Siging"));
 const PrivateRoutes = lazy(() => import("./shared/hooks/privateRoutes/PrivateRoutes"));
 const Dashboard = lazy(() => import("./pages/private/dashboard/Dashboard"));
@@ -14,6 +13,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Home from "./pages/public/home/Home";
 import FallBack from "./pages/public/fallBack/FallBack";
 import MainLayout from "./layout/MainLayout";
+import Checkout from "./pages/public/checkout/Checkout";
 function App() {
 
   const router = createBrowserRouter([
@@ -40,7 +40,7 @@ function App() {
       element: <PrivateRoutes>
         <AdminLayout />
       </PrivateRoutes>,
-      children:[
+      children: [
         {
           path: '/admin/orders',
           element: <Dashboard />
@@ -63,9 +63,9 @@ function App() {
   const helmetContext = {};
   return (
     <HelmetProvider context={helmetContext}>
-    <Suspense fallback={<FallBack />}>
-      <RouterProvider router={router} />
-    </Suspense>
+      <Suspense fallback={<FallBack />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </HelmetProvider>
   );
 }
