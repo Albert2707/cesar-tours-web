@@ -1,0 +1,84 @@
+.checkout {
+    height: calc(100vh - 112px);
+    scroll-margin-top: 80px;
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100%;
+
+        h2 {
+            justify-self: center;
+            margin-bottom:20px;
+            // color: #f2f2f2;
+            font-size: calc(1.3vw + 1rem);
+          }
+        .top {
+            display: flex;
+            gap: 20px;
+            .left {
+                flex: 1;
+
+                .checkout-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+
+                    .item {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        gap: 5px;
+
+                        .forminput {
+                            box-sizing: border-box;
+                            border-radius: 10px;
+                            padding: 5px 10px;
+                            border: 1px solid rgba(51, 55, 64, 0.3);
+                            background: transparent;
+                            height: 42px;
+                            font-size: 14px;
+                            outline: transparent;
+                            caret-color: #22a2f2;
+                            appearance: none;
+                        }
+
+                        .forminput:last-child {
+                            resize: none;
+                        }
+                    }
+
+                    .item.customer {
+                        display: flex;
+                        flex-direction: row;
+
+                        .name,
+                        .last-name {
+                            width: 50%;
+                            display: flex;
+                            flex-direction: column;
+                        }
+
+
+                        // background: #000;
+                    }
+                }
+            }
+
+            .right {
+                flex: 1;
+                .additional-info{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    .item{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
