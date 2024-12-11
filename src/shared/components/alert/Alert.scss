@@ -1,0 +1,30 @@
+@use "../../../index.scss" as *;
+.alert {
+    padding: 20px;
+    border-top: 3px solid $pgreen;
+    display: flex;
+    background-color:$pgreen-soft;
+    align-items: center;
+    color: $pgreen;
+    gap: 20px;
+    svg {
+      width: 30px;
+      stroke-width: 2;
+      height: 30px;
+    }
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    @include mobile{
+      svg{
+        width: 50px;
+        height: 50px;
+      }
+      span {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  }
