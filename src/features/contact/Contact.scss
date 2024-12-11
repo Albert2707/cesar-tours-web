@@ -6,6 +6,7 @@
   background-color: #ffffff;
   height: calc(100vh - 112px);
   justify-content: center;
+  padding:2rem 0;
   align-items: center;
 
   .wrapper {
@@ -30,8 +31,11 @@
           text-align: center;
         }
       }
-      img {
-        width: 100%;
+      .contact_img {
+        width: 600px;
+        img {
+          width: 100%;
+        }
         @include mobile {
           width: 400px;
         }
@@ -47,14 +51,14 @@
       align-items: center;
       justify-content: center;
 
-      .contact-form {
+      .contact_form {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: end;
         gap: 20px;
-        .form-item {
-          width: 80%;
+        .form_item {
+          width: 100%;
           display: flex;
           flex-direction: column;
           gap: 5px;
@@ -92,8 +96,8 @@
           .name,
           .email {
             border-radius: 5px;
-            padding: 5px 10px;
-            height: 35px;
+            padding:10px;
+            height: 47px;
             outline: transparent;
             caret-color: #22a2f2;
             appearance: none;
@@ -107,11 +111,14 @@
             border-radius: 5px;
             border: 1px solid gainsboro;
           }
+        @include mobile{
+          width: 80%;
+        }
         }
         .message-button {
           border: 1px solid transparent;
           width: 200px;
-          height: 40px;
+          height: 47px;
           margin-right: 2px;
           margin-top: 10px;
           color: #222;
@@ -127,7 +134,7 @@
           &::before {
             content: "";
             border: 1px solid #f24b0f;
-            height: 40px;
+            height: 47px;
             width: 25px;
             border-radius: 50px;
             top: -2px;
@@ -158,8 +165,8 @@
             width: 80%;
           }
         }
-        @include tablet{
-          align-items:center;
+        @include tablet {
+          align-items: center;
         }
       }
     }

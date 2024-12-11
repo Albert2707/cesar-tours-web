@@ -29,13 +29,19 @@
         border: none;
         background-color: transparent;
         cursor: pointer;
+        width: 100%;
 
         img {
-          height: 80%;
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
 
-          @include mobile {
-            height: 70%;
-          }
+        }
+        @include mobile {
+          height: 70%;
+        }
+        @include miniMobile{
+          width: 90%;
         }
       }
     }
@@ -61,17 +67,17 @@
             text-decoration: none;
             color: inherit;
             width: 100%;
-            svg{
-              color:#25D366;
+            svg {
+              color: #25d366;
               height: 25px;
               width: 25px;
             }
           }
         }
 
-        .whatsapp{
-          @include tablet{
-            display:none;
+        .whatsapp {
+          @include tablet {
+            display: none;
           }
         }
       }
@@ -105,7 +111,7 @@
 
         .mobile-menu {
           display: flex;
-          gap:10px;
+          gap: 10px;
         }
       }
     }
