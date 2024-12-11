@@ -1,0 +1,135 @@
+@use "../../../index.scss" as *;
+.admin_vehicle {
+  width: 100%;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  .admin_vehicles_modal {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-inline: auto;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal_container {
+      background-color: $primary-bg-color;
+      width: 300px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+      align-items: center;
+      position: relative;
+
+      .title {
+        height: 50px;
+        width: 100%;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        h2 {
+          position: relative;
+        }
+
+        svg {
+          cursor: pointer;
+          stroke: 2;
+        }
+      }
+      .vehicle_form {
+        background-color: #f2f2f2;
+        border-radius: 30px 30px 0 0;
+        padding: 1rem;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        img {
+          object-fit: cover;
+          height: 150px;
+          object-position: top;
+          border-radius: 10px;
+        }
+        input {
+          width: 100%;
+          height: 47px;
+          outline: none;
+          background-color: transparent;
+          padding: 10px;
+          border-radius: 10px;
+          border: 1px solid gainsboro;
+        }
+        .upload {
+          position:relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 150px;
+          // padding: 10px;
+          gap: 10px;
+          border-radius: 10px;
+          border: 1px dashed $primary-bg-color;
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
+          .foto {
+            height: 100%;
+            width: 100%;
+            img {
+              height: 100%;
+              object-fit: cover;
+              width: 100%;
+            }
+            button {
+              position: absolute;
+              top:10px;
+              cursor:pointer;
+              display: flex;
+              margin:auto;
+              justify-content: center;
+              align-items: center;
+              right:10px;
+              background: rgba(128, 128, 128);
+              backdrop-filter: blur(12px);
+              color:white;
+              font-weight: bold;
+              border: none;
+              border-radius: 50%;
+              height: 20px;
+              width: 20px;
+            }
+          }
+          .img_input {
+            display: none;
+          }
+          svg {
+            width: 25px;
+            height: 25px;
+            stroke-width: 2;
+          }
+          span {
+            font-size: 18px;
+          }
+          &:hover {
+            border-color: #f24b0f;
+          }
+          &:active {
+            transform: scale(0.98);
+            background-color: $primary-bg-color;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
