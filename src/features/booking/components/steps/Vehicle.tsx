@@ -19,7 +19,6 @@ interface Props {
 }
 const { VITE_CESAR_API } = import.meta.env;
 const Vehicle: FC<Props> = ({ setStep }) => {
-  console.log(VITE_CESAR_API);
   const { idiom } = useIdiom() as IdiomTypes;
   const {
     passengerNo,
@@ -94,8 +93,6 @@ const Vehicle: FC<Props> = ({ setStep }) => {
             <img
               src={VITE_CESAR_API + "/" + e.img_url}
               alt="Tahoe Suburban"
-              width={200}
-              height={1200}
               loading="lazy"
             />
           </div>

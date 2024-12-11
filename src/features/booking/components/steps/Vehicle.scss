@@ -121,6 +121,8 @@
   .vehicle-list {
     flex: 5;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #f59e0b #fff3cd;
     display: flex;
     height: 560px;
     padding: 1rem;
@@ -134,12 +136,12 @@
 
       .vehicle-img {
         width: 600px;
-        height: 170px;
+        height: 150px;
 
         img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
         }
       }
 
