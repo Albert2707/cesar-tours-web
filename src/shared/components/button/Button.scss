@@ -1,38 +1,71 @@
+@use "../../../index.scss" as *;
 .btn-logout {
-    background-color: transparent;
-    border-radius: 50px;
-    height: 40px;
-    display: flex;
-    width: 120px;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px; 
-    gap:5px;
+  background-color: transparent;
+  border-radius: 50px;
+  height: 47px;
+  display: flex;
+  width: 120px;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  gap: 5px;
+  color: #f2f2f2;
+  cursor: pointer;
+  font-weight: 600;
+  border: 1px solid #e11d48;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #e11d48;
+    color: white;
+  }
+
+  svg {
     color: #f2f2f2;
-    cursor: pointer;
-    font-weight: 600;
-    border:1px solid #e11d48;
-    transition: all 0.3s ease-in-out;
-    &:hover{
-        background-color: #e11d48;
-        color:white;
-
-    }
-
-    svg{
-        color:#f2f2f2;
-        height: 25px;
-        width: 25px;
-    }
+    height: 25px;
+    width: 25px;
+  }
 }
-.btn-filter{
-    height: 40px;
-    border:1px solid #e0e0e0;
-    background-color: white;
-    width: max-content;
-    padding: 3px 10px;
-    border-radius: 10px;
-    color: #222;
-    font-weight: 500;
-    cursor: pointer;
+.btn-filter {
+  height: 47px;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  width: max-content;
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: #222;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  align-self: flex-end;
+  font-weight: 500;
+  height: 47px;
+  width: max-content;
+  background-color: #e0e0e0;
+  padding: 0 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #ccc;
+    scale: 1.02;
+  }
+}
+.btn-primary {
+  align-self: flex-end;
+  font-weight: 500;
+  height: 47px;
+  width: 100%;
+  background-color: #e0e0e0;
+  padding: 0 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #ccc;
+    scale: 1.01;
+  }
 }
