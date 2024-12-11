@@ -6,9 +6,11 @@ import "./Order.scss";
 import { es } from "date-fns/locale";
 import { useEffect, useState } from "react";
 import Button from "../../shared/components/button/Button";
+import { useNavigate } from "react-router-dom";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
+  const navigate = useNavigate();
   const [skip, setSkip] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const limit: number = 5;
@@ -36,12 +38,9 @@ const Orders = () => {
       return "Something went wrong";
     } else if (isLoading) {
       return <h1>Loading...</h1>;
-    }
-    else if(!data || data.length === 0) {
-      return <div>No hay registros en la tabla</div>
-    }
-
-    else {
+    } else if (!data || data.length === 0) {
+      return <div>No hay registros en la tabla</div>;
+    } else {
       return data.map((e: any) => (
         <div className="tbl-body-row" key={crypto.randomUUID()}>
           <div className="cell">{e.order_num}</div>
@@ -61,30 +60,16 @@ const Orders = () => {
 
           <div className="cell">{moneyFormant(e.total)}</div>
           <div className="cell">
-            <button
-              style={{
-                border: "none",
-                backgroundColor: "transparent",
-                cursor: "pointer",
+            <Button
+              properties={{
+                type: "primary",
+                onClickfn: () => {
+                  navigate(`/admin/order-detail/${e.order_num}`);
+                },
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-ellipsis-vertical"
-              >
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="5" r="1" />
-                <circle cx="12" cy="19" r="1" />
-              </svg>
-            </button>
+              ...
+            </Button>
           </div>
         </div>
       ));
@@ -99,50 +84,55 @@ const Orders = () => {
       <div className="filter">
         <Button
           properties={{
-            type: "filter", onClickfn: () => {
-              setFilter("all")
-              setSkip(1)
-            }
+            type: "filter",
+            onClickfn: () => {
+              setFilter("all");
+              setSkip(1);
+            },
           }}
         >
           Todos
         </Button>
         <Button
           properties={{
-            type: "filter", onClickfn: () => {
-              setFilter("0")
-              setSkip(1)
-            }
+            type: "filter",
+            onClickfn: () => {
+              setFilter("0");
+              setSkip(1);
+            },
           }}
         >
           Agendadas
         </Button>
         <Button
           properties={{
-            type: "filter", onClickfn: () => {
-              setFilter("1")
-              setSkip(1)
-            }
+            type: "filter",
+            onClickfn: () => {
+              setFilter("1");
+              setSkip(1);
+            },
           }}
         >
           En proceso
         </Button>
         <Button
           properties={{
-            type: "filter", onClickfn: () => {
-              setFilter("2")
-              setSkip(1)
-            }
+            type: "filter",
+            onClickfn: () => {
+              setFilter("2");
+              setSkip(1);
+            },
           }}
         >
           Completadas
         </Button>
         <Button
           properties={{
-            type: "filter", onClickfn: () => {
-              setFilter("3")
-              setSkip(1)
-            }
+            type: "filter",
+            onClickfn: () => {
+              setFilter("3");
+              setSkip(1);
+            },
           }}
         >
           Canceladas
@@ -175,7 +165,15 @@ const Orders = () => {
         <div className="page-numbers">
           {Array.from({ length: pageCount }, (_, index) => index + 1).map(
             (e) => (
-              <span key={crypto.randomUUID()} style={{color:e === skip?"#f24b0f":"", fontWeight:e === skip?"bold":"normal"}}>{e}</span>
+              <span
+                key={crypto.randomUUID()}
+                style={{
+                  color: e === skip ? "#f24b0f" : "",
+                  fontWeight: e === skip ? "bold" : "normal",
+                }}
+              >
+                {e}
+              </span>
             )
           )}
         </div>
