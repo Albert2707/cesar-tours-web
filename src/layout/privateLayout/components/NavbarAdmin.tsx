@@ -50,7 +50,14 @@ const NavbarAdmin = () => {
               </NavLink>
             </li>
             <li>
-              <a href="/vehicles">{translate("Vehicles")}</a>
+              <NavLink
+                to="/admin/vehicles"
+                className={({ isActive }) =>
+                  isActive ? "link-active" : "link"
+                }
+              >
+                {translate("Vehicles")}{" "}
+              </NavLink>
             </li>
             <li>
               <SelectIdiom />
