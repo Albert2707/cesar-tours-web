@@ -26,6 +26,24 @@ interface Inputs {
   flight_number: string;
   additionalNotes: string;
 }
+interface OrderData extends Inputs {
+  origin: string;
+  destination: string;
+  trip_type: string;
+  passengers: number;
+  luggage: number;
+  departureDate: string;
+  departureHours: string;
+  returnDate?: string;
+  returnHours?: string;
+  countryId: string;
+  distance?: string;
+  duration?: string;
+  vehicleId?: string;
+  paymentMethod: string;
+  total: number;
+}
+
 const Checkout = () => {
   const {
     register,
@@ -40,7 +58,7 @@ const Checkout = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const createOrder = useMutation({
-    mutationFn: async (order: any) => {
+    mutationFn: async (order: OrderData) => {
       try {
         const res = await CheckoutService.createOrder(order);
         return res;
@@ -78,7 +96,7 @@ const Checkout = () => {
     total,
   } = useBookingStore();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const order = {
+    const order:OrderData = {
       name: data.name,
       lastName: data.lastName,
       email: data.email,
@@ -101,7 +119,7 @@ const Checkout = () => {
       flight_number: data.flight_number,
       additionalNotes: data.additionalNotes,
       paymentMethod,
-      total,
+      total
     };
     createOrder.mutate(order);
   };
