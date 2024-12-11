@@ -36,7 +36,12 @@ const Orders = () => {
       return "Something went wrong";
     } else if (isLoading) {
       return <h1>Loading...</h1>;
-    } else {
+    }
+    else if(!data || data.length === 0) {
+      return <div>No hay registros en la tabla</div>
+    }
+
+    else {
       return data.map((e: any) => (
         <div className="tbl-body-row" key={crypto.randomUUID()}>
           <div className="cell">{e.order_num}</div>
@@ -170,7 +175,7 @@ const Orders = () => {
         <div className="page-numbers">
           {Array.from({ length: pageCount }, (_, index) => index + 1).map(
             (e) => (
-              <span key={crypto.randomUUID()}>{e}</span>
+              <span key={crypto.randomUUID()} style={{color:e === skip?"#f24b0f":"", fontWeight:e === skip?"bold":"normal"}}>{e}</span>
             )
           )}
         </div>
