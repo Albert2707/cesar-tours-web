@@ -14,6 +14,7 @@ const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Confirm = lazy(() => import("./pages/public/confirm/Confirm"));
 import Vehicles from "./pages/private/vehicles/Vehicles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import OrderDetail from "./pages/private/orderDetail/OrderDetail";
 function App() {
   const router = createBrowserRouter([
     {
@@ -54,6 +55,10 @@ function App() {
           path: "/admin/vehicles",
           element: <Vehicles />,
         },
+        {
+          path: "/admin/order-detail/:id",
+          element: <OrderDetail />, // Add your component here
+        },
       ],
     },
     {
@@ -68,25 +73,6 @@ function App() {
     <HelmetProvider context={helmetContext}>
       <Suspense fallback={<FallBack />}>
         <RouterProvider router={router} />
-        {/* <Routes>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/order/confirmation" element={<Confirm />} />
-            </Route>
-            <Route path="login" element={<Login />} />
-            <Route
-              element={
-                <PrivateRoutes>
-                  <AdminLayout />
-                </PrivateRoutes>
-              }
-            >
-              <Route path="/admin/orders" element={<Dashboard />} />
-              <Route path="/admin/vehicles" element={<Vehicles />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes> */}
       </Suspense>
     </HelmetProvider>
   );
