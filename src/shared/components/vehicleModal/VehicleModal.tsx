@@ -3,12 +3,13 @@ import Button from "../button/Button";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import { request } from "../../../utils/api/request";
 interface Props {
   properties: {
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
-    refetch: any;
+    queryClient: QueryClient;
+    editMode: boolean;
   };
 }
 interface Inputs {
@@ -20,8 +21,7 @@ interface Inputs {
   price_per_km: number;
 }
 const VehicleModal: FC<Props> = ({ properties }) => {
-  const { setShow } = properties;
-  const queryClient = useQueryClient();
+  const { setShow, queryClient, editMode } = properties;
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const [file, setFile] = useState<any>(null);
   const validate = async (img: FileList) => {
@@ -48,15 +48,15 @@ const VehicleModal: FC<Props> = ({ properties }) => {
   };
   const createV = useMutation({
     mutationFn: async (data: FormData) => {
-      request.post("vehicle/createVehicle", data, {
+      const res = await request.post("vehicle/createVehicle", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["vehicles_admin"],
       });
-      queryClient.refetchQueries();
       toast.success("Vehiculo creado exitosamente");
       setFile(null);
       reset();
@@ -199,7 +199,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
               onClickfn: () => {},
             }}
           >
-            <span>Guardar</span>
+            <span>{editMode ? "Modificar" : "Guardar"}</span>
           </Button>
         </form>
       </motion.div>
