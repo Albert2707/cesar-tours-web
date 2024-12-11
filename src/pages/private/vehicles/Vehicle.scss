@@ -4,9 +4,65 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
+  // overflow: hidden;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  .filters {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    .filter {
+      display: flex;
+      gap: 10px;
+    }
+  }
+  .avehicle_container {
+    width: 100%;
+    border-radius: 10px;
+    overflow: auto;
+    display: flex;
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 500px;
+    background-color: #f9f9f9;
+  }
+  .vehicle_item {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    .avehicle_img {
+      width: 200px;
+      height: 150px;
+      overflow: hidden;
+      // background-color: red;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .specs {
+      display: flex;
+      gap: 5px;
+      width: 70%;
+      align-items: center;
+      justify-content: center;
+      .spec {
+        width: 50px;
+        // background-color: red;
+      }
+    }
+    .options {
+      display: flex;
+      gap: 10px;
+    }
+  }
   .admin_vehicles_modal {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.3);
@@ -71,7 +127,7 @@
           border: 1px solid gainsboro;
         }
         .upload {
-          position:relative;
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -92,16 +148,16 @@
             }
             button {
               position: absolute;
-              top:10px;
-              cursor:pointer;
+              top: 10px;
+              cursor: pointer;
               display: flex;
-              margin:auto;
+              margin: auto;
               justify-content: center;
               align-items: center;
-              right:10px;
+              right: 10px;
               background: rgba(128, 128, 128);
               backdrop-filter: blur(12px);
-              color:white;
+              color: white;
               font-weight: bold;
               border: none;
               border-radius: 50%;
