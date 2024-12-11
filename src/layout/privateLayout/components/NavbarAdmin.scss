@@ -94,6 +94,12 @@
 
             }
           }
+          @include mobile{
+            &:nth-child(3){
+              display:block;
+            }
+            display:none;
+          }
         }
       }
 
