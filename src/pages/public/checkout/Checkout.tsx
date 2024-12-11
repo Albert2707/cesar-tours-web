@@ -9,7 +9,12 @@ import { IdiomTypes } from "../../../context/idiomTypes";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CheckoutService } from "./services/checkoutService";
 import toast, { Toaster } from "react-hot-toast";
-import { QueryClient, useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { moneyFormant } from "../../../utils/functions/moneyFormat";
+import Button from "../../../shared/components/button/Button";
+import { useNavigate } from "react-router-dom";
+import { useConfirmationStore } from "../../../shared/hooks/confirmation/useConfirmationStore";
+import {motion} from 'framer-motion'
 interface Inputs {
   name: string;
   lastName: string;
@@ -31,8 +36,9 @@ const Checkout = () => {
     reset,
     // formState: { errors },void;
   } = useForm<Inputs>();
-
-  const queryClient = new QueryClient();
+  const {addOrder}  = useConfirmationStore()
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const createOrder = useMutation({
     mutationFn: async (order: any) => {
       try {
@@ -44,15 +50,18 @@ const Checkout = () => {
       }
     },
     onSuccess: ({ data }) => {
-      queryClient.invalidateQueries("orders");
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+      addOrder(data.orderCreated)
       reset();
-      console.log(data);
+      navigate("/order/confirmation");
     },
     onError: () => {
       toast.error("Hubo un error al crear la orden");
     },
   });
-
+  
   const {
     trip_type,
     passengerNo,
@@ -66,8 +75,8 @@ const Checkout = () => {
     destination,
     paymentMethod,
     setPaymentMethod,
+    total,
   } = useBookingStore();
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const order = {
       name: data.name,
@@ -75,38 +84,39 @@ const Checkout = () => {
       email: data.email,
       phone: data.phone,
       optionalPhone: data.optionalPhone,
-      origin: "Santo Domingo",
-      destination: "Samana",
+      origin,
+      destination,
       trip_type,
       passengers: passengerNo,
       luggage: bagsNo,
       departureDate,
       departureHours: departureHour,
-      // returnDatesetPaymentMethod
+      // returnDateset
       // returnHours
       countryId: "245feb84-471b-4d9f-8de6-87b9768a6489",
-      distance: "123 km",
-      duration: "2 horas",
+      distance: distance?.text,
+      duration: duration?.text,
       vehicleId: vehicle?.id,
       airline: data.airline,
       flight_number: data.flight_number,
       additionalNotes: data.additionalNotes,
       paymentMethod,
-      total: 900,
+      total,
     };
-    // console.log(order)
     createOrder.mutate(order);
   };
   const fecha = departureDate;
   const { idiom } = useIdiom() as IdiomTypes;
   const fechaEnEspanol = format(fecha, "d 'de' MMMM 'de' yyyy", { locale: es });
   const fechaEnIngles = format(fecha, "MMMM d, yyyy", { locale: enUS });
-  if (!vehicle)
+
+  if (!vehicle) {
     return (
       <div
         style={{
-          height: "calc(100vh - 112px)",
+          height: "calc(100vh - 80px)",
           display: "flex",
+          boxSizing:'border-box',
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -114,11 +124,14 @@ const Checkout = () => {
         No hay vehiculo seleccionado
       </div>
     );
+  }
+
   const triggerSubmit = () => {
-    handleSubmit(onSubmit)(); // Llama a handleSubmit manualmente
+    handleSubmit(onSubmit)();
   };
+
   return (
-    <section className="checkout">
+    <motion.div className="checkout" initial={{x:-100, opacity:0}} animate={{x:0, opacity:1}}  transition={{type:"spring", duration:0.3}}> 
       <Toaster />
       <div className="wrapper">
         <div className="top" style={{ display: "flex" }}>
@@ -130,7 +143,7 @@ const Checkout = () => {
               className="checkout-form"
             >
               <div className="item customer">
-                <div className="name">
+                <div className="form-item">
                   <label htmlFor="name">Name</label>
                   <input
                     id="name"
@@ -140,7 +153,7 @@ const Checkout = () => {
                     {...register("name", { required: true })}
                   />
                 </div>
-                <div className="last-name">
+                <div className="form-item">
                   <label htmlFor="last_name">LastName</label>
                   <input
                     id="last_name"
@@ -187,24 +200,27 @@ const Checkout = () => {
                   {...register("countryId", { required: true })}
                 />
               </div>
-              <div className="item">
-                <label htmlFor="airline">Airline</label>
-                <input
-                  className="forminput"
-                  type="text"
-                  placeholder="Airline"
-                  {...register("airline", { required: true })}
-                />
+              <div className="item customer">
+                <div className="form-item">
+                  <label htmlFor="airline">Airline</label>
+                  <input
+                    className="forminput"
+                    type="text"
+                    placeholder="Airline"
+                    {...register("airline", { required: true })}
+                  />
+                </div>
+                <div className="form-item">
+                  <label htmlFor="flight_number">Flight number</label>
+                  <input
+                    className="forminput"
+                    type="text"
+                    placeholder="Flight number"
+                    {...register("flight_number", { required: true })}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <label htmlFor="flight_number">Flight number</label>
-                <input
-                  className="forminput"
-                  type="text"
-                  placeholder="Flight number"
-                  {...register("flight_number", { required: true })}
-                />
-              </div>
+
               <div className="item">
                 <label htmlFor="comments">Comments</label>
                 <textarea
@@ -220,11 +236,11 @@ const Checkout = () => {
             <div className="additional-info">
               <div className="item">
                 <strong>Direccion de inicio:</strong>
-                <span>Santo Domingo, República Dominicana</span>
+                <span>{origin}</span>
               </div>
               <div className="item">
                 <strong>Direccion de destino:</strong>
-                <span>Santo Domingo, República Dominicana</span>
+                <span>{destination}</span>
               </div>
               <div className="item">
                 <strong>Tipo de viaje:</strong>
@@ -237,6 +253,12 @@ const Checkout = () => {
                   {idiom === "es" ? fechaEnEspanol : fechaEnIngles}
                 </span>
               </div>
+
+              <div className="item">
+                <strong>Tiempo de viaje:</strong>
+                <span>{duration?.text ? duration.text : "---"}</span>
+              </div>
+
               <div className="item">
                 <strong>Vehiculo:</strong>
                 <span>
@@ -257,78 +279,75 @@ const Checkout = () => {
         </div>
         <div className="bottom">
           <h1>Reserva</h1>
-          <label htmlFor="">Tarjeta</label>
-          <input
-            type="radio"
-            checked={paymentMethod === "Card"}
-            onChange={() => {
-              setPaymentMethod("Card");
-            }}
-          />
-          <label htmlFor="">Efetivo</label>
-          <input
-            type="radio"
-            checked={paymentMethod === "Cash"}
-            onChange={() => {
-              setPaymentMethod("Cash");
-            }}
-          />
           <Table
-            columns={["Viaje", "Total"]}
+            columns={["Viaje", "Total parcial"]}
             data={[
               {
                 type: trip_type === 1 ? "Ida" : "Ida y vuelta",
-                total: "$ 204,36",
+                total: moneyFormant(total),
+                key: "type",
+                value: "total",
               },
               {
-                type: "Subtotal",
-                total: "$ 204,36",
+                subtotal: "Subtotal",
+                total: moneyFormant(total),
+                key: "subtotal",
+                value: "total",
               },
               {
-                type: "Total",
-                total: "$ 204,36",
+                total: "Total",
+                totalCost: moneyFormant(total),
+                key: "total",
+                value: "totalCost",
               },
             ]}
           />
-          {/* <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Viaje
-                                </th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span>                                   {trip_type === 1 ? "Ida" : "Ida y vuelta"}
-                                    </span>
-                                </td>
-                                <td>
-                                    Subtotal
-                                </td>
-                                <td>
-                                    Total
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    $ 204,36
-                                </td>
-                                <td>
-                                    $ 204,36
-                                </td>
-                                <td>
-                                    $ 204,36
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> */}
-          <button onClick={triggerSubmit}>Enviar</button>
+          <div className="payment-method">
+            <label className="payment-item">
+              Efectivo
+              <input
+                type="radio"
+                id="Cash"
+                checked={paymentMethod === "Cash"}
+                onChange={() => {
+                  setPaymentMethod("Cash");
+                }}
+              />
+              <span className="radio-label"></span>
+            </label>
+            <label className="payment-item">
+              Tarjeta
+              <input
+                type="radio"
+                id="card"
+                checked={paymentMethod === "Card"}
+                onChange={() => {
+                  setPaymentMethod("Card");
+                }}
+              />
+              <span className="radio-label"></span>
+            </label>
+            <div className="about-card-payment">
+              <span className="clippy"></span>
+              <span className="advice">
+                Al elegir la opcion de pagar con tarjeta, esta se utilizara una
+                vez pasemos a por usted.
+              </span>
+            </div>
+            <Button
+              properties={{
+                type: "secondary",
+                onClickfn: () => {
+                  triggerSubmit();
+                },
+              }}
+            >
+              Agendar reserva
+            </Button>
+          </div>
         </div>
       </div>
-    </section>
+    </motion.div>
   );
 };
 
