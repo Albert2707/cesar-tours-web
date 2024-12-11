@@ -1,8 +1,13 @@
 import { create } from "zustand";
 import { VehicleModel } from "../../../models/booking/vehicle";
 
+type TripFeature = {
+  text: string;
+  value: number;
+};
+
 type BookInfo = {
-  trip_type?: number;
+  trip_type: number;
   passengerNo?: number;
   bagsNo?: number;
   departureHour?: string;
@@ -10,8 +15,9 @@ type BookInfo = {
   vehicle?: VehicleModel;
   origin?: string;
   destination?: string;
-  distance?: string;
-  duration?: string;
+  distance?: TripFeature;
+  duration?: TripFeature;
+  total: number;
   paymentMethod: "Cash" | "Card";
 };
 
@@ -20,6 +26,7 @@ const values: BookInfo = {
   paymentMethod: "Cash",
   bagsNo: 0,
   trip_type: 1,
+  total: 0,
   departureDate: new Date(),
 };
 type Actions = {
@@ -30,6 +37,11 @@ type Actions = {
   setVehicle: (vehicle: VehicleModel) => void;
   setBagsNo: (bagsNo: number) => void;
   setPaymentMethod: (payment: "Cash" | "Card") => void;
+  setOrigin(origin: string): void;
+  setDestination(destination: string): void;
+  setDistance(distance: TripFeature): void;
+  setDuration(duration: TripFeature): void;
+  setTotal(total: number): void;
 };
 export const useBookingStore = create<BookInfo & Actions>()((set) => ({
   ...values,
@@ -38,6 +50,11 @@ export const useBookingStore = create<BookInfo & Actions>()((set) => ({
     set(() => {
       return { departureDate: date };
     }),
+  setOrigin: (origin) => set(() => ({ origin })),
+  setDestination: (destination) => set(() => ({ destination })),
+  setDistance: (distance) => set(() => ({ distance })),
+  setDuration: (duration) => set(() => ({ duration })),
+  setTotal: (total) => set(() => ({ total })),
   setDepartureHour: (hour) =>
     set(() => {
       return { departureHour: hour };
