@@ -2,7 +2,7 @@ import Orders from '../../../features/orders/Orders'
 
 const Dashboard = () => {
   return (
-    <div >
+    <div className="container">
       <Orders />
     </div>
   )

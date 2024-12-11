@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="footer-container">
           <div className="top">
             <div className="footer-logo">
-              <img src="images/Cesar-logo.webp" alt="Cesar logo" loading="lazy" />
+              <img src="/images/Cesar-logo.webp" alt="Cesar logo" loading="lazy" />
             </div>
             <div className="extra">
               <div className="info">

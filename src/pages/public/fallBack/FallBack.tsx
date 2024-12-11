@@ -4,7 +4,7 @@ import './FallBack.scss'
 const FallBack = () => {
     return (
         <div className="fallBack">
-            <img src="images/Cesar-logo.webp" alt="" /> 
+            <img src="/images/Cesar-logo.webp" alt="" /> 
             <Loader />
         </div>
     )

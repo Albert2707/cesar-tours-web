@@ -75,7 +75,7 @@ const Contact = () => {
     } else if (errors.email) {
       toast.error(translate("email_required"));
     } else if (errors.phone) {
-      console.log(errors.phone)
+      console.log(errors.phone);
       toast.error(translate("phone_required"));
     } else if (errors.message) {
       toast.error(translate("message_required"));
@@ -83,59 +83,65 @@ const Contact = () => {
   };
 
   return (
-    <section className="contact-section" id="contact">
+    <div className="contact-section" id="contact">
       <Toaster />
-      <div className="wrapper">
-        <div className="left">
-          <span>{translate("contact_message")}</span>
-          <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
-        </div>
-        <div className="right">
-          <form
-            action=""
-            className="contact-form"
-            onSubmit={handleSubmit(onSubmit, onError)}
-          >
-            <div className="form-item">
-              <label htmlFor="name">{translate("name")}</label>
-              <input
-                id="name"
-                type="text"
-                {...register("name", { required: true })}
-                className={`name ${errors.name ? "invalid" : ""}`}
-              />
+      <div className="container">
+        <div className="wrapper">
+          <div className="left">
+            <span>{translate("contact_message")}</span>
+            <div className="contact_img">
+            <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
             </div>
-            <div className="form-item">
-              <label htmlFor="email">{translate("email")}</label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                className={`email ${errors.email ? "invalid" : ""}`}
-              />
-            </div>
-            <div className="form-item">
-              <label htmlFor="">{translate("phone")}</label>
-              <Controller
-                name="phone"
-                control={control}
-                rules={{
-                  required: true,
-                  validate: (value) => {
-                    return value.length >=10 || "El número de teléfono es inválido";
-                  }
-                }}
-                render={({ field }) => (
-                  <PhoneInput
-                    {...field}
-                    // disableDialCodePrefill={true}
-                    inputClassName="phone-invalid"
-                    disableDialCodeAndPrefix={true}
-                    defaultCountry="do"
-                    className={`phoneInput ${errors.phone ? "phone-invalid" : ""}`}
-                  />
-                )}
-              />
-              {/* <PhoneInput
+          </div>
+          <div className="right">
+            <form
+              action=""
+              className="contact_form"
+              onSubmit={handleSubmit(onSubmit, onError)}
+            >
+              <div className="form_item">
+                <label htmlFor="name">{translate("name")}</label>
+                <input
+                  id="name"
+                  type="text"
+                  {...register("name", { required: true })}
+                  className={`name ${errors.name ? "invalid" : ""}`}
+                />
+              </div>
+              <div className="form_item">
+                <label htmlFor="email">{translate("email")}</label>
+                <input
+                  type="email"
+                  {...register("email", { required: true })}
+                  className={`email ${errors.email ? "invalid" : ""}`}
+                />
+              </div>
+              <div className="form_item">
+                <label htmlFor="">{translate("phone")}</label>
+                <Controller
+                  name="phone"
+                  control={control}
+                  rules={{
+                    required: true,
+                    validate: (value) => {
+                      return (
+                        value.length >= 10 ||
+                        "El número de teléfono es inválido"
+                      );
+                    },
+                  }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      // disableDialCodePrefill={true}
+                      inputClassName="phone-invalid"
+                      disableDialCodeAndPrefix={true}
+                      defaultCountry="do"
+                      className={`phoneInput ${errors.phone ? "phone-invalid" : ""}`}
+                    />
+                  )}
+                />
+                {/* <PhoneInput
                 defaultCountry="do"
                 className="phoneInput"
                 charAfterDialCode=" "
@@ -143,27 +149,25 @@ const Contact = () => {
                 // value={phone}
                 // onChange={(phone) => setPhone(phone)}
               /> */}
-            </div>
-            <div className="form-item">
-              <label htmlFor="">
-                {translate("message")}
-
-              </label>
-              <textarea
-                id=""
-                cols={10}
-                rows={5}
-                {...register("message", { required: true })}
-                className={errors.message ? "invalid" : ""}
-              />
-            </div>
-            <button className="message-button" aria-label="send message">
-              {translate("send_message")}
-            </button>
-          </form>
+              </div>
+              <div className="form_item">
+                <label htmlFor="">{translate("message")}</label>
+                <textarea
+                  id=""
+                  cols={10}
+                  rows={5}
+                  {...register("message", { required: true })}
+                  className={errors.message ? "invalid" : ""}
+                />
+              </div>
+              <button className="message-button" aria-label="send message">
+                {translate("send_message")}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

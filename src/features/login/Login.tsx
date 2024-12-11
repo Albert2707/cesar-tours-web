@@ -55,7 +55,7 @@ const Login = () => {
       <Toaster />
       <div className="cesar-img">
         <img
-          src="images/Cesar-logo.webp"
+          src="/images/Cesar-logo.webp"
           alt="Cesar logo"
           onLoad={() => setIsLoaded(true)}
         />
