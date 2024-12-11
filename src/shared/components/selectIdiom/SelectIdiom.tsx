@@ -38,7 +38,7 @@ const SelectIdiom = () => {
           ...commonStyles,
           borderRadius: "50px",
           backgroundColor: "transparent",
-          height: "40px",
+          height: "47px",
           display: "flex",
           width: "100px",
           justifyContent: "center",

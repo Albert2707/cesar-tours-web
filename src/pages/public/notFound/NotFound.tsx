@@ -13,7 +13,7 @@ const NotFound = () => {
     return (
         <div className="not-found">
             <div className="left">
-                <img src="images/Cesar-logo.webp" alt="Cesar logo" loading="lazy" />
+                <img src="/images/Cesar-logo.webp" alt="Cesar logo" loading="lazy" />
             </div>
             <div className="line"></div>
             <div className="right">
