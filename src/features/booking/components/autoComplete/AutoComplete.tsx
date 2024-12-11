@@ -34,7 +34,8 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
     if (!places || !inputRef.current) return;
 
     const options = {
-      fields: ["geometry", "name", "formatted_address"]
+      fields: ["geometry", "name", "formatted_address"],
+      componentRestrictions: { country: "DO" }
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
