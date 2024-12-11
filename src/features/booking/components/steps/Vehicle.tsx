@@ -8,19 +8,36 @@ import { VehicleModel } from "../../../../models/booking/vehicle";
 import { useIdiom } from "../../../../context/idiomContext";
 import { IdiomTypes } from "../../../../context/idiomTypes";
 import Loader from "../../../loader/Loader";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useBookingStore } from "../../../../shared/hooks/booking/useBookingStore";
 import useTranslate from "../../../../shared/hooks/translations/Translate";
+import { moneyFormant } from "../../../../utils/functions/moneyFormat";
+import { calculateTripCost } from "../../../../utils/functions/caculateTripCost";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
-const {VITE_CESAR_API} = import.meta.env
+const { VITE_CESAR_API } = import.meta.env;
 const Vehicle: FC<Props> = ({ setStep }) => {
-  console.log(VITE_CESAR_API)
+  console.log(VITE_CESAR_API);
   const { idiom } = useIdiom() as IdiomTypes;
-  const { passengerNo, bagsNo, departureHour, departureDate,setVehicle } =
-    useBookingStore();
+  const {
+    passengerNo,
+    bagsNo,
+    departureHour,
+    departureDate,
+    setVehicle,
+    distance,
+    trip_type,
+    setTotal,
+    duration,
+    origin,
+    destination,
+  } = useBookingStore();
+  let kilometers = 0;
+  if (distance) {
+    kilometers = Math.ceil(distance.value / 1000);
+  }
   const { translate } = useTranslate();
   const navigate = useNavigate();
 
@@ -51,9 +68,21 @@ const Vehicle: FC<Props> = ({ setStep }) => {
 
   const content = () => {
     if (isError) {
-      return "Something went wrong";
+      return (
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <span>Something went wrong</span>
+        </div>
+      );
     } else if (isLoading) {
-      return <Loader />;
+      return (
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <Loader />
+        </div>
+      );
     } else {
       return data.map((e: VehicleModel) => (
         <motion.div
@@ -63,7 +92,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         >
           <div className="vehicle-img">
             <img
-              src={VITE_CESAR_API+"/"+e.img_url}
+              src={VITE_CESAR_API + "/" + e.img_url}
               alt="Tahoe Suburban"
               width={200}
               height={1200}
@@ -76,7 +105,11 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               <span>
                 {e.brand} {e.model}
               </span>
-              <span className="price">$&nbsp;{e.price_per_km}</span>
+              <span className="price">
+                {moneyFormant(
+                  calculateTripCost(+e.price_per_km, kilometers, trip_type)
+                )}
+              </span>
             </div>
 
             <div className="book-now">
@@ -117,9 +150,17 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                   <span>{e.luggage_capacity}</span>
                 </div>
               </div>
-              <button onClick={() => {
-                setVehicle(e)
-                navigate("/checkout")}}>BOOK NOW</button>
+              <button
+                onClick={() => {
+                  setVehicle(e);
+                  setTotal(
+                    calculateTripCost(+e.price_per_km, kilometers, trip_type)
+                  );
+                  navigate("/checkout");
+                }}
+              >
+                BOOK NOW
+              </button>
             </div>
           </div>
         </motion.div>
@@ -135,10 +176,12 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           <div className="route">
             <span>Route</span>
             <span>
-              Aeropuerto Las Americas Santo Domingo, Ruta 66 Salida Del
-              Aeropuerto las Americas Santo Domingo Dominican Republic -- San
-              Juan de la Maguana, Dominican Republic
+              {origin} <span> {"->"} </span> {destination}
             </span>
+          </div>
+          <div className="route">
+            <span>Trip Type</span>
+            <span>{trip_type == 1 ? "Ida" : "Ida y vuelta"}</span>
           </div>
           <div className="collection-time">
             <span>Collection Time</span>
@@ -152,11 +195,11 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           </div>
           <div className="distance">
             <span>Distance</span>
-            <span>135.9 km</span>
+            <span>{distance?.text}</span>
           </div>
           <div className="duration">
             <span>Duration</span>
-            <span>3 horas 20 minutos</span>
+            <span>{duration?.text}</span>
           </div>
         </div>
         <button onClick={() => setStep(1)} className="back-button">
