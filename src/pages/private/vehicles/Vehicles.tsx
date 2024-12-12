@@ -100,7 +100,6 @@ const Vehicles = () => {
                 onClickfn: () => {
                   vehicleId.current = e.id;
                   setConfirm(true);
-                  setEditMode(false);
                 },
               }}
             >
@@ -147,7 +146,13 @@ const Vehicles = () => {
           </Button>
         </div>
         <Button
-          properties={{ type: "options", onClickfn: () => setShow(true) }}
+          properties={{
+            type: "options",
+            onClickfn: () => {
+              setShow(true);
+              setEditMode(false);
+            },
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

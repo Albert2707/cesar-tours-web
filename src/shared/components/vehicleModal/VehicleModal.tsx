@@ -85,7 +85,6 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       transition={{ duration: 0.2 }}
       exit={{ opacity: 0.5 }}
     >
-      <Toaster />
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
