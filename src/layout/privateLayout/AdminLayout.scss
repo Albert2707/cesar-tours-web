@@ -7,7 +7,8 @@
   flex-direction: column;
   gap: 20px;
   overflow: hidden;
-  height: calc(100vh - 80px);
+  padding: 2rem 0;
+  min-height: calc(100vh - 80px);
   h3{
     font-size: 24px;
   }
