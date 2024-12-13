@@ -26,7 +26,6 @@ const Contact = () => {
     register,
     setValue,
     handleSubmit,
-    // watch,
     control,
     formState: { errors },
   } = useForm<Inputs>();

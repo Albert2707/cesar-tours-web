@@ -1,14 +1,14 @@
 import { lazy } from "react";
-import { Outlet, ScrollRestoration} from "react-router-dom";
+import { Outlet} from "react-router-dom";
 const Navbar = lazy(() => import("../features/navbar/Navbar"));
 const Footer = lazy(() => import("../features/footer/Footer"));
 const MainLayout = () => {
   return (
-    <div style={{ minHeight: "100vh" }}>
-    {/* <ScrollRestoration/> */}
+    <div id="main">
       <Navbar />
-      <ScrollRestoration/>
-      <Outlet />
+      <main className="main-layout">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );
