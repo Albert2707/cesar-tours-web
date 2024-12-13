@@ -2,7 +2,7 @@ import { FC } from 'react'
 import "./Button.scss"
 interface ButtonProps {
     // text: string,
-    type: "primary" | "secondary" | "logout" |"filter"|"options"
+    type: "primary" | "secondary" | "logout" |"filter"|"options"|"toast"
     onClickfn : ()=> void
 }
 interface Props {
