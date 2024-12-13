@@ -1,6 +1,5 @@
 @use "../index.scss" as *;
 
 .main-layout {
-    overflow: hidden;
-    max-height:calc(100vh - 80px) ;
+    min-height:calc(100vh - 80px) ;
 }
