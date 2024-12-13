@@ -31,6 +31,13 @@ const Confirm = () => {
     }
   }, [order]);
 
+  useEffect(() => {
+    const target = document.getElementById("main");
+    if (target) {
+      target.scrollIntoView();
+    }
+  }, []);
+
   if (!order) return <div>No hay órdenes registradas</div>;
 
   return (
