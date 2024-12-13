@@ -54,7 +54,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="#booking"
+                to="/#booking"
                 onClick={() => {
                   const target = document.getElementById("booking");
                   if (target) {
@@ -67,7 +67,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="#aboutUs"
+                to="/#aboutUs"
                 onClick={() => {
                   const target = document.getElementById("aboutUs");
                   if (target) {
@@ -80,7 +80,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="#contact"
+                to="/#contact"
                 onClick={() => {
                   const target = document.getElementById("contact");
                   if (target) {
