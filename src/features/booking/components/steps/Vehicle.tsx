@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import "./Vehicle.scss";
 import { format } from "date-fns";
-import { FC } from "react";
+import { FC, startTransition } from "react";
 import { useQuery } from "react-query";
 import { request } from "../../../../utils/api/request";
 import { VehicleModel } from "../../../../models/booking/vehicle";
 import { useIdiom } from "../../../../context/idiomContext";
 import { IdiomTypes } from "../../../../context/idiomTypes";
 import Loader from "../../../loader/Loader";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useBookingStore } from "../../../../shared/hooks/booking/useBookingStore";
 import useTranslate from "../../../../shared/hooks/translations/Translate";
 import { moneyFormant } from "../../../../utils/functions/moneyFormat";
 import { calculateTripCost } from "../../../../utils/functions/caculateTripCost";
+import { VITE_CESAR_API } from "../../../../config/config";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
-const { VITE_CESAR_API } = import.meta.env;
 const Vehicle: FC<Props> = ({ setStep }) => {
   const { idiom } = useIdiom() as IdiomTypes;
   const {
@@ -53,7 +53,11 @@ const Vehicle: FC<Props> = ({ setStep }) => {
       },
     },
   };
-
+  function handleUserAction() {
+    startTransition(() => {
+      navigate("/checkout"); // Si esto causa suspensión
+    });
+  }
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
@@ -153,7 +157,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                   setTotal(
                     calculateTripCost(+e.price_per_km, kilometers, trip_type)
                   );
-                  navigate("/checkout");
+                  handleUserAction();
                 }}
               >
                 BOOK NOW
