@@ -12,12 +12,13 @@ const FallBack = lazy(() => import("./pages/public/fallBack/FallBack"));
 const MainLayout = lazy(() => import("./layout/MainLayout"));
 const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Confirm = lazy(() => import("./pages/public/confirm/Confirm"));
-import Vehicles from "./pages/private/vehicles/Vehicles";
+const Vehicles = lazy(() => import("./pages/private/vehicles/Vehicles"));
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import OrderDetail from "./pages/private/orderDetail/OrderDetail";
+const OrderDetail = lazy(
+  () => import("./pages/private/orderDetail/OrderDetail")
+);
 function App() {
   history.scrollRestoration = "manual";
-
 
   const router = createBrowserRouter([
     {
