@@ -6,9 +6,10 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { request } from "../../../utils/api/request";
 import Loader from "../../../features/loader/Loader";
 import { VehicleModel } from "../../../models/booking/vehicle";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Button from "../../../shared/components/button/Button";
 import ConfirmPopup from "../../../shared/components/confirmPopup/ConfirmPopup";
+import { customToast } from "../../../utils/functions/customToast";
 const { VITE_CESAR_API } = import.meta.env;
 
 const Vehicles = () => {
@@ -33,17 +34,17 @@ const Vehicles = () => {
       client.invalidateQueries({
         queryKey: ["vehicles_admin"],
       });
-      toast.success("Eliminado con exito");
+      customToast("success", "Eliminado con exito");
       vehicleId.current = "";
       setConfirm(false);
     },
     onError: () => {
-      toast.error("Error");
+      customToast("error", "Error eliminando vehiculo");
     },
   });
 
   const handleDelete = () => {
-    if (!vehicleId.current) return toast.error("Vacio");
+    if (!vehicleId.current) return customToast("error", "Este vehiculo no existe");
     deleteVehicle.mutate(vehicleId.current);
   };
   const content = () => {

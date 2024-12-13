@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import Button from "../button/Button";
 import { motion } from "framer-motion";
-import toast, { Toaster } from "react-hot-toast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { QueryClient, useMutation } from "react-query";
 import { request } from "../../../utils/api/request";
+import { customToast } from "../../../utils/functions/customToast";
 interface Props {
   properties: {
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,19 +22,19 @@ interface Inputs {
 }
 const VehicleModal: FC<Props> = ({ properties }) => {
   const { setShow, queryClient, editMode } = properties;
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit, reset,setValue } = useForm<Inputs>();
   const [file, setFile] = useState<any>(null);
   const validate = async (img: FileList) => {
     const file = img[0];
     if (file) {
       const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Formato no permitido. Solo se aceptan PNG, JPEG y WEBP.");
+        customToast("warning", "Formato no permitido. Solo se aceptan PNG, JPEG y WEBP.")
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
         // Máximo 5 MB
-        toast.error("El archivo es demasiado grande. Máximo permitido: 5 MB.");
+        customToast("warning", "El archivo es demasiado grande. Máximo permitido: 5 MB.")
         return;
       }
       setFile(file);
@@ -57,13 +57,13 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       queryClient.invalidateQueries({
         queryKey: ["vehicles_admin"],
       });
-      toast.success("Vehiculo creado exitosamente");
+      customToast("success", "Vehiculo creado exitosamente")
       setFile(null);
       reset();
       setShow(false);
     },
     onError: () => {
-      toast.error("Error al crear el vehículo");
+      customToast("error", "Error al crear el vehículo")
     },
   });
   const submit: SubmitHandler<Inputs> = async (data) => {
@@ -76,7 +76,12 @@ const VehicleModal: FC<Props> = ({ properties }) => {
     form.append("price_per_km", data.price_per_km.toString());
     createV.mutate(form);
   };
-
+  const handleInput = (event: React.FormEvent<HTMLInputElement>, key:"img" | "brand" | "model" | "capacity" | "luggage_capacity" | "price_per_km") => {
+    const value = event.currentTarget.value;
+    const numericValue = value.replace(/[^0-9]/g, '');
+    event.currentTarget.value = numericValue;
+    setValue(key, numericValue, { shouldValidate: true });
+  };
   return (
     <motion.div
       className="admin_vehicles_modal"
@@ -179,18 +184,21 @@ const VehicleModal: FC<Props> = ({ properties }) => {
             placeholder="Capacidad Personas"
             inputMode="numeric"
             {...register("capacity", { required: true })}
+            onInput={(e) => handleInput(e, "capacity")}
           />
           <input
             type="text"
             placeholder="Capacidad equipaje"
             inputMode="numeric"
             {...register("luggage_capacity", { required: true })}
+            onInput={(e) => handleInput(e, "luggage_capacity")}
           />
           <input
             type="text"
             placeholder="Precio por kilometro"
             inputMode="numeric"
             {...register("price_per_km", { required: true })}
+            onInput={(e) => handleInput(e, "price_per_km")}
           />
           <Button
             properties={{
