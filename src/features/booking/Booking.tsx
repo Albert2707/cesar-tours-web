@@ -1,8 +1,7 @@
 import { useState } from "react";
-import useTranslate from "../../shared/hooks/translations/Translate";
+import useTranslate from "@hooks/translations/Translate";
 import "./Booking.scss";
-
-import { generateTimeOptions } from "../../utils/functions/functions";
+import { generateTimeOptions } from "@/utils/functions/functions";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
@@ -12,23 +11,27 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import { enUS } from "date-fns/locale/en-US";
 import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { useIdiom } from "../../context/idiomContext";
-import { IdiomTypes } from "../../context/idiomTypes";
-import { useBookingStore } from "../../shared/hooks/booking/useBookingStore";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
+// import { useBookingStore } from "../../shared/hooks/booking/useBookingStore";
+import { useBookingStore } from "@hooks/booking/useBookingStore";
 import { AnimatePresence, motion } from "framer-motion";
-import SelectBooking from "../../shared/components/selectBooking/SelectBooking";
+import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
+import { customToast } from "@/utils/functions/customToast";
+import { VITE_GOOGLE_API_KEY, VITE_CESAR_API } from "@/config/config";
 
-const { VITE_GOOGLE_API_KEY } = import.meta.env;
+
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
 interface TripType {
   value: number;
   label: string;
 }
-
 const Booking = () => {
   registerLocale("en", enUS);
   registerLocale("es", es);
+  console.log(VITE_CESAR_API)
+  const today = new Date();
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
@@ -36,14 +39,20 @@ const Booking = () => {
   const {
     passengerNo,
     departureDate,
+    destination,
     departureHour,
     bagsNo,
+    origin: originTrip,
     trip_type,
     setDepartureHour,
     setTripType,
     setDepartureDate,
     setNoPassenger,
     setBagsNo,
+    setReturnDate,
+    setReturnHour,
+    returnHours,
+    returnDate
   } = useBookingStore();
   const [destinationAddress, setDestinationAddress] = useState<any>(null);
   const hours = generateTimeOptions();
@@ -94,15 +103,14 @@ const Booking = () => {
       <Toaster />
       <div className="container">
         <div className="wrapper">
-          <h2>{translate("booking_prompt")}</h2>
+          <h2 className="booking_title">{translate("booking_prompt")}</h2>
           <div className="booking-container">
             <div className="steps">
               <div className="step done">1</div>
               <div className="steps-progress">
                 <div
-                  className={` progress ${
-                    step === 2 || step === 3 ? "done" : ""
-                  }`}
+                  className={` progress ${step === 2 || step === 3 ? "done" : ""
+                    }`}
                 ></div>
               </div>
               <div
@@ -204,7 +212,11 @@ const Booking = () => {
                           <DatePicker
                             className="datePicker"
                             selected={departureDate}
-                            onChange={(date) => setDepartureDate(date as Date)}
+                            minDate={today}
+                            onChange={(date) => {
+                              if (!date) return toast.error("Debe seleccionar una fecha");
+                              setDepartureDate(date as Date)
+                            }}
                             locale={idiom}
                             dateFormat={
                               idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
@@ -244,9 +256,12 @@ const Booking = () => {
                               </label>
                               <DatePicker
                                 className="datePicker"
-                                selected={departureDate}
-                                onChange={(date) =>
-                                  setDepartureDate(date as Date)
+                                selected={returnDate}
+                                minDate={departureDate}
+                                onChange={(date) => {
+                                  if (!date) return toast.error("Debe seleccionar una fecha");
+                                  setReturnDate(date as Date)
+                                }
                                 }
                                 locale={idiom}
                                 dateFormat={
@@ -265,10 +280,10 @@ const Booking = () => {
                                 placeholder="time"
                                 onChange={(e) => {
                                   const { value } = e as { value: string };
-                                  setDepartureHour(value);
+                                  setReturnHour(value);
                                 }}
                                 value={hours.find(
-                                  (e) => e.value === departureHour
+                                  (e) => e.value === returnHours
                                 )}
                               />
                             </div>
@@ -310,14 +325,18 @@ const Booking = () => {
                         aria-label="Seleccionar vehiculo"
                         className="btn-selectec-vehicle"
                         onClick={() => {
-                          if (!trip_type)
-                            return toast.error("Seleccione un tipo de viaje");
-                          if (!passengerNo)
-                            return toast.error(
-                              "Seleccione un número de pasajeros"
-                            );
                           if (!departureHour)
-                            return toast.error("Seleccione una hora");
+                            return customToast("error", "Seleccione una hora");
+                          if (!departureDate)
+                            return customToast("error", "Seleccione una fecha");
+                          if (!returnDate)
+                            return customToast("error", "Seleccione una fecha");
+                          if (trip_type == 2 && !returnHours)
+                            return customToast("error", "Seleccione una hora de regreso");
+                          if (!originTrip)
+                            return customToast("error", "Seleccione direccion de origen");
+                          if (!destination)
+                            return customToast("error", "Seleccione direccion de destino");
                           setStep(2);
                         }}
                       >
@@ -329,28 +348,6 @@ const Booking = () => {
               </APIProvider>
             )}
             {step === 2 && <Vehicle setStep={setStep} />}
-            {step === 3 && (
-              <>
-                <button
-                  type="button"
-                  aria-label="go back"
-                  onClick={() => {
-                    setStep(2);
-                  }}
-                >
-                  {translate("volver")}
-                </button>
-                <button
-                  type="button"
-                  aria-label="checkout"
-                  onClick={() => {
-                    alert("Llegamos");
-                  }}
-                >
-                  {translate("Completar")}
-                </button>
-              </>
-            )}
           </div>
         </div>
       </div>
