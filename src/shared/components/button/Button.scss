@@ -87,3 +87,19 @@ button {
     height: 15px;
   }
 }
+
+.btn-toast{
+  border:none;
+  width: 40px;
+  height: 40px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255,255, 0.2);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  font-weight: 500;
+  display: flex;
+  cursor:pointer;
+  justify-content: center;
+  align-items: center;
+}
