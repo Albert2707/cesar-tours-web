@@ -10,6 +10,8 @@ type BookInfo = {
   trip_type: number;
   passengerNo?: number;
   bagsNo?: number;
+  returnDate: Date;
+  returnHours?: string
   departureHour?: string;
   departureDate: Date;
   vehicle?: VehicleModel;
@@ -28,11 +30,14 @@ const values: BookInfo = {
   trip_type: 1,
   total: 0,
   departureDate: new Date(),
+  returnDate: new Date()
 };
 type Actions = {
   setTripType: (trip_type: number) => void;
   setDepartureDate: (date: Date) => void;
+  setReturnDate: (date: Date) => void;
   setDepartureHour: (hour: string) => void;
+  setReturnHour: (hour: string) => void;
   setNoPassenger: (passengers: number) => void;
   setVehicle: (vehicle: VehicleModel) => void;
   setBagsNo: (bagsNo: number) => void;
@@ -50,6 +55,10 @@ export const useBookingStore = create<BookInfo & Actions>()((set) => ({
     set(() => {
       return { departureDate: date };
     }),
+    setReturnDate: (date) =>
+      set(() => {
+        return { returnDate: date };
+      }),
   setOrigin: (origin) => set(() => ({ origin })),
   setDestination: (destination) => set(() => ({ destination })),
   setDistance: (distance) => set(() => ({ distance })),
@@ -59,6 +68,10 @@ export const useBookingStore = create<BookInfo & Actions>()((set) => ({
     set(() => {
       return { departureHour: hour };
     }),
+    setReturnHour: (hour) =>
+      set(() => {
+        return { returnHours: hour };
+      }),
   setNoPassenger: (passengerNo) =>
     set(() => {
       return { passengerNo };
