@@ -1,11 +1,11 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/authContext";
-import { AuthTypes } from "../../context/authTypes";
+import { useAuth } from "@/context/authContext";
+import { AuthTypes } from "@context/authTypes";
 import "./Login.scss";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
-import useTranslate from "../../shared/hooks/translations/Translate";
+import useTranslate from "@hooks/translations/Translate";
 const Login = () => {
   const { login, isLoggedIn } = useAuth() as AuthTypes;
   const [credentials, setCredentials] = useState<{

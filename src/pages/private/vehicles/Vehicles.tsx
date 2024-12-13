@@ -1,22 +1,23 @@
 import "./Vehicle.scss";
-import VehicleModal from "../../../shared/components/vehicleModal/VehicleModal";
+import VehicleModal from "@/shared/components/vehicleModal/VehicleModal";
 import { useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../utils/api/request";
-import Loader from "../../../features/loader/Loader";
-import { VehicleModel } from "../../../models/booking/vehicle";
+import { request } from "@/utils/api/request";
+import Loader from "@/features/loader/Loader";
+import { VehicleModel } from "@/models/booking/vehicle";
 import { Toaster } from "react-hot-toast";
-import Button from "../../../shared/components/button/Button";
-import ConfirmPopup from "../../../shared/components/confirmPopup/ConfirmPopup";
-import { customToast } from "../../../utils/functions/customToast";
-const { VITE_CESAR_API } = import.meta.env;
+import Button from "@/shared/components/button/Button";
+import ConfirmPopup from "@/shared/components/confirmPopup/ConfirmPopup";
+import { customToast } from "@/utils/functions/customToast";
+import { VITE_CESAR_API } from "@/config/config";
 
 const Vehicles = () => {
   const [confirm, setConfirm] = useState<boolean>(false);
   const client = useQueryClient();
   const [editMode, setEditMode] = useState(false);
   const vehicleId = useRef<string>("");
+  const [vehicle, setVehicle] = useState<VehicleModel>();
   const [show, setShow] = useState<boolean>(false);
   const { data, isLoading, error } = useQuery({
     queryKey: ["vehicles_admin"],
@@ -44,7 +45,8 @@ const Vehicles = () => {
   });
 
   const handleDelete = () => {
-    if (!vehicleId.current) return customToast("error", "Este vehiculo no existe");
+    if (!vehicleId.current)
+      return customToast("error", "Este vehiculo no existe");
     deleteVehicle.mutate(vehicleId.current);
   };
   const content = () => {
@@ -73,7 +75,7 @@ const Vehicles = () => {
               properties={{
                 type: "options",
                 onClickfn: () => {
-                  console.log(e);
+                  setVehicle(e);
                   setEditMode(true);
                   setShow(true);
                 },
@@ -95,33 +97,35 @@ const Vehicles = () => {
               </svg>
               Editar
             </Button>
-            <Button
-              properties={{
-                type: "options",
-                onClickfn: () => {
-                  vehicleId.current = e.id;
-                  setConfirm(true);
-                },
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="btn_icon"
+            {e.status && (
+              <Button
+                properties={{
+                  type: "options",
+                  onClickfn: () => {
+                    vehicleId.current = e.id;
+                    setConfirm(true);
+                  },
+                }}
               >
-                <path d="M3 6h18" />
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-              </svg>
-              Borrar
-            </Button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="btn_icon"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
+                Borrar
+              </Button>
+            )}
           </div>
         </div>
       ));
@@ -133,7 +137,7 @@ const Vehicles = () => {
       <AnimatePresence>
         {show && (
           <VehicleModal
-            properties={{ setShow, queryClient: client, editMode }}
+            properties={{ setShow, queryClient: client, editMode, vehicle }}
           />
         )}
       </AnimatePresence>
@@ -145,6 +149,25 @@ const Vehicles = () => {
           <Button properties={{ type: "filter", onClickfn: () => {} }}>
             No disponibles
           </Button>
+          <div className="warn">
+          <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-triangle-alert"
+      >
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </svg>
+            <span className="">Solo puedes eliminar los vehiculos que no estan ocupados</span>
+          </div>
         </div>
         <Button
           properties={{

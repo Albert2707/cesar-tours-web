@@ -1,22 +1,22 @@
-import { Table } from "../../../shared/components/table/Table";
-import { useBookingStore } from "../../../shared/hooks/booking/useBookingStore";
+import { Table } from "@/shared/components/table/Table";
+import { useBookingStore } from "@/shared/hooks/booking/useBookingStore";
 import { enUS } from "date-fns/locale/en-US";
 import { es } from "date-fns/locale/es";
 import "./Checkout.scss";
 import { format } from "date-fns";
-import { useIdiom } from "../../../context/idiomContext";
-import { IdiomTypes } from "../../../context/idiomTypes";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
 import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { CheckoutService } from "./services/checkoutService";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
-import { moneyFormant } from "../../../utils/functions/moneyFormat";
-import Button from "../../../shared/components/button/Button";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
+import Button from "@/shared/components/button/Button";
 import { useNavigate } from "react-router-dom";
-import { useConfirmationStore } from "../../../shared/hooks/confirmation/useConfirmationStore";
+import { useConfirmationStore } from "@/shared/hooks/confirmation/useConfirmationStore";
 import { motion } from 'framer-motion'
 import { useEffect, useRef } from "react";
-import { customToast } from "../../../utils/functions/customToast";
+import { customToast } from "@/utils/functions/customToast";
 interface Inputs {
   name: string;
   lastName: string;
@@ -51,8 +51,6 @@ const Checkout = () => {
     register,
     setValue,
     handleSubmit,
-    // watch,
-    // control,
     reset,
     formState: { errors },
   } = useForm<Inputs>();

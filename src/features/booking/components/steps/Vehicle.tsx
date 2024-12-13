@@ -3,17 +3,17 @@ import "./Vehicle.scss";
 import { format } from "date-fns";
 import { FC, startTransition } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../../utils/api/request";
-import { VehicleModel } from "../../../../models/booking/vehicle";
-import { useIdiom } from "../../../../context/idiomContext";
-import { IdiomTypes } from "../../../../context/idiomTypes";
-import Loader from "../../../loader/Loader";
+import { request } from "@/utils/api/request";
+import { VehicleModel } from "@/models/booking/vehicle";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
 import { useNavigate } from "react-router-dom";
-import { useBookingStore } from "../../../../shared/hooks/booking/useBookingStore";
-import useTranslate from "../../../../shared/hooks/translations/Translate";
-import { moneyFormant } from "../../../../utils/functions/moneyFormat";
-import { calculateTripCost } from "../../../../utils/functions/caculateTripCost";
-import { VITE_CESAR_API } from "../../../../config/config";
+import { useBookingStore } from "@hooks/booking/useBookingStore";
+import useTranslate from "@hooks/translations/Translate";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
+import { calculateTripCost } from "@/utils/functions/caculateTripCost";
+import { VITE_CESAR_API } from "@/config/config";
+import Loader from "@/features/loader/Loader";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
