@@ -16,9 +16,11 @@ import Vehicles from "./pages/private/vehicles/Vehicles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import OrderDetail from "./pages/private/orderDetail/OrderDetail";
 function App() {
+  history.scrollRestoration = "manual";
+
+
   const router = createBrowserRouter([
     {
-      path: "/",
       element: <MainLayout />,
       children: [
         {
@@ -26,12 +28,12 @@ function App() {
           element: <Home />,
         },
         {
-          path: "/checkout",
-          element: <Checkout />,
-        },
-        {
           path: "/order/confirmation",
           element: <Confirm />,
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />,
         },
       ],
     },
