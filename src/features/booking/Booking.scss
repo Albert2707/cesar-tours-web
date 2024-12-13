@@ -21,7 +21,7 @@
     justify-content: center;
     align-items: center;
 
-    h2 {
+    .booking_title {
       justify-self: center;
       color: #f2f2f2;
       font-size: calc(1.3vw + 1rem);
@@ -203,10 +203,6 @@
 
                 .datePicker {
                   width: 100%;
-
-                  h2 {
-                    color: black;
-                  }
                 }
               }
 
