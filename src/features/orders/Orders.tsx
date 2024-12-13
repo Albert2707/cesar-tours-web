@@ -25,7 +25,7 @@ const Orders = () => {
     if (status === 0) {
       return { name: "Agendada", class: "pending" };
     } else if (status === 1) {
-      return { name: "En proceso", class: "in-progress" };
+      return { name: "Proceso", class: "in-progress" };
     } else if (status === 2) {
       return { name: "Completada", class: "completed" };
     } else {
@@ -45,7 +45,7 @@ const Orders = () => {
         <div className="tbl-body-row" key={crypto.randomUUID()}>
           <div className="cell">{e.order_num}</div>
           <div className="cell">
-            {format(new Date(e.createAt), "MMM d, yyyy", { locale: es })}
+            {format(new Date(e.departureDate), "MMM d, yyyy", { locale: es })}
           </div>
 
           <div className={`cell ${orderStatus(e.status).class}`}>
@@ -56,7 +56,7 @@ const Orders = () => {
           </div>
 
           <div className="cell">{e.origin}</div>
-          <div className="cell">{e.destination}</div>
+          <div className="cell">{e.vehicle.model}</div>
 
           <div className="cell">{moneyFormant(e.total)}</div>
           <div className="cell">
@@ -145,7 +145,7 @@ const Orders = () => {
           <div className="cell">Status</div>
           <div className="cell">Customer</div>
           <div className="cell">Origin</div>
-          <div className="cell">Destination</div>
+          <div className="cell">Vehicle</div>
           <div className="cell">Total</div>
         </div>
         <div className="tbl-body">{order()}</div>
