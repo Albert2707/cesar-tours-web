@@ -6,7 +6,7 @@ import "./Checkout.scss";
 import { format } from "date-fns";
 import { useIdiom } from "../../../context/idiomContext";
 import { IdiomTypes } from "../../../context/idiomTypes";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { CheckoutService } from "./services/checkoutService";
 import toast, { Toaster } from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
@@ -14,7 +14,9 @@ import { moneyFormant } from "../../../utils/functions/moneyFormat";
 import Button from "../../../shared/components/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useConfirmationStore } from "../../../shared/hooks/confirmation/useConfirmationStore";
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
+import { useEffect, useRef } from "react";
+import { customToast } from "../../../utils/functions/customToast";
 interface Inputs {
   name: string;
   lastName: string;
@@ -27,14 +29,14 @@ interface Inputs {
   additionalNotes: string;
 }
 interface OrderData extends Inputs {
-  origin: string;
-  destination: string;
-  trip_type: string;
-  passengers: number;
-  luggage: number;
-  departureDate: string;
-  departureHours: string;
-  returnDate?: string;
+  origin?: string;
+  destination?: string;
+  trip_type?: number;
+  passengers?: number;
+  luggage?: number;
+  departureDate?: Date;
+  departureHours?: string;
+  returnDate?: Date;
   returnHours?: string;
   countryId: string;
   distance?: string;
@@ -47,14 +49,14 @@ interface OrderData extends Inputs {
 const Checkout = () => {
   const {
     register,
-    // setValue,
+    setValue,
     handleSubmit,
     // watch,
     // control,
     reset,
-    // formState: { errors },void;
+    formState: { errors },
   } = useForm<Inputs>();
-  const {addOrder}  = useConfirmationStore()
+  const { addOrder } = useConfirmationStore()
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const createOrder = useMutation({
@@ -79,7 +81,7 @@ const Checkout = () => {
       toast.error("Hubo un error al crear la orden");
     },
   });
-  
+
   const {
     trip_type,
     passengerNo,
@@ -93,10 +95,13 @@ const Checkout = () => {
     destination,
     paymentMethod,
     setPaymentMethod,
+    returnHours,
+    returnDate,
     total,
   } = useBookingStore();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const order:OrderData = {
+    const order: OrderData = {
       name: data.name,
       lastName: data.lastName,
       email: data.email,
@@ -109,8 +114,8 @@ const Checkout = () => {
       luggage: bagsNo,
       departureDate,
       departureHours: departureHour,
-      // returnDateset
-      // returnHours
+      returnHours,
+      returnDate,
       countryId: "245feb84-471b-4d9f-8de6-87b9768a6489",
       distance: distance?.text,
       duration: duration?.text,
@@ -123,18 +128,60 @@ const Checkout = () => {
     };
     createOrder.mutate(order);
   };
+  const handleInput = (event: React.FormEvent<HTMLInputElement>, key:"name" | "lastName" | "email" | "phone" | "optionalPhone" | "countryId" | "airline" | "flight_number" | "additionalNotes") => {
+    const value = event.currentTarget.value;
+    // Elimina caracteres no numéricos
+    const numericValue = value.replace(/[^0-9]/g, '');
+    event.currentTarget.value = numericValue;
+    setValue(key, numericValue, { shouldValidate: true });
+  };
+  const onError = (errors: FieldErrors<Inputs>) => {
+    if (errors.name) {
+      customToast("error", "Complete el campo nombre")
+    }
+    else if (errors.lastName) {
+      customToast("error", "Complete el campo apellido")
+    }
+    else if (errors.email) {
+      customToast("error", "Complete el campo email")
+    }
+    else if (errors.phone) {
+      customToast("error", "Complete el campo telefono")
+    }
+    else if (errors.optionalPhone) {
+      customToast("error", "Complete el campo telefono opcional")
+    }
+    else if (errors.countryId) {
+      customToast("error", "Complete el campo pais")
+    }
+    else if (errors.airline) {
+      customToast("error", "Complete el campo aerolinea")
+    }
+    else if (errors.flight_number) {
+      customToast("error", "Complete el campo vuelo")
+    }
+    else if (errors.additionalNotes) {
+      customToast("error", "Complete el campo comentarios")
+    }
+  }
   const fecha = departureDate;
   const { idiom } = useIdiom() as IdiomTypes;
   const fechaEnEspanol = format(fecha, "d 'de' MMMM 'de' yyyy", { locale: es });
   const fechaEnIngles = format(fecha, "MMMM d, yyyy", { locale: enUS });
-
+  const checkoutRef = useRef(null);
+  useEffect(() => {
+    const target = document.getElementById("main");
+    if (target) {
+      target.scrollIntoView();
+    }
+  }, []);
   if (!vehicle) {
     return (
       <div
         style={{
           height: "calc(100vh - 80px)",
           display: "flex",
-          boxSizing:'border-box',
+          boxSizing: 'border-box',
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -145,19 +192,19 @@ const Checkout = () => {
   }
 
   const triggerSubmit = () => {
-    handleSubmit(onSubmit)();
+    handleSubmit(onSubmit, onError)();
   };
 
   return (
-    <motion.div className="checkout" initial={{x:-100, opacity:0}} animate={{x:0, opacity:1}}  transition={{type:"spring", duration:0.3}}> 
+    <motion.div className="checkout" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "spring", duration: 0.3 }} ref={checkoutRef}>
       <Toaster />
       <div className="wrapper">
         <div className="top" style={{ display: "flex" }}>
           <div className="left">
-            <h2>Datos de Facturación</h2>
+            <h2 id="checkout">Datos de Facturación</h2>
             <form
               action=""
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit, onError)}
               className="checkout-form"
             >
               <div className="item customer">
@@ -165,9 +212,9 @@ const Checkout = () => {
                   <label htmlFor="name">Name</label>
                   <input
                     id="name"
-                    className="forminput"
                     type="text"
                     placeholder="Name"
+                    className={`forminput ${errors.name ? "invalid" : ""}`}
                     {...register("name", { required: true })}
                   />
                 </div>
@@ -175,9 +222,9 @@ const Checkout = () => {
                   <label htmlFor="last_name">LastName</label>
                   <input
                     id="last_name"
-                    className="forminput"
                     type="text"
                     placeholder="Last Name"
+                    className={`forminput ${errors.lastName ? "invalid" : ""}`}
                     {...register("lastName", { required: true })}
                   />
                 </div>
@@ -185,35 +232,37 @@ const Checkout = () => {
               <div className="item">
                 <label htmlFor="email">Email</label>
                 <input
-                  className="forminput"
                   type="email"
                   placeholder="Email"
+                  className={`forminput ${errors.email ? "invalid" : ""}`}
                   {...register("email", { required: true })}
                 />
               </div>
               <div className="item">
                 <label>Phone number</label>
                 <input
-                  className="forminput"
                   type="text"
                   placeholder="Phone number"
+                  className={`forminput ${errors.phone ? "invalid" : ""}`}
                   {...register("phone", { required: true })}
+                  onInput={(e) => handleInput(e, "phone")}
                 />
               </div>
               <div className="item">
                 <label htmlFor="phone">Additional Phone number</label>
                 <input
-                  className="forminput"
                   type="text"
+                  className={`forminput ${errors.optionalPhone ? "invalid" : ""}`}
                   placeholder="Additional Phone number"
                   {...register("optionalPhone", { required: true })}
+                  onInput={(e) => handleInput(e, "optionalPhone")}
+
                 />
               </div>
               <div className="item">
                 <label htmlFor="country">Country</label>
                 <input
-                  className="forminput"
-                  type="text"
+                    className={`forminput ${errors.countryId ? "invalid" : ""}`}                  type="text"
                   placeholder="Country"
                   {...register("countryId", { required: true })}
                 />
@@ -222,8 +271,7 @@ const Checkout = () => {
                 <div className="form-item">
                   <label htmlFor="airline">Airline</label>
                   <input
-                    className="forminput"
-                    type="text"
+                    className={`forminput ${errors.airline ? "invalid" : ""}`}                    type="text"
                     placeholder="Airline"
                     {...register("airline", { required: true })}
                   />
@@ -231,8 +279,7 @@ const Checkout = () => {
                 <div className="form-item">
                   <label htmlFor="flight_number">Flight number</label>
                   <input
-                    className="forminput"
-                    type="text"
+                    className={`forminput ${errors.flight_number ? "invalid" : ""}`}                    type="text"
                     placeholder="Flight number"
                     {...register("flight_number", { required: true })}
                   />
@@ -241,8 +288,8 @@ const Checkout = () => {
 
               <div className="item">
                 <label htmlFor="comments">Comments</label>
-                <textarea
-                  className="forminput"
+                <textarea rows={10}
+                  className={`forminput ${errors.additionalNotes ? "invalid" : ""}`}
                   placeholder="Comments"
                   {...register("additionalNotes", { required: true })}
                 ></textarea>
