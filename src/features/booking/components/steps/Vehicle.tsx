@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./Vehicle.scss";
 import { format } from "date-fns";
-import { FC, startTransition } from "react";
+import { FC, startTransition, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { request } from "@/utils/api/request";
 import { VehicleModel } from "@/models/booking/vehicle";
@@ -38,6 +38,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
     kilometers = Math.ceil(distance.value / 1000);
   }
   const { translate } = useTranslate();
+  const [vehicleData, setVehicleData] = useState<VehicleModel[]>();
   const navigate = useNavigate();
 
   const variants = {
@@ -86,8 +87,10 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           <Loader />
         </div>
       );
+    }else if(!vehicleData || vehicleData.length === 0){
+      return <div>No hay data</div>
     } else {
-      return data.map((e: VehicleModel) => (
+      return vehicleData.map((e: VehicleModel) => (
         <motion.div
           key={crypto.randomUUID()}
           className="vehicle"
@@ -168,7 +171,11 @@ const Vehicle: FC<Props> = ({ setStep }) => {
       ));
     }
   };
-
+  useEffect(() => {
+    if (!isLoading && data) {
+      setVehicleData(data)
+    }
+  }, [isLoading, data])
   return (
     <div className="select-vehicle">
       <div className="booking-info">
