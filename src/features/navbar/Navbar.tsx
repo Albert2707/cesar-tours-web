@@ -55,12 +55,6 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/#booking"
-                onClick={() => {
-                  const target = document.getElementById("booking");
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
               >
                 {translate("reservations")}
               </NavLink>
@@ -68,12 +62,6 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/#aboutUs"
-                onClick={() => {
-                  const target = document.getElementById("aboutUs");
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
               >
                 {translate("aboutUs")}
               </NavLink>
@@ -81,12 +69,6 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/#contact"
-                onClick={() => {
-                  const target = document.getElementById("contact");
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
               >
                 {translate("contactUs")}
               </NavLink>
