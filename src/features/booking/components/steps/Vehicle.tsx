@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./Vehicle.scss";
 import { format } from "date-fns";
-import { FC, startTransition, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { request } from "@/utils/api/request";
 import { VehicleModel } from "@/models/booking/vehicle";
@@ -14,10 +14,24 @@ import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { calculateTripCost } from "@/utils/functions/caculateTripCost";
 import { VITE_CESAR_API } from "@/config/config";
 import Loader from "@/features/loader/Loader";
+import { formatHour } from "@/utils/functions/formatHour";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
+const variants = {
+  initial: {
+    x: 100,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 const Vehicle: FC<Props> = ({ setStep }) => {
   const { idiom } = useIdiom() as IdiomTypes;
   const {
@@ -25,72 +39,70 @@ const Vehicle: FC<Props> = ({ setStep }) => {
     bagsNo,
     departureHour,
     departureDate,
-    setVehicle,
     distance,
     trip_type,
-    setTotal,
     duration,
     origin,
     destination,
+    returnHours,
+    returnDate,
   } = useBookingStore();
   let kilometers = 0;
   if (distance) {
     kilometers = Math.ceil(distance.value / 1000);
   }
   const { translate } = useTranslate();
-  const [vehicleData, setVehicleData] = useState<VehicleModel[]>();
+  const order = useMemo(() => ({
+    origin,
+    destination,
+    trip_type,
+    passengerNo,
+    distance,
+    duration,
+    bagsNo,
+    departureDate,
+    departureHour,
+    returnHours,
+    returnDate,
+  }), []);
+  const [vehicleData, setVehicleData] = useState<VehicleModel[] | null>(null);
   const navigate = useNavigate();
-
-  const variants = {
-    initial: {
-      x: 100,
-      opacity: 0,
-    },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-      },
-    },
-  };
-  function handleUserAction() {
-    startTransition(() => {
-      navigate("/checkout"); // Si esto causa suspensión
-    });
-  }
+  console.log(departureDate)
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
       const res = await request.get(
-        `vehicle/getVehicles/${passengerNo}/${bagsNo}`
+        `vehicle/getVehicles`, { params: { capacity: passengerNo, luggage_capacity: bagsNo, departureDate, returnDate } } 
       );
       return res.data;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false}
   );
+  const memoizedVehicles = useMemo(() => {
+    if (!vehicleData) return null;
+    return vehicleData.map((e: VehicleModel) => ({
+      ...e,
+      totalCost: calculateTripCost(+e.price_per_km, kilometers, trip_type),
+    }));
+  }, [vehicleData, kilometers, trip_type]);
 
-  const content = () => {
+  const memoizedContent = useMemo(() => {
     if (isError) {
       return (
-        <div
-          style={{ height: "100%", display: "flex", justifyContent: "center" }}
-        >
+        <div style={{ height: "100%", display: "flex", justifyContent: "center" }}>
           <span>Something went wrong</span>
         </div>
       );
     } else if (isLoading) {
       return (
-        <div
-          style={{ height: "100%", display: "flex", justifyContent: "center" }}
-        >
+        <div style={{ height: "100%", display: "flex", justifyContent: "center" }}>
           <Loader />
         </div>
       );
-    }else if(!vehicleData || vehicleData.length === 0){
-      return <div>No hay data</div>
+    } else if (!memoizedVehicles || memoizedVehicles.length === 0) {
+      return <div>No hay data</div>;
     } else {
-      return vehicleData.map((e: VehicleModel) => (
+      return memoizedVehicles.map((e) => (
         <motion.div
           key={crypto.randomUUID()}
           className="vehicle"
@@ -109,11 +121,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               <span>
                 {e.brand} {e.model}
               </span>
-              <span className="price">
-                {moneyFormant(
-                  calculateTripCost(+e.price_per_km, kilometers, trip_type)
-                )}
-              </span>
+              <span className="price">{moneyFormant(e.totalCost)}</span>
             </div>
 
             <div className="book-now">
@@ -156,11 +164,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               </div>
               <button
                 onClick={() => {
-                  setVehicle(e);
-                  setTotal(
-                    calculateTripCost(+e.price_per_km, kilometers, trip_type)
-                  );
-                  handleUserAction();
+                  navigate("/checkout", { state: { vehicle: e, total: e.totalCost, order } });
                 }}
               >
                 BOOK NOW
@@ -170,7 +174,10 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </motion.div>
       ));
     }
-  };
+  }, [isError, isLoading, memoizedVehicles]);
+
+
+
   useEffect(() => {
     if (!isLoading && data) {
       setVehicleData(data)
@@ -198,7 +205,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                 departureDate,
                 idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
               )}
-              - {departureHour}
+              - {formatHour(departureHour)}
             </span>
           </div>
           <div className="distance">
@@ -235,7 +242,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         animate="animate"
         variants={variants}
       >
-        {content()}
+        {memoizedContent}
       </motion.div>
     </div>
   );
