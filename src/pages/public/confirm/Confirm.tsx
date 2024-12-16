@@ -8,12 +8,13 @@ import { IdiomTypes } from "../../../context/idiomTypes";
 import { moneyFormant } from "../../../utils/functions/moneyFormat";
 import { Table } from "../../../shared/components/table/Table";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 const Confirm = () => {
-  const { order } = useConfirmationStore();
+  const { order, addOrder } = useConfirmationStore();
   const { idiom } = useIdiom() as IdiomTypes;
   const [fechaEnEspanol, setFechaEnEspanol] = useState<string>("");
   const [fechaEnIngles, setFechaEnIngles] = useState<string>("");
-
+  const { state } = useLocation();
   useEffect(() => {
     if (order) {
       setFechaEnEspanol(
@@ -38,6 +39,11 @@ const Confirm = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (state) {
+      addOrder(state.orderCreated)
+    }
+  }, [state, addOrder])
   if (!order) return <div>No hay órdenes registradas</div>;
 
   return (
@@ -49,7 +55,7 @@ const Confirm = () => {
         <div className="order">
           <h2>Resumen de la reserva</h2>
           <div className="order_item">
-            <strong>Numero de la orden:</strong>
+            <strong>Numero de reserva:</strong>
             <span>{order?.order_num}</span>
           </div>
           <div className="order_item">
@@ -67,7 +73,7 @@ const Confirm = () => {
           <div className="order_item">
             <strong>Aerolinea y numero de vuelo:</strong>
             <span>
-              {order?.airline}--{order?.flight_number}
+              {order?.airline} - {order?.flight_number}
             </span>
           </div>
           <div className="order_item">
