@@ -7,6 +7,7 @@ import { customToast } from "@/utils/functions/customToast";
 import { request } from "@/utils/api/request";
 import { VehicleModel } from "@/models/booking/vehicle";
 import { VITE_CESAR_API } from "@/config/config";
+import useTranslate from "@hooks/translations/Translate";
 interface Inputs {
   img_url: FileList;
   brand: string;
@@ -40,6 +41,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
     setValue,
     formState: { errors },
   } = useForm<Inputs>();
+  const { translate } = useTranslate();
   const [file, setFile] = useState<any>(null);
 
   const validate = async (img: FileList) => {
@@ -47,18 +49,12 @@ const VehicleModal: FC<Props> = ({ properties }) => {
     if (file) {
       const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
       if (!allowedTypes.includes(file.type)) {
-        customToast(
-          "warning",
-          "Formato no permitido. Solo se aceptan PNG, JPEG y WEBP."
-        );
+        customToast("warning", translate("invalid_format"));
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
         // Máximo 5 MB
-        customToast(
-          "warning",
-          "El archivo es demasiado grande. Máximo permitido: 5 MB."
-        );
+        customToast("warning", translate("file_too_large"));
         return;
       }
       setFile(file);
@@ -81,13 +77,13 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       queryClient.invalidateQueries({
         queryKey: ["vehicles_admin"],
       });
-      customToast("success", "Vehiculo creado exitosamente");
+      customToast("success", translate("vehicle_created_successfully"));
       setFile(null);
       reset();
       setShow(false);
     },
     onError: () => {
-      customToast("error", "Error al crear el vehículo");
+      customToast("error", translate("vehicle_creation_error"));
     },
   });
 
@@ -103,13 +99,13 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       queryClient.invalidateQueries({
         queryKey: ["vehicles_admin"],
       });
-      customToast("success", "Vehiculo creado exitosamente");
+      customToast("success", translate("vehicle_updated_successfully"));
       setFile(null);
       reset();
       setShow(false);
     },
     onError: () => {
-      customToast("error", "Error al crear el vehículo");
+      customToast("error", translate("vehicle_update_error"));
     },
   });
 
@@ -144,26 +140,21 @@ const VehicleModal: FC<Props> = ({ properties }) => {
     setValue(key, numericValue, { shouldValidate: true });
   };
 
-const onError =(err: FieldErrors<Inputs>)=>{
-  if(err.img_url){
-    customToast("error", "Seleccione una imagen")
-  }
-  else if(err.brand){
-    customToast("error", "Complete el campo marca")
-  }
-  else if(err.model){
-    customToast("error", "Complete el campo modelo")
-  }
-  else if(err.capacity){
-    customToast("error", "Complete el campo capacidad")
-  }
-  else if(err.luggage_capacity){
-    customToast("error", "Complete el campo capacidad de carga")
-  }
-  else if(err.price_per_km){
-    customToast("error", "Complete el campo precio por km")
-  }
-}
+  const onError = (err: FieldErrors<Inputs>) => {
+    if (err.img_url) {
+      customToast("error", translate("select_image"));
+    } else if (err.brand) {
+      customToast("error", translate("complete_brand_field"));
+    } else if (err.model) {
+      customToast("error", translate("complete_model_field"));
+    } else if (err.capacity) {
+      customToast("error", translate("complete_capacity_field"));
+    } else if (err.luggage_capacity) {
+      customToast("error", translate("complete_cargo_capacity_field"));
+    } else if (err.price_per_km) {
+      customToast("error", translate("complete_price_per_km_field"));
+    }
+  };
 
   useEffect(() => {
     if (!vehicle) return;
@@ -233,7 +224,7 @@ const onError =(err: FieldErrors<Inputs>)=>{
             <path d="M17 22v-5.5" />
             <circle cx="9" cy="9" r="2" />
           </svg>
-          <span>Subir imagen</span>
+          <span>{translate("upload_image")}</span>
         </>
       );
     }
@@ -254,7 +245,7 @@ const onError =(err: FieldErrors<Inputs>)=>{
         className="modal_container"
       >
         <div className="title">
-          <h2>Nuevo Vehiculo</h2>
+          <h2>{translate("new_vehicle")}</h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -277,10 +268,13 @@ const onError =(err: FieldErrors<Inputs>)=>{
         <form
           action=""
           className="vehicle_form"
-          onSubmit={handleSubmit(submit,onError)}
+          onSubmit={handleSubmit(submit, onError)}
           encType="multipart/form-data"
         >
-          <label htmlFor="img_file" className={`upload ${errors.img_url ? "invalid" : ""}`}>
+          <label
+            htmlFor="img_file"
+            className={`upload ${errors.img_url ? "invalid" : ""}`}
+          >
             {imgFileContent()}
             <input
               id="img_file"
@@ -298,37 +292,37 @@ const onError =(err: FieldErrors<Inputs>)=>{
 
           <input
             type="text"
-            placeholder="Marca"
-            className= {`${errors.brand ? "invalid" : ""}`}
+            placeholder={translate("brand")}
+            className={`${errors.brand ? "invalid" : ""}`}
             {...register("brand", { required: true })}
           />
           <input
             type="text"
-            placeholder="Modelo"
-            className= {`${errors.model ? "invalid" : ""}`}
+            placeholder={translate("model")}
+            className={`${errors.model ? "invalid" : ""}`}
             {...register("model", { required: true })}
           />
           <input
             type="text"
-            placeholder="Capacidad Personas"
+            placeholder={translate("capacity_persons")}
             inputMode="numeric"
-            className= {`${errors.capacity ? "invalid" : ""}`}
+            className={`${errors.capacity ? "invalid" : ""}`}
             {...register("capacity", { required: true })}
             onInput={(e) => handleInput(e, "capacity")}
           />
           <input
             type="text"
-            placeholder="Capacidad equipaje"
+            placeholder={translate("luggage_capacity")}
             inputMode="numeric"
-            className= {`${errors.luggage_capacity ? "invalid" : ""}`}
+            className={`${errors.luggage_capacity ? "invalid" : ""}`}
             {...register("luggage_capacity", { required: true })}
             onInput={(e) => handleInput(e, "luggage_capacity")}
           />
           <input
             type="text"
-            placeholder="Precio por kilometro"
+            placeholder={translate("price_per_km")}
             inputMode="numeric"
-            className= {`${errors.price_per_km ? "invalid" : ""}`}
+            className={`${errors.price_per_km ? "invalid" : ""}`}
             {...register("price_per_km", { required: true })}
             onInput={(e) => handleInput(e, "price_per_km")}
           />
@@ -338,7 +332,7 @@ const onError =(err: FieldErrors<Inputs>)=>{
               onClickfn: () => {},
             }}
           >
-            <span>{editMode ? "Modificar" : "Guardar"}</span>
+            <span>{editMode ? translate("modify") : translate("save")}</span>
           </Button>
         </form>
       </motion.div>

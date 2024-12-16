@@ -251,12 +251,13 @@ const Booking = () => {
                             {/* Departure date/ fecha de salida */}
                             <div className="departure-datePicker">
                               <label htmlFor="outDate">
-                                {translate("Fecha regreso")}
+                                {translate("return_date")}
                               </label>
                               <DatePicker
                                 className="datePicker"
                                 selected={returnDate}
                                 minDate={departureDate}
+                                placeholderText={idiom == "es"?"DD/MM/YYYY    ":"MM/DD/YYYY"}
                                 onChange={(date) => {
                                   if (!date) return;
                                   setReturnDate(date as Date)
@@ -272,7 +273,7 @@ const Booking = () => {
                             {/* Departure hour / hora de partida */}
                             <div className="departure-hour">
                               <label htmlFor="outHour">
-                                {translate("Hora regreso")}
+                              {translate("return_time")}
                               </label>
                               <SelectBooking
                                 options={hours}
@@ -325,17 +326,17 @@ const Booking = () => {
                         className="btn-selectec-vehicle"
                         onClick={() => {
                           if (!departureHour)
-                            return customToast("error", "Seleccione una hora");
+                            return customToast("error", translate("select_time"));
                           if (!departureDate)
-                            return customToast("error", "Seleccione una fecha");
+                            return customToast("error",translate("select_date") );
                           if (!returnDate  && trip_type === 2)
-                            return customToast("error", "Seleccione una fecha");
+                            return customToast("error", translate("select_date") );
                           if (trip_type == 2 && !returnHours)
-                            return customToast("error", "Seleccione una hora de regreso");
+                            return customToast("error", translate("select_return_time") );
                           if (!originTrip)
-                            return customToast("error", "Seleccione direccion de origen");
+                            return customToast("error", translate("select_origin_address"));
                           if (!destination)
-                            return customToast("error", "Seleccione direccion de destino");
+                            return customToast("error", translate("select_destination_address"));
                           setStep(2);
                         }}
                       >

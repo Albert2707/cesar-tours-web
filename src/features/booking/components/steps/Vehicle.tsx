@@ -100,7 +100,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </div>
       );
     } else if (!memoizedVehicles || memoizedVehicles.length === 0) {
-      return <div>No hay data</div>;
+      return <div>{translate("no_vehicles_available")}</div>;
     } else {
       return memoizedVehicles.map((e) => (
         <motion.div
@@ -167,7 +167,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                   navigate("/checkout", { state: { vehicle: e, total: e.totalCost, order } });
                 }}
               >
-                BOOK NOW
+                {translate("book")}
               </button>
             </div>
           </div>
@@ -187,19 +187,19 @@ const Vehicle: FC<Props> = ({ setStep }) => {
     <div className="select-vehicle">
       <div className="booking-info">
         <div className="container-info">
-          <h2>Journey Information</h2>
+          <h2>{translate("trip_info")}</h2>
           <div className="route">
-            <span>Route</span>
+            <span>{translate("route")}</span>
             <span>
               {origin} <span> {"->"} </span> {destination}
             </span>
           </div>
           <div className="route">
-            <span>Trip Type</span>
+            <span>{translate("trip_type")}</span>
             <span>{trip_type == 1 ? "Ida" : "Ida y vuelta"}</span>
           </div>
           <div className="collection-time">
-            <span>Collection Time</span>
+            <span>{translate("pickup_time")}</span>
             <span>
               {format(
                 departureDate,
@@ -209,11 +209,11 @@ const Vehicle: FC<Props> = ({ setStep }) => {
             </span>
           </div>
           <div className="distance">
-            <span>Distance</span>
+            <span>{translate("distance2")}</span>
             <span>{distance?.text}</span>
           </div>
           <div className="duration">
-            <span>Duration</span>
+            <span>{translate("time2")}</span>
             <span>{duration?.text}</span>
           </div>
         </div>
