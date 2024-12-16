@@ -6,27 +6,35 @@ import "./Checkout.scss";
 import { format } from "date-fns";
 import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
-import { Controller, FieldErrors, SubmitHandler, useForm } from "react-hook-form";
+import {
+  Controller,
+  FieldErrors,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { CheckoutService } from "./services/checkoutService";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import Button from "@/shared/components/button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { customToast } from "@/utils/functions/customToast";
 import { formatHour } from "@/utils/functions/formatHour";
 import { request } from "@/utils/api/request";
 import { Country } from "@/models/country/country";
 import Select from "react-select";
+import useTranslate from "@hooks/translations/Translate";
+import { translateCountry } from "@/utils/functions/functions";
+import StepValidation from "@/shared/components/stepValidation/StepValidation";
 interface Inputs {
   name: string;
   lastName: string;
   email: string;
   phone: string;
   optionalPhone: string;
-  countryId: {value:string,label:string};
+  countryId: { value: string; label: string };
   airline: string;
   flight_number: string;
   additionalNotes: string;
@@ -38,7 +46,7 @@ interface OrderData extends Omit<Inputs, "countryId"> {
   passengers?: number;
   luggage?: number;
   departureDate?: Date;
-  countryId?:string;
+  countryId?: string;
   departureHours?: string;
   returnDate?: Date;
   returnHours?: string;
@@ -50,7 +58,10 @@ interface OrderData extends Omit<Inputs, "countryId"> {
 }
 
 const Checkout = () => {
-  const [contries, setCountries] = useState<any>(null);
+  const [contries, setCountries] = useState<[{ value: string; label: string }]>(
+    [{ value: "", label: "" }]
+  );
+  const { translate } = useTranslate();
   const {
     register,
     setValue,
@@ -60,7 +71,8 @@ const Checkout = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const { state } = useLocation();
-  const { origin,
+  const {
+    origin,
     destination,
     trip_type,
     passengerNo,
@@ -70,35 +82,33 @@ const Checkout = () => {
     departureDate,
     departureHour,
     returnHours,
-    returnDate, } = state?.order || {};
-  const { data, isLoading} = useQuery({
+    returnDate,
+  } = state?.order || {};
+  const { data, isLoading } = useQuery({
     queryKey: ["countries"],
     queryFn: async () => {
       const res = await request.get("countries/getCountries");
       return res.data;
-    }
-  })
+    },
+  });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const createOrder = useMutation({
     mutationFn: async (order: OrderData) => {
-      try {
-        const res = await CheckoutService.createOrder(order);
-        return res;
-      } catch (error) {
-        toast.error("Hubo un error al crear la orden");
-        return Promise.reject(error);
-      }
+      const res = await CheckoutService.createOrder(order);
+      return res;
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
         queryKey: ["orders"],
       });
-      navigate("/order/confirmation", { state: { orderCreated: data.orderCreated } });
+      navigate("/order/confirmation", {
+        state: { orderCreated: data.orderCreated },
+      });
       reset();
     },
     onError: () => {
-      toast.error("Hubo un error al crear la orden");
+      customToast("error", translate("order_creation_error"));
     },
   });
 
@@ -108,11 +118,11 @@ const Checkout = () => {
     paymentMethod,
     setPaymentMethod,
     total,
-    vehicle
+    vehicle,
   } = useBookingStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data.countryId)
+    console.log(data.countryId);
     const order: OrderData = {
       name: data.name,
       lastName: data.lastName,
@@ -136,47 +146,58 @@ const Checkout = () => {
       flight_number: data.flight_number,
       additionalNotes: data.additionalNotes,
       paymentMethod,
-      total
+      total,
     };
     createOrder.mutate(order);
   };
-  const handleInput = (event: React.FormEvent<HTMLInputElement>, key: "name" | "lastName" | "email" | "phone" | "optionalPhone" | "countryId" | "airline" | "flight_number" | "additionalNotes") => {
+  const handleInput = (
+    event: React.FormEvent<HTMLInputElement>,
+    key:
+      | "name"
+      | "lastName"
+      | "email"
+      | "phone"
+      | "optionalPhone"
+      | "countryId"
+      | "airline"
+      | "flight_number"
+      | "additionalNotes"
+  ) => {
     const value = event.currentTarget.value;
     // Elimina caracteres no numéricos
-    const numericValue = value.replace(/[^0-9]/g, '');
+    const numericValue = value.replace(/[^0-9]/g, "");
     event.currentTarget.value = numericValue;
     setValue(key, numericValue, { shouldValidate: true });
   };
   const onError = (errors: FieldErrors<Inputs>) => {
     if (errors.name) {
-      customToast("error", "Complete el campo nombre")
+      customToast("error", translate("complete_first_name"));
+    } else if (errors.lastName) {
+      customToast("error", translate("complete_last_name"));
+    } else if (errors.email) {
+      customToast("error", translate("complete_email"));
+    } else if (errors.phone) {
+      customToast("error", translate("complete_phone"));
+    } else if (errors.countryId) {
+      customToast("error", translate("select_country"));
+    } else if (errors.airline) {
+      customToast("error", translate("complete_airline"));
+    } else if (errors.flight_number) {
+      customToast("error", translate("complete_flight"));
+    } else if (errors.additionalNotes) {
+      customToast("error", translate("complete_comments"));
     }
-    else if (errors.lastName) {
-      customToast("error", "Complete el campo apellido")
-    }
-    else if (errors.email) {
-      customToast("error", "Complete el campo email")
-    }
-    else if (errors.phone) {
-      customToast("error", "Complete el campo telefono")
-    }
-    else if (errors.countryId) {
-      customToast("error", "Complete el campo pais")
-    }
-    else if (errors.airline) {
-      customToast("error", "Complete el campo aerolinea")
-    }
-    else if (errors.flight_number) {
-      customToast("error", "Complete el campo vuelo")
-    }
-    else if (errors.additionalNotes) {
-      customToast("error", "Complete el campo comentarios")
-    }
-  }
+  };
   const today = new Date();
   const { idiom } = useIdiom() as IdiomTypes;
-  const fechaEnEspanol = format(departureDate ?? today, "d 'de' MMMM 'de' yyyy", { locale: es });
-  const fechaEnIngles = format(departureDate ?? today, "MMMM d, yyyy", { locale: enUS });
+  const fechaEnEspanol = format(
+    departureDate ?? today,
+    "d 'de' MMMM 'de' yyyy",
+    { locale: es }
+  );
+  const fechaEnIngles = format(departureDate ?? today, "MMMM d, yyyy", {
+    locale: enUS,
+  });
   const checkoutRef = useRef(null);
   useEffect(() => {
     const target = document.getElementById("main");
@@ -190,45 +211,21 @@ const Checkout = () => {
       setVehicle(state.vehicle);
       setTotal(state.total);
     }
-  }, [state, setVehicle, setTotal])
+  }, [state, setVehicle, setTotal]);
 
   useEffect(() => {
     if (!isLoading && data) {
-      setCountries(data.map((e: Country) => ({ value: e.country_id, label: e.country })))
+      setCountries(
+        data.map((e: Country) => ({ value: e.country_id, label: e.country }))
+      );
     }
-  }, [isLoading, data])
+  }, [isLoading, data]);
   if (!state) {
     return (
-      <div
-        style={{
-          height: "calc(100vh - 80px)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-          boxSizing: 'border-box',
-        }}
-      >
-        Debe completar los demas pasos de la reservacion
-        <Button properties={{ type: "back", onClickfn: () => { navigate("/#booking") } }}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5 8.25 12l7.5-7.5"
-            />
-          </svg>
-          Reservar
-        </Button>
-      </div>
+      <StepValidation
+        text={translate("reservation_steps_error")}
+        redirectTo="/#booking"
+      />
     );
   }
 
@@ -237,12 +234,18 @@ const Checkout = () => {
   };
 
   return (
-    <motion.div className="checkout" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "spring", duration: 0.3 }} ref={checkoutRef}>
+    <motion.div
+      className="checkout"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ type: "spring", duration: 0.3 }}
+      ref={checkoutRef}
+    >
       <Toaster />
       <div className="wrapper">
         <div className="top" style={{ display: "flex" }}>
           <div className="left">
-            <h2 id="checkout">Datos de Facturación</h2>
+            <h2 id="checkout">{translate("billing_details")}</h2>
             <form
               action=""
               onSubmit={handleSubmit(onSubmit, onError)}
@@ -250,58 +253,59 @@ const Checkout = () => {
             >
               <div className="item customer">
                 <div className="form-item">
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">{translate("first_name")}</label>
                   <input
                     id="name"
                     type="text"
-                    placeholder="Name"
+                    placeholder={translate("first_name")}
                     className={`forminput ${errors.name ? "invalid" : ""}`}
                     {...register("name", { required: true })}
                   />
                 </div>
                 <div className="form-item">
-                  <label htmlFor="last_name">LastName</label>
+                  <label htmlFor="last_name">{translate("last_name")}</label>
                   <input
                     id="last_name"
                     type="text"
-                    placeholder="Last Name"
+                    placeholder={translate("last_name")}
                     className={`forminput ${errors.lastName ? "invalid" : ""}`}
                     {...register("lastName", { required: true })}
                   />
                 </div>
               </div>
               <div className="item">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{translate("email")}</label>
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder={translate("email")}
                   className={`forminput ${errors.email ? "invalid" : ""}`}
                   {...register("email", { required: true })}
                 />
               </div>
               <div className="item">
-                <label>Phone number</label>
+                <label>{translate("phone_number")}</label>
                 <input
                   type="text"
-                  placeholder="Phone number"
+                  placeholder={translate("phone_number")}
                   className={`forminput ${errors.phone ? "invalid" : ""}`}
                   {...register("phone", { required: true })}
                   onInput={(e) => handleInput(e, "phone")}
                 />
               </div>
               <div className="item">
-                <label htmlFor="phone">Additional Phone number</label>
+                <label htmlFor="phone">
+                  {translate("additional_phone_number")}
+                </label>
                 <input
                   type="text"
                   className={`forminput`}
-                  placeholder="Additional Phone number"
+                  placeholder={translate("additional_phone_number")}
                   {...register("optionalPhone", { required: false })}
                   onInput={(e) => handleInput(e, "optionalPhone")}
-
                 />
               </div>
               <div className="item">
-                <label htmlFor="country">Country</label>
+                <label htmlFor="country">{translate("country")}</label>
                 <Controller
                   name="countryId"
                   control={control}
@@ -332,7 +336,7 @@ const Checkout = () => {
                           menu: (baseStyles) => ({
                             ...baseStyles,
                             borderRadius: "10px",
-                            fontSize: "12px",
+                            fontSize: "14px",
                             backgroundColor: "#f2f2f2",
                             fontWeight: 600,
                           }),
@@ -360,10 +364,11 @@ const Checkout = () => {
                           singleValue: (baseStyles) => ({
                             ...baseStyles,
                             margin: "0",
+                            fontSize: "14px",
                             paddingLeft: "0",
                           }),
                         }}
-                        placeholder="Select a country"
+                        placeholder={translate("select_country")}
                         menuPlacement="auto"
                         menuPosition="fixed"
                         isSearchable={false}
@@ -376,60 +381,78 @@ const Checkout = () => {
                     </>
                   )}
                 />
-
-
-                {/* <input
-                  className={`forminput ${errors.countryId ? "invalid" : ""}`} type="text"
-                  placeholder="Country"
-                  {...register("countryId", { required: true })}
-                /> */}
               </div>
               <div className="item customer">
                 <div className="form-item">
-                  <label htmlFor="airline">Airline</label>
+                  <label htmlFor="airline">{translate("airline")}</label>
                   <input
-                    className={`forminput ${errors.airline ? "invalid" : ""}`} type="text"
-                    placeholder="Airline"
+                    className={`forminput ${errors.airline ? "invalid" : ""}`}
+                    type="text"
+                    placeholder={translate("airline")}
                     {...register("airline", { required: true })}
                   />
                 </div>
                 <div className="form-item">
-                  <label htmlFor="flight_number">Flight number</label>
+                  <label htmlFor="flight_number">
+                    {translate("flight_number")}
+                  </label>
                   <input
-                    className={`forminput ${errors.flight_number ? "invalid" : ""}`} type="text"
-                    placeholder="Flight number"
+                    className={`forminput ${
+                      errors.flight_number ? "invalid" : ""
+                    }`}
+                    type="text"
+                    placeholder={translate("flight_number")}
                     {...register("flight_number", { required: true })}
                   />
                 </div>
               </div>
 
               <div className="item">
-                <label htmlFor="comments">Comments</label>
-                <textarea rows={10}
-                  className={`forminput ${errors.additionalNotes ? "invalid" : ""}`}
-                  placeholder="Comments"
+                <label htmlFor="comments">{translate("comments")}</label>
+                <textarea
+                  rows={10}
+                  className={`forminput ${
+                    errors.additionalNotes ? "invalid" : ""
+                  }`}
+                  placeholder={translate("comments")}
                   {...register("additionalNotes", { required: true })}
                 ></textarea>
               </div>
             </form>
           </div>
           <div className="right">
-            <h2>Información Adicional</h2>
+            <h2>{translate("additional_info")}</h2>
             <div className="additional-info">
               <div className="item">
-                <strong>Direccion de inicio:</strong>
-                <span>{origin}</span>
+                <strong>{translate("origin_address")}:</strong>
+                <span>
+                  {translateCountry(
+                    origin,
+                    " Dominican Republic",
+                    ` ${translate("do")}`
+                  )}
+                </span>
               </div>
               <div className="item">
-                <strong>Direccion de destino:</strong>
-                <span>{destination}</span>
+                <strong>{translate("destination_address")}:</strong>
+                <span>
+                  {translateCountry(
+                    destination,
+                    " Dominican Republic",
+                    ` ${translate("do")}`
+                  )}
+                </span>
               </div>
               <div className="item">
-                <strong>Tipo de viaje:</strong>
-                <span>{trip_type === 1 ? "Ida" : "Ida y vuelta"}</span>
+                <strong>{translate("trip_type")}:</strong>
+                <span>
+                  {trip_type === 1
+                    ? translate("one_way")
+                    : translate("round_trip")}
+                </span>
               </div>
               <div className="item">
-                <strong>Fecha y hora de salida:</strong>
+                <strong>{translate("departure_date_time")}:</strong>
                 <span>
                   {formatHour(departureHour)} -{" "}
                   {idiom === "es" ? fechaEnEspanol : fechaEnIngles}
@@ -437,35 +460,38 @@ const Checkout = () => {
               </div>
 
               <div className="item">
-                <strong>Tiempo de viaje:</strong>
+                <strong>{translate("travel_duration")}:</strong>
                 <span>{duration?.text ? duration.text : "---"}</span>
               </div>
 
               <div className="item">
-                <strong>Vehiculo:</strong>
+                <strong>{translate("vehicle")}:</strong>
                 <span>
-                  {vehicle?.brand} {vehicle?.model} de {vehicle?.capacity}{" "}
-                  personas
+                  {vehicle?.brand} {vehicle?.model} de {vehicle?.capacity}&nbsp;
+                  {translate("people")}
                 </span>
               </div>
               <div className="item">
-                <strong>Ocupantes:</strong>
+                <strong>{translate("num_passengers")}:</strong>
                 <span>{passengerNo}</span>
               </div>
               <div className="item">
-                <strong>Maletas:</strong>
+                <strong>{translate("num_bags")}:</strong>
                 <span>{bagsNo}</span>
               </div>
             </div>
           </div>
         </div>
         <div className="bottom">
-          <h1>Reserva</h1>
+          <h1>{translate("reservation")}</h1>
           <Table
-            columns={["Viaje", "Total parcial"]}
+            columns={[translate("trip"), translate("subtotal")]}
             data={[
               {
-                type: trip_type === 1 ? "Ida" : "Ida y vuelta",
+                type:
+                  trip_type === 1
+                    ? translate("one_way")
+                    : translate("round_trip"),
                 total: moneyFormant(total),
                 key: "type",
                 value: "total",
@@ -486,7 +512,7 @@ const Checkout = () => {
           />
           <div className="payment-method">
             <label className="payment-item">
-              Efectivo
+              {translate("cash")}
               <input
                 type="radio"
                 id="Cash"
@@ -498,7 +524,7 @@ const Checkout = () => {
               <span className="radio-label"></span>
             </label>
             <label className="payment-item">
-              Tarjeta
+              {translate("card")}
               <input
                 type="radio"
                 id="card"
@@ -511,10 +537,7 @@ const Checkout = () => {
             </label>
             <div className="about-card-payment">
               <span className="clippy"></span>
-              <span className="advice">
-                Al elegir la opcion de pagar con tarjeta, esta se utilizara una
-                vez pasemos a por usted.
-              </span>
+              <span className="advice">{translate("card_payment_note")}</span>
             </div>
             <Button
               properties={{
@@ -522,10 +545,12 @@ const Checkout = () => {
                 onClickfn: () => {
                   triggerSubmit();
                 },
-                disabled: createOrder.isLoading
+                disabled: createOrder.isLoading,
               }}
             >
-              {createOrder.isLoading ? "Reservando..." : "Agendar reserva"}
+              {createOrder.isLoading
+                ? translate("reserving")
+                : translate("schedule_reservation")}
             </Button>
           </div>
         </div>
