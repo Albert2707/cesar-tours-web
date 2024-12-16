@@ -1,12 +1,12 @@
 import { format } from "date-fns";
-import Alert from "../../../shared/components/alert/Alert";
-import { useConfirmationStore } from "../../../shared/hooks/confirmation/useConfirmationStore";
+import Alert from "@/shared/components/alert/Alert";
+import { useConfirmationStore } from "@/shared/hooks/confirmation/useConfirmationStore";
 import "./Confirm.scss";
 import { enUS, es } from "date-fns/locale";
-import { useIdiom } from "../../../context/idiomContext";
-import { IdiomTypes } from "../../../context/idiomTypes";
-import { moneyFormant } from "../../../utils/functions/moneyFormat";
-import { Table } from "../../../shared/components/table/Table";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
+import { Table } from "@/shared/components/table/Table";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 const Confirm = () => {
