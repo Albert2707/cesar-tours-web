@@ -10,7 +10,7 @@ type BookInfo = {
   trip_type: number;
   passengerNo?: number;
   bagsNo?: number;
-  returnDate: Date;
+  returnDate?: Date | undefined;
   returnHours?: string
   departureHour?: string;
   departureDate: Date;
@@ -30,7 +30,6 @@ const values: BookInfo = {
   trip_type: 1,
   total: 0,
   departureDate: new Date(),
-  returnDate: new Date()
 };
 type Actions = {
   setTripType: (trip_type: number) => void;
