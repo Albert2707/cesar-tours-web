@@ -13,7 +13,6 @@ import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
-// import { useBookingStore } from "../../shared/hooks/booking/useBookingStore";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
@@ -259,7 +258,7 @@ const Booking = () => {
                                 selected={returnDate}
                                 minDate={departureDate}
                                 onChange={(date) => {
-                                  if (!date) return toast.error("Debe seleccionar una fecha");
+                                  if (!date) return;
                                   setReturnDate(date as Date)
                                 }
                                 }
@@ -329,7 +328,7 @@ const Booking = () => {
                             return customToast("error", "Seleccione una hora");
                           if (!departureDate)
                             return customToast("error", "Seleccione una fecha");
-                          if (!returnDate)
+                          if (!returnDate  && trip_type === 2)
                             return customToast("error", "Seleccione una fecha");
                           if (trip_type == 2 && !returnHours)
                             return customToast("error", "Seleccione una hora de regreso");
