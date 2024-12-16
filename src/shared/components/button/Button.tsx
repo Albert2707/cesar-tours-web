@@ -3,6 +3,7 @@ import "./Button.scss"
 interface ButtonProps {
     // text: string,
     type: "primary" | "secondary" | "logout" | "filter" | "options" | "toast" | "back"
+    |"back-login"
     onClickfn: () => void
     disabled?: boolean
 
