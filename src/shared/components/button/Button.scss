@@ -103,3 +103,40 @@ button {
   justify-content: center;
   align-items: center;
 }
+.btn-back{
+    width: 100px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 50px;
+    border: 1px solid #f24b0f;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    color: #222;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+
+    svg {
+        width: 15px;
+        height: 15px;
+        transition: all 0.3s ease-in-out;
+        stroke-width: 2;
+    }
+
+    span {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    &:hover {
+        background: #f2f2f2;
+        color: $primary-bg-color;
+        border-color: transparent;
+
+        svg {
+            transform: translateX(-5px);
+        }
+    }
+
+}
