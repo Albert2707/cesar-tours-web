@@ -6,9 +6,9 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { ContextProps } from "../models/context/contextProps";
+import { ContextProps } from "@/models/context/contextProps";
 const AuthContext = React.createContext({});
-import { request } from "../utils/api/request";
+import { request } from "@/utils/api/request";
 
 export const useAuth = () => {
   if (!AuthContext) throw new Error("Debe estar dentro de un componente");

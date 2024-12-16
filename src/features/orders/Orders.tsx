@@ -1,16 +1,18 @@
 import { OrderServices } from "./services/orderServices";
 import { useQuery } from "react-query";
-import { moneyFormant } from "../../utils/functions/moneyFormat";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { format } from "date-fns";
 import "./Order.scss";
 import { es } from "date-fns/locale";
 import { useEffect, useState } from "react";
-import Button from "../../shared/components/button/Button";
+import Button from "@/shared/components/button/Button";
 import { useNavigate } from "react-router-dom";
+import useTranslate from "@hooks/translations/Translate";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
   const navigate = useNavigate();
+  const { translate } = useTranslate();
   const [skip, setSkip] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const limit: number = 5;
@@ -23,13 +25,13 @@ const Orders = () => {
 
   const orderStatus = (status: number): { name: string; class: string } => {
     if (status === 0) {
-      return { name: "Agendada", class: "pending" };
+      return { name: translate("scheduled"), class: "pending" };
     } else if (status === 1) {
-      return { name: "Proceso", class: "in-progress" };
+      return { name: translate("in_progress"), class: "in-progress" };
     } else if (status === 2) {
-      return { name: "Completada", class: "completed" };
+      return { name: translate("completed"), class: "completed" };
     } else {
-      return { name: "Cancelada", class: "cancelled" };
+      return { name: translate("canceled"), class: "cancelled" };
     }
   };
 
@@ -68,7 +70,7 @@ const Orders = () => {
                 },
               }}
             >
-              ...
+              {translate("details")}
             </Button>
           </div>
         </div>
@@ -91,7 +93,7 @@ const Orders = () => {
             },
           }}
         >
-          Todos
+          {translate("all")}
         </Button>
         <Button
           properties={{
@@ -102,7 +104,7 @@ const Orders = () => {
             },
           }}
         >
-          Agendadas
+          {translate("scheduled")}
         </Button>
         <Button
           properties={{
@@ -113,7 +115,7 @@ const Orders = () => {
             },
           }}
         >
-          En proceso
+          {translate("in_progress")}
         </Button>
         <Button
           properties={{
@@ -124,7 +126,7 @@ const Orders = () => {
             },
           }}
         >
-          Completadas
+          {translate("completed")}
         </Button>
         <Button
           properties={{
@@ -135,18 +137,18 @@ const Orders = () => {
             },
           }}
         >
-          Canceladas
+          {translate("canceled")}
         </Button>
       </div>
       <div className="table">
         <div className="tbl-header">
-          <div className="cell">Order num</div>
-          <div className="cell">Date</div>
-          <div className="cell">Status</div>
-          <div className="cell">Customer</div>
-          <div className="cell">Origin</div>
-          <div className="cell">Vehicle</div>
-          <div className="cell">Total</div>
+          <div className="cell">{translate('order_number')}</div>
+          <div className="cell">{translate('date')}</div>
+          <div className="cell">{translate('status')}</div>
+          <div className="cell">{translate('customer')}</div>
+          <div className="cell">{translate('origin2')}</div>
+          <div className="cell">{translate('vehicle')}</div>
+          <div className="cell">{translate('total')}</div>
         </div>
         <div className="tbl-body">{order()}</div>
       </div>

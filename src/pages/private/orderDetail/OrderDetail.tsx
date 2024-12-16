@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { request } from "../../../utils/api/request";
-import { moneyFormant } from "../../../utils/functions/moneyFormat";
+import { request } from "@/utils/api/request";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { format } from "date-fns";
 import { enUS, es } from "date-fns/locale";
-import { useIdiom } from "../../../context/idiomContext";
-import { IdiomTypes } from "../../../context/idiomTypes";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
 import "./OrderDetail.scss"
 import Select from "react-select";
 import { VITE_CESAR_API } from "@/config/config";

@@ -1,13 +1,16 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/authContext";
-import { AuthTypes } from "@context/authTypes";
+import { AuthTypes } from "@/context/authTypes";
 import "./Login.scss";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import  { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
+import { customToast } from "@/utils/functions/customToast";
 import useTranslate from "@hooks/translations/Translate";
 const Login = () => {
   const { login, isLoggedIn } = useAuth() as AuthTypes;
+  const { translate } = useTranslate();
+
   const [credentials, setCredentials] = useState<{
     email: string;
     password: string;
@@ -19,25 +22,24 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { translate } = useTranslate();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       if (!credentials.email) {
         setErrors({ ...errors, email: true });
-        return toast.error("Debe completar el campo de email");
+        return customToast("error", translate("complete_email_field"));
       }
       if (!credentials.password) {
         setErrors({ ...errors, password: true });
-        return toast.error("Debe completar el campo de password");
+        return customToast("error", translate("complete_password_field"));
       }
       setLoading(true);
       await login(credentials.email, credentials.password);
       setLoading(false);
       navigate("/admin/orders");
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      customToast("error", error.response.data.message);
       setLoading(false);
     }
   };
@@ -71,7 +73,7 @@ const Login = () => {
           style={{ borderColor: errors.email ? "#e11d48" : "#f2f2f2" }}
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={translate("email")}
           onChange={(e) => {
             handleChange(e);
             if (e.target.value) setErrors({ ...errors, email: false });
@@ -84,7 +86,7 @@ const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             name="password"
-            placeholder="Password"
+            placeholder={translate("password")}
             onChange={(e) => {
               handleChange(e);
               if (e.target.value) setErrors({ ...errors, password: false });
@@ -136,28 +138,9 @@ const Login = () => {
           </button>
         </div>
         <button className="login" type="submit">
-          {loading ? <span className="loading"></span> : "Login"}
+          {loading ? <span className="loading"></span> : translate("login")}
         </button>
       </form>
-      <div className="go-back">
-        <button onClick={() => navigate("/")}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-chevron-left"
-          >
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-          <span>{translate("back")}</span>
-        </button>
-      </div>
     </motion.div>
   );
 };

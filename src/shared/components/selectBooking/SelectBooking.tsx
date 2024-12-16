@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import Select from "react-select";
-import useTranslate from '../../hooks/translations/Translate';
+import useTranslate from '@hooks/translations/Translate';
 
 interface SelectProps{
     options: any[],

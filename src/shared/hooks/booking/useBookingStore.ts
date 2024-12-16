@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { VehicleModel } from "../../../models/booking/vehicle";
+import { VehicleModel } from "@/models/booking/vehicle";
 
 type TripFeature = {
   text: string;

@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { FC } from "react";
-import Button from "../button/Button";
+import Button from "@/shared/components/button/Button";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { useNavigate } from "react-router-dom";
 import { es } from "date-fns/locale";

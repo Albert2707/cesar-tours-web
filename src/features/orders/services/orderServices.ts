@@ -1,4 +1,4 @@
-import { request } from "../../../utils/api/request";
+import { request } from "@/utils/api/request";
 
 export class OrderServices {
     static async getOrders(filter:string, skip:number, limit:number): Promise<any> {

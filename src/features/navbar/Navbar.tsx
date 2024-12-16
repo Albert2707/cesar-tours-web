@@ -3,8 +3,8 @@ import MobileMenu from "./components/mobileMenu/MobileMenu";
 import "./Navbar.scss";
 import { AnimatePresence } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
-import useTranslate from "../../shared/hooks/translations/Translate";
-import SelectIdiom from "../../shared/components/selectIdiom/SelectIdiom";
+import useTranslate from "@/shared/hooks/translations/Translate";
+import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
 
 const Navbar = () => {
   const { translate } = useTranslate();

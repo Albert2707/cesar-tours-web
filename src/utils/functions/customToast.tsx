@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
-import Button from "../../shared/components/button/Button";
+import Button from "@/shared/components/button/Button";
 
 type ToastType = "success" | "error" | "warning";
 
@@ -93,7 +93,7 @@ export const customToast = (type: ToastType, msg: string) => {
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent:"center" }}>
         {toastConfig[type].svg}
         <span>{msg}</span>
       </div>

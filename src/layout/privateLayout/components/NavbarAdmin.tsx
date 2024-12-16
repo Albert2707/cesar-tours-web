@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import useTranslate from "../../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 import "./NavbarAdmin.scss";
-import Button from "../../../shared/components/button/Button";
-import ConfirmPopup from "../../../shared/components/confirmPopup/ConfirmPopup";
-import { AuthTypes } from "../../../context/authTypes";
-import { useAuth } from "../../../context/authContext";
+import Button from "@/shared/components/button/Button";
+import ConfirmPopup from "@/shared/components/confirmPopup/ConfirmPopup";
+import { AuthTypes } from "@/context/authTypes";
+import { useAuth } from "@/context/authContext";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import SelectIdiom from "../../../shared/components/selectIdiom/SelectIdiom";
+import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
 
 const NavbarAdmin = () => {
   const { translate } = useTranslate();
@@ -46,7 +46,7 @@ const NavbarAdmin = () => {
                   isActive ? "link-active" : "link"
                 }
               >
-                {translate("Orders")}
+                {translate("reservations_admin")}
               </NavLink>
               
             </li>
@@ -57,7 +57,7 @@ const NavbarAdmin = () => {
                   isActive ? "link-active" : "link"
                 }
               >
-                {translate("Vehicles")}{" "}
+                {translate("vehicles")}
               </NavLink>
             </li>
             <li>

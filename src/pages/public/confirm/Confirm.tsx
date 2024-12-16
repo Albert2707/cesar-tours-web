@@ -9,11 +9,15 @@ import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { Table } from "@/shared/components/table/Table";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import useTranslate from "@hooks/translations/Translate";
+import { translateCountry } from "@/utils/functions/functions";
+import StepValidation from "@/shared/components/stepValidation/StepValidation";
 const Confirm = () => {
   const { order, addOrder } = useConfirmationStore();
   const { idiom } = useIdiom() as IdiomTypes;
   const [fechaEnEspanol, setFechaEnEspanol] = useState<string>("");
   const [fechaEnIngles, setFechaEnIngles] = useState<string>("");
+  const { translate } = useTranslate();
   const { state } = useLocation();
   useEffect(() => {
     if (order) {
@@ -41,55 +45,73 @@ const Confirm = () => {
 
   useEffect(() => {
     if (state) {
-      addOrder(state.orderCreated)
+      addOrder(state.orderCreated);
     }
-  }, [state, addOrder])
-  if (!order) return <div>No hay órdenes registradas</div>;
+  }, [state, addOrder]);
+  if (!order)
+    return (
+      <StepValidation text={translate("no_orders")} redirectTo="/#booking" />
+    );
 
   return (
     <div className="order-confirm">
       <div className="wrapper">
-        <Alert
-          msg={"Gracias por su reserva, nos estaremos contactando con usted."}
-        />
+        <Alert msg={translate("thank_you")} />
         <div className="order">
-          <h2>Resumen de la reserva</h2>
+          <h2>{translate("reservation_summary")}</h2>
           <div className="order_item">
-            <strong>Numero de reserva:</strong>
+            <strong>{translate("reservation_number")}:</strong>
             <span>{order?.order_num}</span>
           </div>
           <div className="order_item">
-            <strong>Fecha de la reserva:</strong>
+            <strong>{translate("origin_address")}:</strong>
+            <span>
+              {translateCountry(
+                order?.origin,
+                " Dominican Republic",
+                ` ${translate("do")}`
+              )}
+            </span>
+          </div>
+          <div className="order_item">
+            <strong>{translate("destination_address")}:</strong>
+            <span>
+              {translateCountry(
+                order?.destination,
+                " Dominican Republic",
+                ` ${translate("do")}`
+              )}
+            </span>
+          </div>
+          <div className="order_item">
+            <strong>{translate("reservation_date")}:</strong>
             <span> {idiom === "es" ? fechaEnEspanol : fechaEnIngles}</span>
           </div>
           <div className="order_item">
-            <strong>Total:</strong>
-            <span> {moneyFormant(order?.total as number)}</span>
+            <strong>{translate("payment_method")}:</strong>
+            <span>
+              {order?.paymentMethod == "Cash"
+                ? translate("cash")
+                : translate("card")}
+            </span>
           </div>
           <div className="order_item">
-            <strong>Metodo de pago:</strong>
-            <span> {order?.paymentMethod}</span>
-          </div>
-          <div className="order_item">
-            <strong>Aerolinea y numero de vuelo:</strong>
+            <strong>{translate("airline_flight_number")}:</strong>
             <span>
               {order?.airline} - {order?.flight_number}
             </span>
           </div>
-          <div className="order_item">
-            <strong>Direccion de inicio:</strong>
-            <span> {order?.origin}</span>
-          </div>
-          <div className="order_item">
-            <strong>Direccion de fin:</strong>
-            <span> {order?.destination}</span>
-          </div>
-          <h2>Detalle de la reserva</h2>
+          <h2 style={{ marginTop: "15px" }}>
+            {translate("reservation_details")}
+          </h2>
           <Table
-            columns={["Reserva", "Total"]}
+            columns={[translate("reservation"), "Total"]}
             data={[
               {
-                type: order?.trip_type === "one_way" ? "Ida" : "Ida y vuelta",
+                type:
+                  order?.trip_type === "one_way"
+                    ? translate("one_way")
+                    : translate("round_trip"),
                 total: moneyFormant(order?.total as number),
                 key: "type",
                 value: "total",

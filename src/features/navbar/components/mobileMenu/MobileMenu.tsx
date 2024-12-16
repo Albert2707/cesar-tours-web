@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useTranslate from "../../../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 import "./MobileMenu.scss";
 import { motion } from "framer-motion";
 

@@ -1,4 +1,4 @@
-import Loader from '../../../features/loader/Loader'
+import Loader from '@/features/loader/Loader'
 import './FallBack.scss'
 
 const FallBack = () => {

@@ -1,4 +1,4 @@
-import Orders from '../../../features/orders/Orders'
+import Orders from '@/features/orders/Orders'
 
 const Dashboard = () => {
   return (

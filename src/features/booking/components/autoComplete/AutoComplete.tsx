@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import useTranslate from "../../../../shared/hooks/translations/Translate";
-import { useBookingStore } from "../../../../shared/hooks/booking/useBookingStore";
+import useTranslate from "@/shared/hooks/translations/Translate";
+import { useBookingStore } from "@/shared/hooks/booking/useBookingStore";
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import useTranslate from "../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 import "./HeroSection.scss";
 import { useScroll, useTransform, motion } from "framer-motion";
 const HeroSection = () => {

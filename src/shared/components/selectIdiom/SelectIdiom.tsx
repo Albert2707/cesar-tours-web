@@ -1,7 +1,7 @@
 import Select from "react-select";
-import useTranslate from "../../hooks/translations/Translate";
-import { useIdiom } from "../../../context/idiomContext";
-import { IdiomTypes } from "../../../context/idiomTypes";
+import useTranslate from "@hooks/translations/Translate";
+import { useIdiom } from "@/context/idiomContext";
+import { IdiomTypes } from "@/context/idiomTypes";
 
 // Definimos estilos comunes reutilizables
 const commonStyles = {

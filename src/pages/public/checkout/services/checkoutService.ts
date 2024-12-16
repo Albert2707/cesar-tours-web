@@ -1,4 +1,4 @@
-import { request } from "../../../../utils/api/request";
+import { request } from "@/utils/api/request";
 
 export class CheckoutService {
   static async createOrder(order: any): Promise<any> {
