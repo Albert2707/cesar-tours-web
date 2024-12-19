@@ -1,0 +1,148 @@
+.table {
+    width: 100%;
+    border-radius: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+    gap: 10px;
+    height: 500px;
+    background-color: #f9f9f9;
+
+    .tbl-header {
+      display: grid;
+      font-weight: bold;
+      width: 100%;
+      justify-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      .cell {
+        padding: 10px;
+        width: 150px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .tbl-body {
+      display: grid;
+      grid-template-rows: 1fr;
+      gap: 10px;
+      overflow: auto;
+      width: 100%;
+      .tbl-body-row {
+        display: grid;
+        width: 100%;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        .cell {
+          padding: 10px;
+          border-radius: 10px;
+        }
+        .cell.pending {
+          background-color: #faefe6; /* Color de fondo para pendiente */
+          color: #d97706; /* Color del texto para pendiente */
+        }
+
+        .cell.in-progress {
+          background-color: #fff3cd; /* Color de fondo para en proceso */
+          color: #f59e0b; /* Color del texto para en proceso */
+        }
+
+        .cell.completed {
+          background-color: #eef7f1;
+          color: #47a967;
+        }
+
+        .cell.cancelled {
+          background-color: #f8d7da; /* Color de fondo para cancelada */
+          color: #dc3545; /* Color del texto para cancelada */
+        }
+      }
+    }
+    // .tbl-header,
+    // .tbl-body-row {
+    //   display: grid;
+    //   width: 100%;
+    //   grid-template-columns: repeat(8,1fr); // Misma estructura de columnas
+    //   align-items: center;
+    //   justify-items: center;
+    // }
+
+    // .tbl-header {
+    //   font-weight: bold;
+
+    //   .cell {
+    //     width: 100px;
+    //     display: flex;
+    //     justify-content: center;
+    //     &:nth-child(1),
+    //     &:nth-child(5),
+    //     &:nth-child(6) {
+    //       width: 150px;
+    //     }
+    //   }
+    // }
+
+    // .tbl-body {
+    //   display: flex;
+    //   flex-direction: column;
+    //   overflow-y: auto;
+    //   overflow-x: hidden;
+    //   gap: 10px;
+    //   scrollbar-width: thin;
+    //   scrollbar-color: #f59e0b #fff3cd;
+
+    //   .tbl-body-row {
+    //     border-bottom: 1px solid #e0e0e0;
+    //     padding: 10px 0;
+
+    //     &:last-child {
+    //       border-color: transparent;
+    //     }
+
+    //     .cell {
+    //       padding: 10px 15px;
+    //       width: 100px;
+    //       border-radius: 10px;
+    //       display: flex;
+    //       text-align: center;
+    //       text-wrap: pretty;
+    //       justify-content: center;
+    //       &:nth-child(1),
+    //       &:nth-child(5),
+    //       &:nth-child(6) {
+    //         width: 150px;
+    //       }
+    //     }
+    //     .cell.pending {
+    //       background-color: #faefe6; /* Color de fondo para pendiente */
+    //       color: #d97706; /* Color del texto para pendiente */
+    //     }
+
+    //     .cell.in-progress {
+    //       background-color: #fff3cd; /* Color de fondo para en proceso */
+    //       color: #f59e0b; /* Color del texto para en proceso */
+    //     }
+
+    //     .cell.completed {
+    //       background-color: #eef7f1;
+    //       color: #47a967;
+    //     }
+
+    //     .cell.cancelled {
+    //       background-color: #f8d7da; /* Color de fondo para cancelada */
+    //       color: #dc3545; /* Color del texto para cancelada */
+    //     }
+
+    //     @include mobile {
+    //       width: 100%;
+    //     }
+    //   }
+    //   @include mobile {
+    //     width: 100%;
+    //     overflow-x: auto;
+    //   }
+    // }
+  }

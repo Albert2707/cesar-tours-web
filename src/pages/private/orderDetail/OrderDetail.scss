@@ -1,0 +1,69 @@
+@use "../../../index.scss" as *;
+
+.order_detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .order_vehicle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    padding: 10px;
+
+    div {
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+
+    .order_vehicle_img {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .order_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+.left, .right {
+    .order_header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .order_body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .order_detail_item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 1rem;
+
+        span {
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+}

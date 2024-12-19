@@ -1,6 +1,6 @@
 import { FC } from "react"
-import { useAuth } from "../../../context/authContext"
-import { AuthTypes } from "../../../context/authTypes"
+import { useAuth } from "@/context/authContext"
+import { AuthTypes } from "@/context/authTypes"
 import { Navigate } from "react-router-dom"
 
 interface Props {

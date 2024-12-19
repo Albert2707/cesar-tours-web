@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { ContextProps } from "../models/context/contextProps";
+import { ContextProps } from "@/models/context/contextProps";
 
 const idiomContext = createContext({});
 

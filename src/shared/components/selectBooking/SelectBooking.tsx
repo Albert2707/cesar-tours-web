@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import Select from "react-select";
-import useTranslate from '../../hooks/translations/Translate';
+import useTranslate from '@hooks/translations/Translate';
 
 interface SelectProps{
     options: any[],
@@ -70,6 +70,9 @@ const SelectBooking:FC<SelectProps> = ({options, value, onChange,placeholder}) =
     }}
     placeholder={translate(placeholder)}
     onChange={onChange}
+    menuPortalTarget={document.body}
+    menuPlacement="auto"
+    menuPosition="fixed"
     isSearchable={false}
   />
   )

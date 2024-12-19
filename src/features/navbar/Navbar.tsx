@@ -2,35 +2,37 @@ import { useState } from "react";
 import MobileMenu from "./components/mobileMenu/MobileMenu";
 import "./Navbar.scss";
 import { AnimatePresence } from "framer-motion";
-import { NavLink } from "react-router-dom";
-import useTranslate from "../../shared/hooks/translations/Translate";
-import SelectIdiom from "../../shared/components/selectIdiom/SelectIdiom";
+import { NavLink, useNavigate } from "react-router-dom";
+import useTranslate from "@/shared/hooks/translations/Translate";
+import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
 
 const Navbar = () => {
   const { translate } = useTranslate();
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
 
   return (
     <nav className="nav">
       {/* Mobile menu  */}
       <AnimatePresence>
-        {isOpen && <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
+        {isOpen && (
+          <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} isAdmin={false} />
+        )}
       </AnimatePresence>
       <div className="wrapper">
         <div className="logo">
           <button
             onClick={() => {
+              navigate("/");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             aria-label="scroll-to-top-button"
           >
             <img
-              src="images/Cesar-logo.webp"
+              src="/images/Cesar-logo.webp"
               alt="Cesar-tours-logo"
               loading="lazy"
             />
@@ -40,23 +42,33 @@ const Navbar = () => {
         <div className="links">
           <ul className="link-list">
             <li>
-              <NavLink to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>{translate("home")}</NavLink>
+              <NavLink
+                to="/#home"
+                onClick={() => {
+                  const target = document.getElementById("home");
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                {translate("home")}
+              </NavLink>
             </li>
             <li>
-              <a href="#booking">{translate("reservations")}</a>
+              <NavLink to="/#booking">{translate("reservations")}</NavLink>
             </li>
             <li>
-              <a href="#aboutUs">{translate("aboutUs")}</a>
+              <NavLink to="/#aboutUs">{translate("aboutUs")}</NavLink>
             </li>
             <li>
-              <a href="#contact">{translate("contactUs")}</a>
+              <NavLink to="/#contact">{translate("contactUs")}</NavLink>
             </li>
             <li>
-              <SelectIdiom/>
+              <SelectIdiom />
             </li>
           </ul>
           <div className="mobile-menu">
-          <SelectIdiom/>
+            <SelectIdiom />
 
             <button aria-label="menu-button" onClick={toggleMenu}>
               {isOpen ? (
@@ -75,8 +87,21 @@ const Navbar = () => {
                   />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-equal"><line x1="5" x2="19" y1="9" y2="9" /><line x1="5" x2="19" y1="15" y2="15" /></svg>
-
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-equal"
+                >
+                  <line x1="5" x2="19" y1="9" y2="9" />
+                  <line x1="5" x2="19" y1="15" y2="15" />
+                </svg>
               )}
             </button>
           </div>

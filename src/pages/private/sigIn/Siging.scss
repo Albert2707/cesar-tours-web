@@ -1,8 +1,20 @@
 .login {
-    width: 100vw;
-    height: 100vh;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+//   gap: 10px;
+  .options {
+    position: relative;
+    width: 300px;
+    .go-back {
+      position: absolute;
+      width: 100%;
+      justify-self: flex-end;
+      bottom: -50px;
+    }
+  }
 }

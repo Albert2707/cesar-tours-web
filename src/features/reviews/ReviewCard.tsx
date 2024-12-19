@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "./ReviewCard.scss";
-import { ReviewsCardType } from "../../models/reviews/reviewCardType";
+import { ReviewsCardType } from "@/models/reviews/reviewCardType";
 interface Props {
   props: ReviewsCardType;
 }

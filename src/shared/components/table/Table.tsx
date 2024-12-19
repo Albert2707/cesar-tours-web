@@ -1,5 +1,5 @@
 import { FC } from "react";
-
+import './Table.scss'
 interface TableProps<T> {
     data: T[];
     columns: string[]
@@ -7,23 +7,27 @@ interface TableProps<T> {
 export const Table: FC<TableProps<any>> = ({ data, columns }) => {
 
     return (
-        <table>
-            <thead>
+        <div className="table">
+        <div className="tbl-header">
+            {
+                columns.map(e =>(
+                    <div key={crypto.randomUUID()} className="cell">{e}</div>
 
-                <tr>
-                    {columns.map((e: string) => (
-                        <th key={crypto.randomUUID()}>{e}</th>
-                    ))}
-                </tr>
-                    </thead>
-                <tbody>
-                    {data.map((e: any) => (
-                        <tr key={crypto.randomUUID()}>
-                            <td >{e.type}</td>
-                            <td >{e.total}</td>
-                        </tr>
-                    ))}
-                </tbody>
-        </table>
+                ))
+            }
+        </div>
+        <div className="tbl-body">
+            {data.map(e => (
+                 <div key={crypto.randomUUID()} className="tbl-body-row">
+                    <div className="cell">
+                        {e[e.key]}
+                    </div>
+                    <div className="cell">
+                        {e[e.value]}
+                    </div>
+                 </div>
+            ))}
+        </div>
+      </div>
     );
 };
