@@ -80,7 +80,7 @@ export const customToast = (type: ToastType, msg: string) => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
         backgroundColor: toastConfig[type].backGround,
         color: "#f2f2f2",
         borderRadius: "10px",
