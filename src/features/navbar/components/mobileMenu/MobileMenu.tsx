@@ -2,13 +2,22 @@ import { FC } from "react";
 import useTranslate from "@/shared/hooks/translations/Translate";
 import "./MobileMenu.scss";
 import { motion } from "framer-motion";
+import { Link, NavLink } from "react-router-dom";
+import Button from "@/shared/components/button/Button";
 
 interface Props {
   isOpen: boolean;
+  isAdmin: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setConfirm?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MobileMenu: FC<Props> = ({ isOpen, setIsOpen }) => {
+const MobileMenu: FC<Props> = ({
+  isOpen,
+  setIsOpen,
+  isAdmin = false,
+  setConfirm,
+}) => {
   const { translate } = useTranslate();
   const variants = {
     initial: {
@@ -78,26 +87,69 @@ const MobileMenu: FC<Props> = ({ isOpen, setIsOpen }) => {
           initial="hidden"
           animate="show"
         >
-          <motion.li variants={link}>
-            <a href="#home" onClick={() => setIsOpen(!isOpen)}>
-              {translate("home")}
-            </a>
-          </motion.li>
-          <motion.li variants={link}>
-            <a href="#booking" onClick={() => setIsOpen(!isOpen)}>
-              {translate("reservations")}
-            </a>
-          </motion.li>
-          <motion.li variants={link}>
-            <a href="#aboutUs" onClick={() => setIsOpen(!isOpen)}>
-              {translate("aboutUs")}
-            </a>
-          </motion.li>
-          <motion.li variants={link}>
-            <a href="#contact" onClick={() => setIsOpen(!isOpen)}>
-              {translate("contactUs")}
-            </a>
-          </motion.li>
+          {isAdmin ? (
+            <>
+              <motion.li variants={link}>
+                <Link to="/admin/orders" onClick={() => setIsOpen(false)}>
+                  {translate("reservations_admin")}
+                </Link>
+              </motion.li>
+              <motion.li variants={link}>
+                <Link to="/admin/vehicles" onClick={() => setIsOpen(false)}>
+                  {translate("vehicles")}
+                </Link>
+              </motion.li>
+              <motion.li variants={link}>
+                <Button
+                  properties={{
+                    type: "logout",
+                    onClickfn: () => {
+                      if (setConfirm) setConfirm(true);
+                    },
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+                    />
+                  </svg>
+                  Logout
+                </Button>
+              </motion.li>
+            </>
+          ) : (
+            <>
+              <motion.li variants={link}>
+                <NavLink to="/#home" onClick={() => setIsOpen(!isOpen)}>
+                  {translate("home")}
+                </NavLink>
+              </motion.li>
+              <motion.li variants={link}>
+                <NavLink to="/#booking" onClick={() => setIsOpen(!isOpen)}>
+                  {translate("reservations")}
+                </NavLink>
+              </motion.li>
+              <motion.li variants={link}>
+                <NavLink to="/#aboutUs" onClick={() => setIsOpen(!isOpen)}>
+                  {translate("aboutUs")}
+                </NavLink>
+              </motion.li>
+              <motion.li variants={link}>
+                <NavLink to="/#contact" onClick={() => setIsOpen(!isOpen)}>
+                  {translate("contactUs")}
+                </NavLink>
+              </motion.li>
+            </>
+          )}
         </motion.ul>
       </motion.div>
     </motion.div>

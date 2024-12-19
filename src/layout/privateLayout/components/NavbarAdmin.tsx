@@ -8,11 +8,16 @@ import { useAuth } from "@/context/authContext";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
+import MobileMenu from "@/features/navbar/components/mobileMenu/MobileMenu";
 
 const NavbarAdmin = () => {
   const { translate } = useTranslate();
   const { logout } = useAuth() as AuthTypes;
   const [confirm, setConfirm] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
@@ -21,6 +26,9 @@ const NavbarAdmin = () => {
   return (
     <nav className="admin-nav">
       {/* Mobile menu  */}
+      <AnimatePresence>
+        {isOpen && <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} isAdmin={true} setConfirm={setConfirm} />}
+      </AnimatePresence>
       <div className="wrapper">
         <div className="logo">
           <button
@@ -48,7 +56,6 @@ const NavbarAdmin = () => {
               >
                 {translate("reservations_admin")}
               </NavLink>
-              
             </li>
             <li>
               <NavLink
@@ -88,6 +95,44 @@ const NavbarAdmin = () => {
               </Button>
             </li>
           </ul>
+          <div className="mobile-menu">
+            <SelectIdiom />
+
+            <button aria-label="menu-button" onClick={toggleMenu}>
+              {isOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className=""
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-equal"
+                >
+                  <line x1="5" x2="19" y1="9" y2="9" />
+                  <line x1="5" x2="19" y1="15" y2="15" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
         <AnimatePresence>
           {confirm && (

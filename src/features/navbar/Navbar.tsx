@@ -18,7 +18,9 @@ const Navbar = () => {
     <nav className="nav">
       {/* Mobile menu  */}
       <AnimatePresence>
-        {isOpen && <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
+        {isOpen && (
+          <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} isAdmin={false} />
+        )}
       </AnimatePresence>
       <div className="wrapper">
         <div className="logo">
@@ -41,7 +43,7 @@ const Navbar = () => {
           <ul className="link-list">
             <li>
               <NavLink
-                to="/"
+                to="/#home"
                 onClick={() => {
                   const target = document.getElementById("home");
                   if (target) {
@@ -53,25 +55,13 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/#booking"
-              >
-                {translate("reservations")}
-              </NavLink>
+              <NavLink to="/#booking">{translate("reservations")}</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/#aboutUs"
-              >
-                {translate("aboutUs")}
-              </NavLink>
+              <NavLink to="/#aboutUs">{translate("aboutUs")}</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/#contact"
-              >
-                {translate("contactUs")}
-              </NavLink>
+              <NavLink to="/#contact">{translate("contactUs")}</NavLink>
             </li>
             <li>
               <SelectIdiom />
