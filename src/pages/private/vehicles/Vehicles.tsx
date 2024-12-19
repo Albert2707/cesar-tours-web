@@ -1,25 +1,21 @@
 import "./Vehicle.scss";
 import VehicleModal from "@/shared/components/vehicleModal/VehicleModal";
-import { useRef, useState } from "react";
+import { useMemo} from "react";
 import { AnimatePresence } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { request } from "@/utils/api/request";
 import Loader from "@/features/loader/Loader";
-import { VehicleModel } from "@/models/booking/vehicle";
 import { Toaster } from "react-hot-toast";
 import Button from "@/shared/components/button/Button";
 import ConfirmPopup from "@/shared/components/confirmPopup/ConfirmPopup";
 import { customToast } from "@/utils/functions/customToast";
-import { VITE_CESAR_API } from "@/config/config";
 import useTranslate from "@hooks/translations/Translate";
+import Table2 from "@/shared/components/table2/Table2";
+import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
 
 const Vehicles = () => {
-  const [confirm, setConfirm] = useState<boolean>(false);
+  const {confirm, setConfirm, show,setShow,setEditMode, setVehicleId, vehicleId} = useVehicleStore();
   const client = useQueryClient();
-  const [editMode, setEditMode] = useState(false);
-  const vehicleId = useRef<string>("");
-  const [vehicle, setVehicle] = useState<VehicleModel>();
-  const [show, setShow] = useState<boolean>(false);
   const { translate } = useTranslate();
   const { data, isLoading, error } = useQuery({
     queryKey: ["vehicles_admin"],
@@ -38,7 +34,7 @@ const Vehicles = () => {
         queryKey: ["vehicles_admin"],
       });
       customToast("success", translate("vehicle_deleted_successfully"));
-      vehicleId.current = "";
+      setVehicleId("");
       setConfirm(false);
     },
     onError: () => {
@@ -46,10 +42,41 @@ const Vehicles = () => {
     },
   });
 
+  const translateKeys =useMemo(()=>[
+    {
+      column: "Imagen",
+      key: "img_url"
+    },
+    {
+      column: "Marca",
+      key: "brand",
+    },
+    {
+      column: "Capacidad",
+      key: "capacity",
+    },
+    {
+      column: "Luggage",
+      key: "luggage_capacity",
+    },
+    {
+      column: "price",
+      key: "price_per_km",
+    },
+    {
+      column: "status",
+      key: "status",
+    },
+    {
+      column: "",
+      key: "button",
+    },
+  ],[]);
+
   const handleDelete = () => {
-    if (!vehicleId.current)
+    if (!vehicleId)
       return customToast("error", translate("vehicle_not_found"));
-    deleteVehicle.mutate(vehicleId.current);
+    deleteVehicle.mutate(vehicleId);
   };
   const content = () => {
     if (error) {
@@ -59,78 +86,12 @@ const Vehicles = () => {
     } else if (data.length === 0) {
       return <div>{translate("no_vehicles_added")}</div>;
     } else {
-      return data.map((e: VehicleModel) => (
-        <div key={e.id} className="vehicle_item">
-          <div className="avehicle_img">
-            <img src={VITE_CESAR_API + "/" + e.img_url} alt={e.brand} />
-          </div>
-          <div className="specs">
-            <div className="spec">{e.brand}</div>
-            <div className="spec">{e.model}</div>
-            <div className="spec">{e.capacity}</div>
-            <div className="spec">{e.luggage_capacity}</div>
-            <div className="spec">{e.price_per_km}</div>
-            <div className="spec">{e.status}</div>
-          </div>
-          <div className="options">
-            <Button
-              properties={{
-                type: "options",
-                onClickfn: () => {
-                  setVehicle(e);
-                  setEditMode(true);
-                  setShow(true);
-                },
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="btn_icon"
-              >
-                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-              </svg>
-              {translate("edit")}
-            </Button>
-            {e.status && (
-              <Button
-                properties={{
-                  type: "options",
-                  onClickfn: () => {
-                    vehicleId.current = e.id;
-                    setConfirm(true);
-                  },
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="btn_icon"
-                >
-                  <path d="M3 6h18" />
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                </svg>
-                {translate("delete")}
-              </Button>
-            )}
-          </div>
-        </div>
-      ));
+
+      return <Table2
+        headers={translateKeys}
+        data={data}
+        isOrder={false}
+      />
     }
   };
   return (
@@ -139,32 +100,32 @@ const Vehicles = () => {
       <AnimatePresence>
         {show && (
           <VehicleModal
-            properties={{ setShow, queryClient: client, editMode, vehicle }}
+            properties={{queryClient: client}}
           />
         )}
       </AnimatePresence>
       <div className="filters">
-      <div className="warn_mobile">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-triangle-alert"
-            >
-              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
-              <path d="M12 9v4" />
-              <path d="M12 17h.01" />
-            </svg>
-            <span className="">
-              {translate("only_remove_unoccupied_vehicles")}
-            </span>
-          </div>
+        <div className="warn_mobile">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-triangle-alert"
+          >
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+          <span className="">
+            {translate("only_remove_unoccupied_vehicles")}
+          </span>
+        </div>
         <div className="filter">
           <Button properties={{ type: "filter", onClickfn: () => {} }}>
             {translate("available")}
@@ -221,14 +182,15 @@ const Vehicles = () => {
           {translate("add_vehicle")}
         </Button>
       </div>
-      <div className="avehicle_container">{content()}</div>
+
+      {content()}
       {confirm && (
         <ConfirmPopup
           title="Borrar vehiculo"
           subTitle="Este vehiculo sera eliminado completamente ¿Seguro que deseas continuar? "
           onConfirm={handleDelete}
           onCancel={() => {
-            vehicleId.current = "";
+            setVehicleId("");
             setConfirm(false);
           }}
         />

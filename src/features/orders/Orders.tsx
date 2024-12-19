@@ -1,17 +1,13 @@
 import { OrderServices } from "./services/orderServices";
 import { useQuery } from "react-query";
-import { moneyFormant } from "@/utils/functions/moneyFormat";
-import { format } from "date-fns";
 import "./Order.scss";
-import { es } from "date-fns/locale";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Button from "@/shared/components/button/Button";
-import { useNavigate } from "react-router-dom";
 import useTranslate from "@hooks/translations/Translate";
+import Table2 from "@/shared/components/table2/Table2";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
-  const navigate = useNavigate();
   const { translate } = useTranslate();
   const [skip, setSkip] = useState<number>(1);
   const [reservation_num, setReservation_num] = useState<string>("");
@@ -29,58 +25,48 @@ const Orders = () => {
     return res.order;
   });
 
-  const orderStatus = (status: number): { name: string; class: string } => {
-    if (status === 0) {
-      return { name: translate("scheduled"), class: "pending" };
-    } else if (status === 1) {
-      return { name: translate("in_progress"), class: "in-progress" };
-    } else if (status === 2) {
-      return { name: translate("completed"), class: "completed" };
-    } else {
-      return { name: translate("canceled"), class: "cancelled" };
-    }
-  };
+  const translateKeys = useMemo(()=>[
+    {
+      column: "order_number",
+      key: "order_num",
+    },
+    {
+      column: "date",
+      key: "departureDate",
+    },
+    {
+      column: "status",
+      key: "status",
+    },
+    {
+      column: "customer",
+      key: "customer.name",
+    },
+    {
+      column: "origin2",
+      key: "origin",
+    },
+    {
+      column: "vehicle",
+      key: "vehicle.brand",
+    },
+    {
+      column: "total",
+      key: "total",
+    },
+    {
+      column: "",
+      key: "button",
+    },
+  ],[]);
 
   const order = () => {
     if (error) {
       return "Something went wrong";
     } else if (isLoading) {
       return <h1>Loading...</h1>;
-    } else if (!data || data.length === 0) {
-      return <div>No hay registros en la tabla</div>;
     } else {
-      return data.map((e: any) => (
-        <div className="tbl-body-row" key={crypto.randomUUID()}>
-          <div className="cell">{e.order_num}</div>
-          <div className="cell">
-            {format(new Date(e.departureDate), "MMM d, yyyy", { locale: es })}
-          </div>
-
-          <div className={`cell ${orderStatus(e.status).class}`}>
-            {orderStatus(e.status).name}
-          </div>
-          <div className="cell">
-            {`${e.customer.name} ${e.customer.lastName}`}
-          </div>
-
-          <div className="cell">{e.origin}</div>
-          <div className="cell">{e.vehicle.model}</div>
-
-          <div className="cell">{moneyFormant(e.total)}</div>
-          <div className="cell">
-            <Button
-              properties={{
-                type: "primary",
-                onClickfn: () => {
-                  navigate(`/admin/order-detail/${e.order_num}`);
-                },
-              }}
-            >
-              {translate("details")}
-            </Button>
-          </div>
-        </div>
-      ));
+      return <Table2 data={data} headers={translateKeys} isOrder={true}/>;
     }
   };
 
@@ -188,18 +174,7 @@ const Orders = () => {
           </button>
         </form>
       </div>
-      <div className="table">
-        <div className="tbl-header">
-          <div className="cell">{translate("order_number")}</div>
-          <div className="cell">{translate("date")}</div>
-          <div className="cell">{translate("status")}</div>
-          <div className="cell">{translate("customer")}</div>
-          <div className="cell">{translate("origin2")}</div>
-          <div className="cell">{translate("vehicle")}</div>
-          <div className="cell">{translate("total")}</div>
-        </div>
-        <div className="tbl-body">{order()}</div>
-      </div>
+      {order()}
       <div className="pagination">
         <Button
           properties={{
