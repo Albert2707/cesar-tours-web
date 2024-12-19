@@ -170,5 +170,7 @@
   "vehicles": "Vehículos",
   "vision": "Ser la empresa líder en servicios turísticos integrales, reconocida por proporcionar experiencias memorables y de alta calidad a los viajeros de todo el mundo, facilitando sus aventuras con comodidad, seguridad y eficiencia.",
   "welcome": "Bienvenido",
-  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!"
+  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!",
+  "user_message": "ha enviado un mensaje",
+  "new_contact_request": "Nueva solicitud de contacto"
 }

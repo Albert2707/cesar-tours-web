@@ -170,5 +170,7 @@
   "vehicles": "Vehicles",
   "vision": "To be the leading company in comprehensive tourism services, recognized for providing memorable and high-quality experiences to travelers worldwide, facilitating their adventures with comfort, safety, and efficiency.",
   "welcome": "Welcome",
-  "yourDestinationIsOurDestination": "Your destination is our destination!"
+  "yourDestinationIsOurDestination": "Your destination is our destination!",
+  "user_message": "has sent a message",
+  "new_contact_request": "New contact request"
 }
