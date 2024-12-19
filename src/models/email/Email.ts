@@ -10,4 +10,5 @@ export interface EmailProps {
     message: string
     html: string
     key?:string
+    subject:string
 }
