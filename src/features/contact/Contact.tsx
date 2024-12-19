@@ -38,6 +38,7 @@ const Contact = () => {
     message,
     html,
     key = VITE_RESEND_API_KEY,
+    subject,
   }: EmailProps) => {
     try {
       const props = {
@@ -46,6 +47,7 @@ const Contact = () => {
         message,
         html,
         key,
+        subject,
       };
       toast.promise(EmailService.sendEmail(props), {
         loading: translate("sending"),
@@ -67,13 +69,22 @@ const Contact = () => {
   };
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name, message, email, phone } = data;
+    const subject = translate("new_contact_request");
+    const labels = {
+      preview: translate("new_contact_request"),
+      header: translate("user_message"),
+      email: translate("email"),
+      phone: translate("phone"),
+      name: translate("name"),
+      message: translate("message"),
+    };
     const html = await render(
-      <Email parameters={{ name, message, email, phone }} />,
+      <Email parameters={{ name, message, email, phone, labels }} />,
       {
         pretty: true,
       }
     );
-    await send({ email, name, message, html });
+    await send({ email, name, message, html, subject });
   };
   const onError = (errors: FieldErrors<Inputs>) => {
     if (errors.name) {
@@ -128,32 +139,25 @@ const Contact = () => {
                   control={control}
                   rules={{
                     required: true,
-                    validate: (value) => {
-                      return (
-                        value.length >= 10 ||
-                        "El número de teléfono es inválido"
-                      );
-                    },
+                    //   validate: (value) => {
+                    //     return (
+                    //       value.length >= 10 ||
+                    //       "El número de teléfono es inválido"
+                    //     );
+                    //   },
                   }}
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      // disableDialCodePrefill={true}
                       inputClassName="phone-invalid"
                       disableDialCodeAndPrefix={true}
                       defaultCountry="do"
-                      className={`phoneInput ${errors.phone ? "phone-invalid" : ""}`}
+                      className={`phoneInput ${
+                        errors.phone ? "phone-invalid" : ""
+                      }`}
                     />
                   )}
                 />
-                {/* <PhoneInput
-                defaultCountry="do"
-                className="phoneInput"
-                charAfterDialCode=" "
-                // {...register("phone")}
-                // value={phone}
-                // onChange={(phone) => setPhone(phone)}
-              /> */}
               </div>
               <div className="form_item">
                 <label htmlFor="">{translate("message")}</label>
