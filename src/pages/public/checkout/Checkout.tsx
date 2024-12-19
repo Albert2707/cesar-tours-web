@@ -371,7 +371,7 @@ const Checkout = () => {
                         placeholder={translate("select_country")}
                         menuPlacement="auto"
                         menuPosition="fixed"
-                        isSearchable={false}
+                        isSearchable={true}
                       />
                       {error && (
                         <span style={{ color: "red", fontSize: "12px" }}>
