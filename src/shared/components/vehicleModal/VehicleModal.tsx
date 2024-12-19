@@ -5,9 +5,9 @@ import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { QueryClient, useMutation } from "react-query";
 import { customToast } from "@/utils/functions/customToast";
 import { request } from "@/utils/api/request";
-import { VehicleModel } from "@/models/booking/vehicle";
 import { VITE_CESAR_API } from "@/config/config";
 import useTranslate from "@hooks/translations/Translate";
+import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
 interface Inputs {
   img_url: FileList;
   brand: string;
@@ -18,10 +18,7 @@ interface Inputs {
 }
 interface Props {
   properties: {
-    setShow: React.Dispatch<React.SetStateAction<boolean>>;
     queryClient: QueryClient;
-    editMode: boolean;
-    vehicle?: VehicleModel;
   };
 }
 
@@ -33,7 +30,9 @@ type Value =
   | "luggage_capacity"
   | "price_per_km";
 const VehicleModal: FC<Props> = ({ properties }) => {
-  const { setShow, queryClient, editMode, vehicle } = properties;
+  const {setShow, editMode,vehicle_admin : vehicle} = useVehicleStore();
+
+  const { queryClient } = properties;
   const {
     register,
     handleSubmit,
