@@ -29,7 +29,7 @@ const Siging = () => {
             >
               <path d="m15 18-6-6 6-6" />
             </svg>
-            <span>{translate("back")}</span>
+            <span>{translate("home")}</span>
           </Button>
         </div>
       </div>
