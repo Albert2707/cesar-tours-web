@@ -1,1 +1,1 @@
-export const {VITE_CESAR_API, VITE_GOOGLE_API_KEY} = import.meta.env
+export const {VITE_CESAR_API, VITE_GOOGLE_API_KEY,VITE_RESEND_API_KEY} = import.meta.env
