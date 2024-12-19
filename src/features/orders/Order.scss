@@ -13,8 +13,48 @@
   .filter {
     align-self: flex-start;
     display: flex;
-    gap: 5px;
+    width: 100%;
     flex-wrap: wrap;
+    justify-content: space-between;
+    .button_filter {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .order_search {
+      height: 47px;
+      display: flex;
+      width: 210px;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      input {
+        width: 85%;
+        border: none;
+        height: 100%;
+        padding: 10px;
+        outline: none;
+      }
+      button {
+        width: 15%;
+        border: none;
+        color: #222;
+        background-color: transparent;
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      @include mobile{
+        width: 100%;
+      }
+    }
+    @include mobile{
+    flex-direction: column-reverse ;
+    align-items: center;
+    gap:15px;
+    }
   }
 
   .table {
@@ -126,7 +166,7 @@
     }
   }
 
-  @include mobile{
+  @include mobile {
     width: 90%;
   }
 }

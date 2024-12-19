@@ -26,6 +26,12 @@ button {
     color: #f2f2f2;
     height: 25px;
     width: 25px;
+    @include mobile {
+      display: none;
+    }
+  }
+  @include mobile {
+    font-size: 24px;
   }
 }
 .btn-filter {
@@ -36,6 +42,9 @@ button {
   border-radius: 10px;
   color: #222;
   font-weight: 500;
+  &.selected {
+    background-color: #e0e0e0;
+  }
 }
 
 .btn-secondary {
@@ -78,7 +87,7 @@ button {
   border-radius: 10px;
   color: #222;
   font-weight: 500;
-  gap:5px;
+  gap: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,61 +97,60 @@ button {
   }
 }
 
-.btn-toast{
-  border:none;
+.btn-toast {
+  border: none;
   width: 40px;
   height: 40px;
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255,255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   color: white;
   padding: 10px;
   border-radius: 50%;
   font-weight: 500;
   display: flex;
-  cursor:pointer;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
 }
 
-.btn-back{
-    width: 100px;
-    height: 40px;
-    background-color: transparent;
-    border-radius: 50px;
-    border: 1px solid #f24b0f;
-    display: flex;
-    cursor: pointer;
-    justify-content: center;
-    color: #222;
-    align-items: center;
+.btn-back {
+  width: 100px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50px;
+  border: 1px solid #f24b0f;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  color: #222;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  svg {
+    width: 15px;
+    height: 15px;
     transition: all 0.3s ease-in-out;
-    position: relative;
+    stroke-width: 2;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background: #f2f2f2;
+    color: $primary-bg-color;
+    border-color: transparent;
 
     svg {
-        width: 15px;
-        height: 15px;
-        transition: all 0.3s ease-in-out;
-        stroke-width: 2;
+      transform: translateX(-5px);
     }
-
-    span {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    &:hover {
-        background: #f2f2f2;
-        color: $primary-bg-color;
-        border-color: transparent;
-
-        svg {
-            transform: translateX(-5px);
-        }
-    }
-
+  }
 }
 
-.btn-back-login{
+.btn-back-login {
   width: 100px;
   height: 40px;
   background-color: transparent;
@@ -157,20 +165,20 @@ button {
   position: relative;
 
   svg {
-      width: 15px;
-      height: 15px;
-      transition: all 0.3s ease-in-out;
-      stroke-width: 2;
+    width: 15px;
+    height: 15px;
+    transition: all 0.3s ease-in-out;
+    stroke-width: 2;
   }
 
   &:hover {
     background: #333;
-    border-radius:50px;
-    border-bottom-color:transparent;
+    border-radius: 50px;
+    border-bottom-color: transparent;
     color: #f2f2f2;
 
     svg {
-        transform: translateX(-5px);
+      transform: translateX(-5px);
     }
-}
+  }
 }

@@ -6,7 +6,7 @@
   background-color: #ffffff;
   height: calc(100vh - 80px);
   justify-content: center;
-  padding:2rem 0;
+  padding: 2rem 0;
   align-items: center;
 
   .wrapper {
@@ -96,7 +96,7 @@
           .name,
           .email {
             border-radius: 5px;
-            padding:10px;
+            padding: 10px;
             height: 47px;
             outline: transparent;
             caret-color: #22a2f2;
@@ -111,9 +111,9 @@
             border-radius: 5px;
             border: 1px solid gainsboro;
           }
-        @include mobile{
-          width: 80%;
-        }
+          @include mobile {
+            width: 80%;
+          }
         }
         .message-button {
           border: 1px solid transparent;
