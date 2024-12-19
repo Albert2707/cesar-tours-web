@@ -14,5 +14,8 @@
   }
   @include mobile{
     align-items: center;
+    h3{
+      font-size: 20px;
+    }
   }
 }
