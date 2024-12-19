@@ -13,6 +13,8 @@ import { render } from "@react-email/render";
 import Email from "@/features/email/Email";
 import { EmailProps } from "@/models/email/Email";
 import { EmailService } from "./services/email/emailService";
+import { customToast } from "@/utils/functions/customToast";
+import { VITE_RESEND_API_KEY } from "@/config/config";
 type Inputs = {
   name: string;
   message: string;
@@ -30,13 +32,20 @@ const Contact = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const send = async ({ email, name, message, html }: EmailProps) => {
+  const send = async ({
+    email,
+    name,
+    message,
+    html,
+    key = VITE_RESEND_API_KEY,
+  }: EmailProps) => {
     try {
       const props = {
         email,
         name,
         message,
         html,
+        key,
       };
       toast.promise(EmailService.sendEmail(props), {
         loading: translate("sending"),
@@ -50,34 +59,31 @@ const Contact = () => {
         error: translate("message_failed"),
       });
     } catch (error: unknown) {
-      toast.error(translate("message_failed"));
+      customToast("error", translate("message_failed"));
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const html = await render(<Email url={"https://netflix.com"} />, {
-      pretty: true,
-    });
-
     const { name, message, email, phone } = data;
-    if (!name || !message || !email || !phone) {
-      return toast.error(translate("fill_all_fields"));
-    }
+    const html = await render(
+      <Email parameters={{ name, message, email, phone }} />,
+      {
+        pretty: true,
+      }
+    );
     await send({ email, name, message, html });
   };
   const onError = (errors: FieldErrors<Inputs>) => {
     if (errors.name) {
-      toast.error(translate("name_required"));
+      customToast("error", translate("name_required"));
     } else if (errors.email) {
-      toast.error(translate("email_required"));
+      customToast("error", translate("email_required"));
     } else if (errors.phone) {
-      console.log(errors.phone);
-      toast.error(translate("phone_required"));
+      customToast("error", translate("phone_required"));
     } else if (errors.message) {
-      toast.error(translate("message_required"));
+      customToast("error", translate("message_required"));
     }
   };
 
@@ -89,7 +95,7 @@ const Contact = () => {
           <div className="left">
             <span>{translate("contact_message")}</span>
             <div className="contact_img">
-            <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
+              <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
             </div>
           </div>
           <div className="right">
