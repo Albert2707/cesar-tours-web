@@ -2,6 +2,7 @@ import { useRef } from "react";
 import useTranslate from "@/shared/hooks/translations/Translate";
 import "./HeroSection.scss";
 import { useScroll, useTransform, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   const wrapperRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -24,7 +25,7 @@ const HeroSection = () => {
           <h3>{translate("yourDestinationIsOurDestination")} </h3>
           <h1>{translate("cesarDestination")}</h1>
           <p>{translate("travelFastAndSafe")}</p>
-          <a href="#booking">{translate("bookNow")}</a>
+          <Link to="/#booking">{translate("bookNow")}</Link>
         </motion.div>
       </div>
     </div>
