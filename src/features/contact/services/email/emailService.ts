@@ -7,7 +7,8 @@ export class EmailService {
     name,
     message,
     html,
-    key
+    key,
+    subject
   }: EmailProps): Promise<EmailResponse> {
     try {
       const response = await request.post(
@@ -17,6 +18,7 @@ export class EmailService {
           name,
           message,
           html,
+          subject
         },
         { headers: { resendapikey: key } }
       );
