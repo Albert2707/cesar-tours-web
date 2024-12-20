@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import Button from "@/shared/components/button/Button";
 import useTranslate from "@hooks/translations/Translate";
 import Table2 from "@/shared/components/table2/Table2";
+import { IOrder } from "@/shared/interfaces/interfaces";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
@@ -25,40 +26,43 @@ const Orders = () => {
     return res.order;
   });
 
-  const translateKeys = useMemo(()=>[
-    {
-      column: "order_number",
-      key: "order_num",
-    },
-    {
-      column: "date",
-      key: "departureDate",
-    },
-    {
-      column: "status",
-      key: "status",
-    },
-    {
-      column: "customer",
-      key: "customer.name",
-    },
-    {
-      column: "origin2",
-      key: "origin",
-    },
-    {
-      column: "vehicle",
-      key: "vehicle.brand",
-    },
-    {
-      column: "total",
-      key: "total",
-    },
-    {
-      column: "",
-      key: "button",
-    },
-  ],[]);
+  const translateKeys = useMemo(
+    () => [
+      {
+        column: "order_number",
+        key: "order_num",
+      },
+      {
+        column: "date",
+        key: "departureDate",
+      },
+      {
+        column: "status",
+        key: "status",
+      },
+      {
+        column: "customer",
+        key: "customer.name",
+      },
+      {
+        column: "origin2",
+        key: "origin",
+      },
+      {
+        column: "vehicle",
+        key: "vehicle.brand",
+      },
+      {
+        column: "total",
+        key: "total",
+      },
+      {
+        column: "",
+        key: "button",
+      },
+    ],
+    []
+  );
 
   const order = () => {
     if (error) {
@@ -66,13 +70,19 @@ const Orders = () => {
     } else if (isLoading) {
       return <h1>Loading...</h1>;
     } else {
-      return <Table2 data={data} headers={translateKeys} isOrder={true}/>;
+      return (
+        <Table2<IOrder>
+          data={data as unknown as IOrder[]}
+          headers={translateKeys}
+          isOrder={true}
+        />
+      );
     }
   };
 
   useEffect(() => {
     refetch();
-  }, [filter, skip]);
+  }, [filter, skip, refetch]);
 
   useEffect(() => {
     if (reservation_num === "") refetch();

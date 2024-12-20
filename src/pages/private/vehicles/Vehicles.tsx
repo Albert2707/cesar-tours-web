@@ -1,6 +1,6 @@
 import "./Vehicle.scss";
 import VehicleModal from "@/shared/components/vehicleModal/VehicleModal";
-import { useMemo} from "react";
+import { useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { request } from "@/utils/api/request";
@@ -12,9 +12,18 @@ import { customToast } from "@/utils/functions/customToast";
 import useTranslate from "@hooks/translations/Translate";
 import Table2 from "@/shared/components/table2/Table2";
 import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
+import { VehicleModel } from "@/models/booking/vehicle";
 
 const Vehicles = () => {
-  const {confirm, setConfirm, show,setShow,setEditMode, setVehicleId, vehicleId} = useVehicleStore();
+  const {
+    confirm,
+    setConfirm,
+    show,
+    setShow,
+    setEditMode,
+    setVehicleId,
+    vehicleId,
+  } = useVehicleStore();
   const client = useQueryClient();
   const { translate } = useTranslate();
   const { data, isLoading, error } = useQuery({
@@ -42,40 +51,42 @@ const Vehicles = () => {
     },
   });
 
-  const translateKeys =useMemo(()=>[
-    {
-      column: "Imagen",
-      key: "img_url"
-    },
-    {
-      column: "Marca",
-      key: "brand",
-    },
-    {
-      column: "Capacidad",
-      key: "capacity",
-    },
-    {
-      column: "Luggage",
-      key: "luggage_capacity",
-    },
-    {
-      column: "price",
-      key: "price_per_km",
-    },
-    {
-      column: "status",
-      key: "status",
-    },
-    {
-      column: "",
-      key: "button",
-    },
-  ],[]);
+  const translateKeys = useMemo(
+    () => [
+      {
+        column: "Imagen",
+        key: "img_url",
+      },
+      {
+        column: "Marca",
+        key: "brand",
+      },
+      {
+        column: "Capacidad",
+        key: "capacity",
+      },
+      {
+        column: "Luggage",
+        key: "luggage_capacity",
+      },
+      {
+        column: "price",
+        key: "price_per_km",
+      },
+      {
+        column: "status",
+        key: "status",
+      },
+      {
+        column: "",
+        key: "button",
+      },
+    ],
+    []
+  );
 
   const handleDelete = () => {
-    if (!vehicleId)
-      return customToast("error", translate("vehicle_not_found"));
+    if (!vehicleId) return customToast("error", translate("vehicle_not_found"));
     deleteVehicle.mutate(vehicleId);
   };
   const content = () => {
@@ -86,23 +97,20 @@ const Vehicles = () => {
     } else if (data.length === 0) {
       return <div>{translate("no_vehicles_added")}</div>;
     } else {
-
-      return <Table2
-        headers={translateKeys}
-        data={data}
-        isOrder={false}
-      />
+      return (
+        <Table2<VehicleModel>
+          headers={translateKeys}
+          data={data}
+          isOrder={false}
+        />
+      );
     }
   };
   return (
     <div className="admin_vehicle">
       <Toaster />
       <AnimatePresence>
-        {show && (
-          <VehicleModal
-            properties={{queryClient: client}}
-          />
-        )}
+        {show && <VehicleModal properties={{ queryClient: client }} />}
       </AnimatePresence>
       <div className="filters">
         <div className="warn_mobile">
