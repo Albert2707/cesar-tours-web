@@ -112,6 +112,12 @@
   }
 }
 
+@media (max-width: 1262px) {
+  .aboutUs-section {
+    height: fit-content;
+  }
+}
+
 @include tablet {
   .aboutUs-section {
     height: 90vh;
@@ -185,6 +191,6 @@
 @media (max-width: 376px) {
   .aboutUs-section {
     height: 100vh;
-    padding:4rem 2rem 2rem 2rem ;
+    padding: 4rem 2rem 2rem 2rem;
   }
 }
