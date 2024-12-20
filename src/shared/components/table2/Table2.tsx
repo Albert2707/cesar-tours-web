@@ -45,14 +45,14 @@ const Table2 = <T extends IOrder | VehicleModel>({
   const getAvailableStatus = (): { name: string; class: string } => {
     return { name: translate("Disponible"), class: "pending" };
   };
-  
+
   const getUnavailableStatus = (): { name: string; class: string } => {
     return { name: translate("Ocupado"), class: "available" };
   };
-  
+
   // Uso
-  const statusInfo =(status:boolean)=>  status ? getAvailableStatus() : getUnavailableStatus();
-  
+  const statusInfo = (status: boolean) =>
+    status ? getAvailableStatus() : getUnavailableStatus();
 
   const orderStatus = (
     status: number | boolean,
@@ -85,8 +85,8 @@ const Table2 = <T extends IOrder | VehicleModel>({
           <div
             className="avehicle_img"
             style={{
-              width: "200px",
-              height: "150px",
+              width: "100%",
+              height: "100%",
               overflow: "hidden",
             }}
           >
@@ -113,6 +113,7 @@ const Table2 = <T extends IOrder | VehicleModel>({
           <Button
             properties={{
               type: "primary",
+              style: { alignSelf: "center" },
               onClickfn: () => {
                 navigate(`/admin/order-detail/${(e as IOrder).order_num}`);
               },
@@ -187,7 +188,18 @@ const Table2 = <T extends IOrder | VehicleModel>({
 
   const order = () => {
     if (!data || data.length === 0) {
-      return <div>No hay registros en la tabla</div>;
+      return (
+        <div
+          style={{
+            display: "flex",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {translate("no_data")}
+        </div>
+      );
     }
 
     return data.map((e) => (
