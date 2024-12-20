@@ -1,14 +1,14 @@
 import Select from "react-select";
 import useTranslate from "@hooks/translations/Translate";
-import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 
 // Definimos estilos comunes reutilizables
 const commonStyles = {
   fontSize: "12px",
 };
-
 // Función para aplicar estilos condicionales
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getOptionStyles = (state: any) => ({
   backgroundColor: state.isFocused ? "rgba(242, 75, 15, 0.1)" : "transparent",
   color: state.isFocused ? "orange" : "inherit",
@@ -23,8 +23,19 @@ const SelectIdiom = () => {
     { value: "en", label: translate("English"), labelOnSelect: "us" },
   ];
 
-  const formatLabel = (option: any) => (
-    <div style={{ display: "flex", alignItems: "center", gap: "5px", justifyContent: "center" }}>
+  const formatLabel = (option: {
+    value: string;
+    label: string;
+    labelOnSelect: string;
+  }) => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "5px",
+        justifyContent: "center",
+      }}
+    >
       <span>{option.label}</span>
     </div>
   );
@@ -62,7 +73,11 @@ const SelectIdiom = () => {
         }),
         indicatorSeparator: (styles) => ({ ...styles, display: "none" }),
         dropdownIndicator: (styles) => ({ ...styles, display: "none" }),
-        valueContainer: (baseStyles) => ({ ...baseStyles, padding: "0", margin: "0 8px" }),
+        valueContainer: (baseStyles) => ({
+          ...baseStyles,
+          padding: "0",
+          margin: "0 8px",
+        }),
         singleValue: (baseStyles) => ({
           ...baseStyles,
           color: "#f2f2f2",
