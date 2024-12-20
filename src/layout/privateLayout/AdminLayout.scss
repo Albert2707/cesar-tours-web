@@ -3,11 +3,11 @@
 .wrapper-layout {
   margin: 0 auto;
   display: flex;
+  padding: 2rem 0;
   padding-top: 20px;
   flex-direction: column;
   gap: 20px;
   overflow: hidden;
-  padding: 2rem 0;
   min-height: calc(100vh - 80px);
   h3{
     font-size: 24px;
