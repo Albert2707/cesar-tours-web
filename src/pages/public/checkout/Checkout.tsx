@@ -315,7 +315,6 @@ const Checkout = () => {
                     required: "Country is required", // Mensaje de error personalizado
                   }}
                   render={({fieldState }) => (
-                    <>
                       <SelectBooking
                         options={countries}
                         isSearchable={true}
@@ -330,7 +329,6 @@ const Checkout = () => {
                           (e) => e.value === country?.value
                         )}
                       />
-                    </>
                   )}
                 />
               </div>
