@@ -58,7 +58,7 @@ interface OrderData extends Omit<Inputs, "countryId"> {
 }
 
 const Checkout = () => {
-  const [contries, setCountries] = useState<[{ value: string; label: string }]>(
+  const [contries, setCountries] = useState<{ value: string; label: string }[]>(
     [{ value: "", label: "" }]
   );
   const { translate } = useTranslate();
@@ -165,7 +165,7 @@ const Checkout = () => {
   ) => {
     const value = event.currentTarget.value;
     // Elimina caracteres no numéricos
-    const numericValue = value.replace(/[^0-9]/g, "");
+    const numericValue = value.replace(/\D/g, "");
     event.currentTarget.value = numericValue;
     setValue(key, numericValue, { shouldValidate: true });
   };

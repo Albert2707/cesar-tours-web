@@ -134,7 +134,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       | "price_per_km"
   ) => {
     const value = event.currentTarget.value;
-    const numericValue = value.replace(/[^0-9]/g, "");
+    const numericValue = value.replace(/\D/g, "");
     event.currentTarget.value = numericValue;
     setValue(key, numericValue, { shouldValidate: true });
   };
