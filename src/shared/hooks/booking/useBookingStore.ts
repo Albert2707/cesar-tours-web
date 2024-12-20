@@ -10,7 +10,7 @@ type BookInfo = {
   trip_type: number;
   passengerNo?: number;
   bagsNo?: number;
-  returnDate?: Date | undefined;
+  returnDate?: Date;
   returnHours?: string
   departureHour?: string;
   departureDate: Date;
