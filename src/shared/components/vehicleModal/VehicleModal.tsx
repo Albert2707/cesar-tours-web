@@ -134,7 +134,8 @@ const VehicleModal: FC<Props> = ({ properties }) => {
       | "price_per_km"
   ) => {
     const value = event.currentTarget.value;
-    const numericValue = value.replace(/\D/g, "");
+    const regex = key =="price_per_km"?/[^\d.]/g:/\D/g 
+    const numericValue = value.replace(regex, "");
     event.currentTarget.value = numericValue;
     setValue(key, numericValue, { shouldValidate: true });
   };
