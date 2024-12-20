@@ -23,11 +23,11 @@ import { customToast } from "@/utils/functions/customToast";
 import { formatHour } from "@/utils/functions/formatHour";
 import { request } from "@/utils/api/request";
 import { Country } from "@/models/country/country";
-import Select from "react-select";
 import useTranslate from "@hooks/translations/Translate";
 import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
 import { useIdiom } from "@hooks/idiom/useIdiom";
+import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
 interface Inputs {
   name: string;
   lastName: string;
@@ -58,16 +58,17 @@ export interface OrderData extends Omit<Inputs, "countryId"> {
 }
 
 const Checkout = () => {
-  const [countries, setCountries] = useState<{ value: string; label: string }[]>(
-    [{ value: "", label: "" }]
-  );
-  
+  const [countries, setCountries] = useState<
+    { value: string; label: string }[]
+  >([{ value: "", label: "" }]);
+
   const { translate } = useTranslate();
   const {
     register,
     setValue,
     handleSubmit,
     reset,
+    watch,
     control,
     formState: { errors },
   } = useForm<Inputs>();
@@ -148,7 +149,6 @@ const Checkout = () => {
       paymentMethod,
       total,
     };
-    console.log(order);
     createOrder.mutate(order);
   };
   const handleInput = (
@@ -179,7 +179,7 @@ const Checkout = () => {
       customToast("error", translate("complete_email"));
     } else if (errors.phone) {
       customToast("error", translate("complete_phone"));
-    } else if (errors.countryId) {
+    } else if (errors.countryId || !country) {
       customToast("error", translate("select_country"));
     } else if (errors.airline) {
       customToast("error", translate("complete_airline"));
@@ -234,6 +234,7 @@ const Checkout = () => {
     handleSubmit(onSubmit, onError)();
   };
 
+  const country = watch("countryId");
   return (
     <motion.div
       className="checkout"
@@ -313,72 +314,22 @@ const Checkout = () => {
                   rules={{
                     required: "Country is required", // Mensaje de error personalizado
                   }}
-                  render={({ field, fieldState: { error } }) => (
+                  render={({fieldState }) => (
                     <>
-                      <Select
-                        {...field}
+                      <SelectBooking
                         options={countries}
-                        styles={{
-                          control: (baseStyles) => ({
-                            ...baseStyles,
-                            backgroundColor: "transparent",
-                            borderRadius: "10px",
-                            display: "flex",
-                            height: "47px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            fontSize: "12px",
-                            borderColor: "rgba(51, 55, 64, 0.3)",
-                            boxShadow: "none",
-                            "&:hover": {
-                              borderColor: "rgba(51, 55, 64, 0.5)", // Ajusta el color del borde en hover
-                            },
-                          }),
-                          menu: (baseStyles) => ({
-                            ...baseStyles,
-                            borderRadius: "10px",
-                            fontSize: "14px",
-                            backgroundColor: "#f2f2f2",
-                            fontWeight: 600,
-                          }),
-                          option: (baseStyles, state) => ({
-                            ...baseStyles,
-                            backgroundColor: state.isFocused
-                              ? "rgba(242, 75, 15, 0.1)"
-                              : "transparent",
-                            color: state.isFocused ? "orange" : "inherit",
-                            "&:active": {
-                              backgroundColor: "rgba(242, 75, 15, 0.2)",
-                            },
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                          dropdownIndicator: () => ({
-                            display: "none",
-                          }),
-                          valueContainer: (baseStyles) => ({
-                            ...baseStyles,
-                            padding: "0",
-                            margin: "0 8px",
-                          }),
-                          singleValue: (baseStyles) => ({
-                            ...baseStyles,
-                            margin: "0",
-                            fontSize: "14px",
-                            paddingLeft: "0",
-                          }),
-                        }}
-                        placeholder={translate("select_country")}
-                        menuPlacement="auto"
-                        menuPosition="fixed"
                         isSearchable={true}
+                        customStyles={fieldState.error && { borderColor: "Red" }}
+                        placeholder={translate("select_country")}
+                        onChange={(e) => {
+                          setValue("countryId", e, {
+                            shouldValidate: true,
+                          });
+                        }}
+                        value={countries.find(
+                          (e) => e.value === country?.value
+                        )}
                       />
-                      {error && (
-                        <span style={{ color: "red", fontSize: "12px" }}>
-                          {error.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
