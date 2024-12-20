@@ -42,13 +42,17 @@ const Table2 = <T extends IOrder | VehicleModel>({
     }
   };
 
-  const getAvailabilityStatus = (
-    status: boolean
-  ): { name: string; class: string } => {
-    return status
-      ? { name: translate("Disponible"), class: "pending" }
-      : { name: translate("Ocupado"), class: "available" };
+  const getAvailableStatus = (): { name: string; class: string } => {
+    return { name: translate("Disponible"), class: "pending" };
   };
+  
+  const getUnavailableStatus = (): { name: string; class: string } => {
+    return { name: translate("Ocupado"), class: "available" };
+  };
+  
+  // Uso
+  const statusInfo =(status:boolean)=>  status ? getAvailableStatus() : getUnavailableStatus();
+  
 
   const orderStatus = (
     status: number | boolean,
@@ -58,7 +62,7 @@ const Table2 = <T extends IOrder | VehicleModel>({
       return getOrderStatus(status);
     }
     if (!isOrder && typeof status === "boolean") {
-      return getAvailabilityStatus(status);
+      return statusInfo(status);
     }
     return { name: translate("unknown"), class: "unknown" };
   };
@@ -186,8 +190,8 @@ const Table2 = <T extends IOrder | VehicleModel>({
       return <div>No hay registros en la tabla</div>;
     }
 
-    return data.map((e, index) => (
-      <div className="tbl-body-row" key={index}>
+    return data.map((e) => (
+      <div className="tbl-body-row" key={crypto.randomUUID()}>
         {headers
           .filter((header) => header.column)
           .map((header) => (
