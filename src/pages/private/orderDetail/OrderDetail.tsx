@@ -267,6 +267,13 @@ const OrderDetail = () => {
       setSelected(selectedOption || { value: 0, label: "" });
     }
   }, [isLoading, data, options]);
+
+  useEffect(() => {
+    const target = document.getElementById("admin_main");
+    if (target) {
+      target.scrollIntoView();
+    }
+  }, []);
   return (
     <div>
       <Toaster />
