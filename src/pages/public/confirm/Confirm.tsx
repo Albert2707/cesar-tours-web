@@ -7,17 +7,19 @@ import { IdiomTypes } from "@/context/idiomTypes";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { Table } from "@/shared/components/table/Table";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useTranslate from "@hooks/translations/Translate";
 import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
 import { useIdiom } from "@hooks/idiom/useIdiom";
+import Button from "@/shared/components/button/Button";
 const Confirm = () => {
   const { order, addOrder } = useConfirmationStore();
   const { idiom } = useIdiom() as IdiomTypes;
   const [fechaEnEspanol, setFechaEnEspanol] = useState<string>("");
   const [fechaEnIngles, setFechaEnIngles] = useState<string>("");
   const { translate } = useTranslate();
+  const navigate = useNavigate();
   const { state } = useLocation();
   useEffect(() => {
     if (order) {
@@ -130,6 +132,25 @@ const Confirm = () => {
               },
             ]}
           />
+          <Button
+            properties={{ type: "back", onClickfn: () => navigate("/") }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-chevron-left"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            <span>{translate("home")}</span>
+          </Button>
         </div>
       </div>
     </div>
