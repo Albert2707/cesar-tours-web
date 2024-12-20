@@ -4,7 +4,6 @@ import { enUS } from "date-fns/locale/en-US";
 import { es } from "date-fns/locale/es";
 import "./Checkout.scss";
 import { format } from "date-fns";
-import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
 import {
   Controller,
@@ -28,6 +27,7 @@ import Select from "react-select";
 import useTranslate from "@hooks/translations/Translate";
 import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 interface Inputs {
   name: string;
   lastName: string;
@@ -39,7 +39,7 @@ interface Inputs {
   flight_number: string;
   additionalNotes: string;
 }
-interface OrderData extends Omit<Inputs, "countryId"> {
+export interface OrderData extends Omit<Inputs, "countryId"> {
   origin?: string;
   destination?: string;
   trip_type?: number;
@@ -58,9 +58,10 @@ interface OrderData extends Omit<Inputs, "countryId"> {
 }
 
 const Checkout = () => {
-  const [contries, setCountries] = useState<{ value: string; label: string }[]>(
+  const [countries, setCountries] = useState<{ value: string; label: string }[]>(
     [{ value: "", label: "" }]
   );
+  
   const { translate } = useTranslate();
   const {
     register,
@@ -98,12 +99,12 @@ const Checkout = () => {
       const res = await CheckoutService.createOrder(order);
       return res;
     },
-    onSuccess: ({ data }) => {
+    onSuccess: ({ orderCreated }) => {
       queryClient.invalidateQueries({
         queryKey: ["orders"],
       });
       navigate("/order/confirmation", {
-        state: { orderCreated: data.orderCreated },
+        state: { orderCreated },
       });
       reset();
     },
@@ -122,7 +123,6 @@ const Checkout = () => {
   } = useBookingStore();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data.countryId);
     const order: OrderData = {
       name: data.name,
       lastName: data.lastName,
@@ -148,6 +148,7 @@ const Checkout = () => {
       paymentMethod,
       total,
     };
+    console.log(order);
     createOrder.mutate(order);
   };
   const handleInput = (
@@ -316,7 +317,7 @@ const Checkout = () => {
                     <>
                       <Select
                         {...field}
-                        options={contries}
+                        options={countries}
                         styles={{
                           control: (baseStyles) => ({
                             ...baseStyles,
@@ -488,25 +489,25 @@ const Checkout = () => {
             columns={[translate("trip"), translate("subtotal")]}
             data={[
               {
-                type:
+                accesor:
                   trip_type === 1
                     ? translate("one_way")
                     : translate("round_trip"),
                 total: moneyFormant(total),
-                key: "type",
+                key: "accesor",
                 value: "total",
               },
               {
-                subtotal: "Subtotal",
+                accesor: "Subtotal",
                 total: moneyFormant(total),
-                key: "subtotal",
+                key: "accesor",
                 value: "total",
               },
               {
-                total: "Total",
-                totalCost: moneyFormant(total),
-                key: "total",
-                value: "totalCost",
+                accesor: "Total",
+                total: moneyFormant(total),
+                key: "accesor",
+                value: "total",
               },
             ]}
           />

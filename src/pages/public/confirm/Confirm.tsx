@@ -3,7 +3,6 @@ import Alert from "@/shared/components/alert/Alert";
 import { useConfirmationStore } from "@/shared/hooks/confirmation/useConfirmationStore";
 import "./Confirm.scss";
 import { enUS, es } from "date-fns/locale";
-import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { Table } from "@/shared/components/table/Table";
@@ -12,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import useTranslate from "@hooks/translations/Translate";
 import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 const Confirm = () => {
   const { order, addOrder } = useConfirmationStore();
   const { idiom } = useIdiom() as IdiomTypes;
@@ -108,25 +108,25 @@ const Confirm = () => {
             columns={[translate("reservation"), "Total"]}
             data={[
               {
-                type:
+                accesor:
                   order?.trip_type === "one_way"
                     ? translate("one_way")
                     : translate("round_trip"),
                 total: moneyFormant(order?.total as number),
-                key: "type",
+                key: "accesor",
                 value: "total",
               },
               {
-                subtotal: "Subtotal",
+                accesor: "Subtotal",
                 total: moneyFormant(order?.total as number),
-                key: "subtotal",
+                key: "accesor",
                 value: "total",
               },
               {
-                total: "Total",
-                totalCost: moneyFormant(order?.total as number),
-                key: "total",
-                value: "totalCost",
+                accesor: "Total",
+                total: moneyFormant(order?.total as number),
+                key: "accesor",
+                value: "total",
               },
             ]}
           />
