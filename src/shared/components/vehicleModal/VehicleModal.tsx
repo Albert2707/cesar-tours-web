@@ -41,7 +41,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
     formState: { errors },
   } = useForm<Inputs>();
   const { translate } = useTranslate();
-  const [file, setFile] = useState<any>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const validate = async (img: FileList) => {
     const file = img[0];
@@ -158,9 +158,9 @@ const VehicleModal: FC<Props> = ({ properties }) => {
   useEffect(() => {
     if (!vehicle) return;
     if (editMode) {
-      Object.keys(vehicle).forEach((e: any) => {
+      Object.keys(vehicle).forEach((e) => {
         const val = e as Value;
-        setValue(e, vehicle[val].toString());
+        setValue(val, vehicle[val].toString());
       });
     }
   }, [editMode, vehicle, setValue]);

@@ -1,12 +1,14 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/authContext";
 import { AuthTypes } from "@/context/authTypes";
 import "./Login.scss";
 import { useState } from "react";
-import  { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { customToast } from "@/utils/functions/customToast";
 import useTranslate from "@hooks/translations/Translate";
+import { useAuth } from "@hooks/auth/useAuth";
+import { AxiosError } from "axios";
+
 const Login = () => {
   const { login, isLoggedIn } = useAuth() as AuthTypes;
   const { translate } = useTranslate();
@@ -38,8 +40,13 @@ const Login = () => {
       await login(credentials.email, credentials.password);
       setLoading(false);
       navigate("/admin/orders");
-    } catch (error: any) {
-      customToast("error", error.response.data.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        customToast("error", error.response?.data?.message);
+      } else {
+        customToast("error", "An unexpected error occurred");
+      }
+    } finally {
       setLoading(false);
     }
   };

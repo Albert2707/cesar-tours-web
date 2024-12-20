@@ -18,9 +18,9 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
     origin
   } = useBookingStore();
   // Función debounce
-  const debounce = (func: Function, delay: number) => {
+  const debounce = <T extends (...args: unknown[]) => void>(func: T, delay: number) => {
     let timer: NodeJS.Timeout;
-    return (...args: any[]) => {
+    return (...args: Parameters<T>) => {
       clearTimeout(timer);
       timer = setTimeout(() => func(...args), delay);
     };

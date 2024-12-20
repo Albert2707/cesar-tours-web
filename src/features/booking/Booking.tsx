@@ -11,14 +11,13 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import { enUS } from "date-fns/locale/en-US";
 import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
 import { customToast } from "@/utils/functions/customToast";
-import { VITE_GOOGLE_API_KEY, VITE_CESAR_API } from "@/config/config";
-
+import { VITE_GOOGLE_API_KEY } from "@/config/config";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
@@ -26,15 +25,19 @@ interface TripType {
   value: number;
   label: string;
 }
+export interface Coordinates {
+  lat: number | undefined;
+  lng: number | undefined;
+}
+
 const Booking = () => {
   registerLocale("en", enUS);
   registerLocale("es", es);
-  console.log(VITE_CESAR_API)
   const today = new Date();
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
-  const [originAddress, setOriginAddress] = useState<any>(null);
+  const [originAddress, setOriginAddress] = useState<Coordinates | null>(null);
   const {
     passengerNo,
     departureDate,
@@ -51,9 +54,10 @@ const Booking = () => {
     setReturnDate,
     setReturnHour,
     returnHours,
-    returnDate
+    returnDate,
   } = useBookingStore();
-  const [destinationAddress, setDestinationAddress] = useState<any>(null);
+  const [destinationAddress, setDestinationAddress] =
+    useState<Coordinates | null>(null);
   const hours = generateTimeOptions();
   const noPassengers = [];
   const noBags = [];
@@ -108,8 +112,9 @@ const Booking = () => {
               <div className="step done">1</div>
               <div className="steps-progress">
                 <div
-                  className={` progress ${step === 2 || step === 3 ? "done" : ""
-                    }`}
+                  className={` progress ${
+                    step === 2 || step === 3 ? "done" : ""
+                  }`}
                 ></div>
               </div>
               <div
@@ -126,10 +131,7 @@ const Booking = () => {
               <APIProvider apiKey={VITE_GOOGLE_API_KEY}>
                 <div className="contain">
                   <div className="left">
-                    <motion.form
-                      action=""
-                      className="booking-form"
-                    >
+                    <motion.form action="" className="booking-form">
                       <div className="form-item">
                         <label htmlFor="address">
                           {translate("origin_address")}
@@ -213,8 +215,11 @@ const Booking = () => {
                             selected={departureDate}
                             minDate={today}
                             onChange={(date) => {
-                              if (!date) return toast.error("Debe seleccionar una fecha");
-                              setDepartureDate(date as Date)
+                              if (!date)
+                                return toast.error(
+                                  "Debe seleccionar una fecha"
+                                );
+                              setDepartureDate(date as Date);
                             }}
                             locale={idiom}
                             dateFormat={
@@ -257,12 +262,15 @@ const Booking = () => {
                                 className="datePicker"
                                 selected={returnDate}
                                 minDate={departureDate}
-                                placeholderText={idiom == "es"?"DD/MM/YYYY    ":"MM/DD/YYYY"}
+                                placeholderText={
+                                  idiom == "es"
+                                    ? "DD/MM/YYYY    "
+                                    : "MM/DD/YYYY"
+                                }
                                 onChange={(date) => {
                                   if (!date) return;
-                                  setReturnDate(date as Date)
-                                }
-                                }
+                                  setReturnDate(date as Date);
+                                }}
                                 locale={idiom}
                                 dateFormat={
                                   idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
@@ -273,7 +281,7 @@ const Booking = () => {
                             {/* Departure hour / hora de partida */}
                             <div className="departure-hour">
                               <label htmlFor="outHour">
-                              {translate("return_time")}
+                                {translate("return_time")}
                               </label>
                               <SelectBooking
                                 options={hours}
@@ -303,7 +311,10 @@ const Booking = () => {
                       >
                         {originAddress && (
                           <Marker
-                            position={originAddress}
+                            position={{
+                              lat: originAddress.lat ?? 0,
+                              lng: originAddress.lng ?? 0,
+                            }}
                             clickable={true}
                             onClick={() => alert("marker was clicked!")}
                             title={"clickable google.maps.Marker"}
@@ -311,7 +322,10 @@ const Booking = () => {
                         )}
                         {destinationAddress && (
                           <Marker
-                            position={destinationAddress}
+                            position={{
+                              lat: destinationAddress.lat ?? 0,
+                              lng: destinationAddress.lng ?? 0,
+                            }}
                             clickable={true}
                           />
                         )}
@@ -326,17 +340,35 @@ const Booking = () => {
                         className="btn-selectec-vehicle"
                         onClick={() => {
                           if (!departureHour)
-                            return customToast("error", translate("select_time"));
+                            return customToast(
+                              "error",
+                              translate("select_time")
+                            );
                           if (!departureDate)
-                            return customToast("error",translate("select_date") );
-                          if (!returnDate  && trip_type === 2)
-                            return customToast("error", translate("select_date") );
+                            return customToast(
+                              "error",
+                              translate("select_date")
+                            );
+                          if (!returnDate && trip_type === 2)
+                            return customToast(
+                              "error",
+                              translate("select_date")
+                            );
                           if (trip_type == 2 && !returnHours)
-                            return customToast("error", translate("select_return_time") );
+                            return customToast(
+                              "error",
+                              translate("select_return_time")
+                            );
                           if (!originTrip)
-                            return customToast("error", translate("select_origin_address"));
+                            return customToast(
+                              "error",
+                              translate("select_origin_address")
+                            );
                           if (!destination)
-                            return customToast("error", translate("select_destination_address"));
+                            return customToast(
+                              "error",
+                              translate("select_destination_address")
+                            );
                           setStep(2);
                         }}
                       >

@@ -1,13 +1,14 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { FC, useEffect, useState } from "react";
 import useTranslate from "@hooks/translations/Translate";
-import { useIdiom } from "@/context/idiomContext";
-import { IdiomTypes } from "@context/idiomTypes";
+import { IdiomTypes } from "@/context/idiomTypes";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
+import { useIdiom } from "@hooks/idiom/useIdiom";
+import { Coordinates } from "../../Booking";
 
 type DirectionsProps = {
-  origin: string;
-  destination: string;
+  origin: Coordinates | null;
+  destination: Coordinates | null;
 };
 
 export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
@@ -55,8 +56,8 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
     // Request new directions
     directionsService
       .route({
-        origin,
-        destination,
+        origin: { lat: origin.lat ?? 0, lng: origin.lng ?? 0 },
+        destination: { lat: destination.lat ?? 0, lng: destination.lng ?? 0 },
         travelMode: google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
         region: "DO",
@@ -70,11 +71,13 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
           console.log(tripInfo);
           setOrigin(tripInfo?.start_address);
           setDestination(tripInfo?.end_address);
-          setDuration({text:tripInfo?.duration?.text as string,
-            value:tripInfo?.duration?.value as number
+          setDuration({
+            text: tripInfo?.duration?.text as string,
+            value: tripInfo?.duration?.value as number,
           });
-          setDistance({text:tripInfo?.distance?.text as string,
-            value:tripInfo?.distance?.value as number
+          setDistance({
+            text: tripInfo?.distance?.text as string,
+            value: tripInfo?.distance?.value as number,
           });
         }
         setRoutes(response.routes);
@@ -82,7 +85,17 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
       .catch((error) => console.error("Error fetching directions:", error));
 
     return () => directionsRenderer.setMap(null); // Clean up on unmount
-  }, [directionsService, directionsRenderer, origin, destination, map]);
+  }, [
+    directionsService,
+    directionsRenderer,
+    origin,
+    destination,
+    map,
+    setDestination,
+    setDistance,
+    setDuration,
+    setOrigin,
+  ]);
 
   useEffect(() => {
     if (directionsRenderer && routeIndex < routes.length) {
