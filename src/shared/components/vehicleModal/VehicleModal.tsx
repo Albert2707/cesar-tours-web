@@ -158,7 +158,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
   useEffect(() => {
     if (!vehicle) return;
     if (editMode) {
-      Object.keys(vehicle).map((e: any) => {
+      Object.keys(vehicle).forEach((e: any) => {
         const val = e as Value;
         setValue(e, vehicle[val].toString());
       });
