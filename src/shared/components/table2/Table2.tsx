@@ -20,30 +20,52 @@ interface Props<T> {
   isOrder: boolean;
 }
 
-const Table2 = <T extends IOrder | VehicleModel>({ data, headers, isOrder }: Props<T>) => {
-    const { setConfirm, setVehicle, setEditMode, setShow, setVehicleId } =
+const Table2 = <T extends IOrder | VehicleModel>({
+  data,
+  headers,
+  isOrder,
+}: Props<T>) => {
+  const { setConfirm, setVehicle, setEditMode, setShow, setVehicleId } =
     useVehicleStore();
-  const orderStatus = (
-    status: number | boolean
-  ): { name: string; class: string } => {
-    if (status === 0 && isOrder) {
-      return { name: translate("scheduled"), class: "pending" };
-    } else if (status === 1 && isOrder) {
-      return { name: translate("in_progress"), class: "in-progress" };
-    } else if (status === 2 && isOrder) {
-      return { name: translate("completed"), class: "completed" };
-    } else if (status === 3 && isOrder) {
-      return { name: translate("canceled"), class: "cancelled" };
-    } else if (status && !isOrder) {
-      return { name: translate("Disponible"), class: "pending" };
-    } else {
-      return { name: translate("Ocupado"), class: "available" };
+  const getOrderStatus = (status: number): { name: string; class: string } => {
+    switch (status) {
+      case 0:
+        return { name: translate("scheduled"), class: "pending" };
+      case 1:
+        return { name: translate("in_progress"), class: "in-progress" };
+      case 2:
+        return { name: translate("completed"), class: "completed" };
+      case 3:
+        return { name: translate("canceled"), class: "cancelled" };
+      default:
+        return { name: translate("unknown"), class: "unknown" };
     }
+  };
+
+  const getAvailabilityStatus = (
+    status: boolean
+  ): { name: string; class: string } => {
+    return status
+      ? { name: translate("Disponible"), class: "pending" }
+      : { name: translate("Ocupado"), class: "available" };
+  };
+
+  const orderStatus = (
+    status: number | boolean,
+    isOrder: boolean
+  ): { name: string; class: string } => {
+    if (isOrder && typeof status === "number") {
+      return getOrderStatus(status);
+    }
+    if (!isOrder && typeof status === "boolean") {
+      return getAvailabilityStatus(status);
+    }
+    return { name: translate("unknown"), class: "unknown" };
   };
   const { translate } = useTranslate();
 
   const navigate = useNavigate();
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderCell = (header: { key: string }, order: any) => {
     const value = header.key.split(".").reduce((acc, key) => acc[key], order); // Acceso dinámico a propiedades anidadas
 
@@ -51,7 +73,7 @@ const Table2 = <T extends IOrder | VehicleModel>({ data, headers, isOrder }: Pro
       case "departureDate":
         return format(new Date(value), "MMM d, yyyy", { locale: es });
       case "status":
-        return orderStatus(value).name;
+        return orderStatus(value, isOrder).name;
       case "total":
         return moneyFormant(value);
       case "img_url":
@@ -171,7 +193,9 @@ const Table2 = <T extends IOrder | VehicleModel>({ data, headers, isOrder }: Pro
           .map((header) => (
             <div
               className={`cell ${
-                header.key === "status" && isOrder && orderStatus((e as IOrder).status).class
+                header.key === "status" &&
+                isOrder &&
+                orderStatus((e as IOrder).status, isOrder).class
               }`}
               key={header.key}
             >
