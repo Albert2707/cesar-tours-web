@@ -45,10 +45,6 @@ const Orders = () => {
         key: "customer.name",
       },
       {
-        column: "origin2",
-        key: "origin",
-      },
-      {
         column: "vehicle",
         key: "vehicle.brand",
       },
