@@ -5,7 +5,6 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { request } from "@/utils/api/request";
 import { VehicleModel } from "@/models/booking/vehicle";
-import { useIdiom } from "@/context/idiomContext";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { useNavigate } from "react-router-dom";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
@@ -15,6 +14,7 @@ import { calculateTripCost } from "@/utils/functions/caculateTripCost";
 import { VITE_CESAR_API } from "@/config/config";
 import Loader from "@/features/loader/Loader";
 import { formatHour } from "@/utils/functions/formatHour";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -52,31 +52,51 @@ const Vehicle: FC<Props> = ({ setStep }) => {
     kilometers = Math.ceil(distance.value / 1000);
   }
   const { translate } = useTranslate();
-  const order = useMemo(() => ({
-    origin,
-    destination,
-    trip_type,
-    passengerNo,
-    distance,
-    duration,
-    bagsNo,
-    departureDate,
-    departureHour,
-    returnHours,
-    returnDate,
-  }), []);
+  const order = useMemo(
+    () => ({
+      origin,
+      destination,
+      trip_type,
+      passengerNo,
+      distance,
+      duration,
+      bagsNo,
+      departureDate,
+      departureHour,
+      returnHours,
+      returnDate,
+    }),
+    [
+      origin,
+      destination,
+      trip_type,
+      passengerNo,
+      distance,
+      duration,
+      bagsNo,
+      departureDate,
+      departureHour,
+      returnHours,
+      returnDate,
+    ]
+  );
   const [vehicleData, setVehicleData] = useState<VehicleModel[] | null>(null);
   const navigate = useNavigate();
-  console.log(departureDate)
+  console.log(departureDate);
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
-      const res = await request.get(
-        `vehicle/getVehicles`, { params: { capacity: passengerNo, luggage_capacity: bagsNo, departureDate, returnDate } } 
-      );
+      const res = await request.get(`vehicle/getVehicles`, {
+        params: {
+          capacity: passengerNo,
+          luggage_capacity: bagsNo,
+          departureDate,
+          returnDate,
+        },
+      });
       return res.data;
     },
-    { refetchOnWindowFocus: false}
+    { refetchOnWindowFocus: false }
   );
   const memoizedVehicles = useMemo(() => {
     if (!vehicleData) return null;
@@ -89,13 +109,17 @@ const Vehicle: FC<Props> = ({ setStep }) => {
   const memoizedContent = useMemo(() => {
     if (isError) {
       return (
-        <div style={{ height: "100%", display: "flex", justifyContent: "center" }}>
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
           <span>Something went wrong</span>
         </div>
       );
     } else if (isLoading) {
       return (
-        <div style={{ height: "100%", display: "flex", justifyContent: "center" }}>
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
           <Loader />
         </div>
       );
@@ -164,7 +188,9 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               </div>
               <button
                 onClick={() => {
-                  navigate("/checkout", { state: { vehicle: e, total: e.totalCost, order } });
+                  navigate("/checkout", {
+                    state: { vehicle: e, total: e.totalCost, order },
+                  });
                 }}
               >
                 {translate("book")}
@@ -174,15 +200,13 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </motion.div>
       ));
     }
-  }, [isError, isLoading, memoizedVehicles]);
-
-
+  }, [isError, isLoading, memoizedVehicles, navigate, order, translate]);
 
   useEffect(() => {
     if (!isLoading && data) {
-      setVehicleData(data)
+      setVehicleData(data);
     }
-  }, [isLoading, data])
+  }, [isLoading, data]);
   return (
     <div className="select-vehicle">
       <div className="booking-info">
