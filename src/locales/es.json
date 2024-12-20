@@ -146,7 +146,7 @@
   "title": "Bienvenido a Cesar Tours para hacer tu mundo mas facil",
   "total": "Total",
   "travel_duration": "Duración de viaje",
-  "travelFastAndSafe": "Viaja rápido y seguro con Cesar Tours. Disfruta de un traslado cómodo desde el aeropuerto hasta tu hotel ¡Reserva ahora y comienza tu aventura sin preocupaciones!",
+  "travelFastAndSafe": "Viaja con comodidad y seguridad con Cesar Tours. Disfruta de un traslado directo desde el aeropuerto a tu hotel, sin estrés ni complicaciones. Reserva ahora y comienza tu aventura de manera relajada y sin preocupaciones.",
   "travelType": "Selecciona tipo de viaje",
   "trip": "viaje",
   "trip_info": "Información de viaje",
@@ -172,5 +172,6 @@
   "welcome": "Bienvenido",
   "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!",
   "user_message": "ha enviado un mensaje",
-  "new_contact_request": "Nueva solicitud de contacto"
+  "new_contact_request": "Nueva solicitud de contacto",
+  "no_data": "No hay datos disponibles"
 }

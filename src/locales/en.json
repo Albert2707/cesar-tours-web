@@ -146,7 +146,7 @@
   "title": "Welcome to Cesar Tours to make your world easier",
   "total": "Total",
   "travel_duration": "Journey time",
-  "travelFastAndSafe": "Travel fast and safe with Cesar Tours. Enjoy a comfortable transfer from the airport to your hotel. Book now and start your adventure worry-free!",
+  "travelFastAndSafe": "Travel with comfort and safety with Cesar Tours. Enjoy a direct transfer from the airport to your hotel, stress-free and hassle-free. Book now and start your adventure in a relaxed and worry-free way.  ",
   "travelType": "Select travel type",
   "trip": "Trip",
   "trip_info": "Journey information",
@@ -172,5 +172,6 @@
   "welcome": "Welcome",
   "yourDestinationIsOurDestination": "Your destination is our destination!",
   "user_message": "has sent a message",
-  "new_contact_request": "New contact request"
+  "new_contact_request": "New contact request",
+  "no_data": "No data available"
 }
