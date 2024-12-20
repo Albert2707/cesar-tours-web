@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import NavbarAdmin from "./components/NavbarAdmin";
 import "./AdminLayout.scss";
-import { useAuth } from "@/context/authContext";
 import { AuthTypes } from "@/context/authTypes";
 import Footer from "@/features/footer/Footer";
 import useTranslate from "@hooks/translations/Translate";
+import { useAuth } from "@hooks/auth/useAuth";
 const AdminLayout = () => {
   const { currentUser } = useAuth() as AuthTypes;
   const { translate } = useTranslate();

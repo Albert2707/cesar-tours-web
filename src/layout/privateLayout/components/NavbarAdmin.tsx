@@ -4,11 +4,11 @@ import "./NavbarAdmin.scss";
 import Button from "@/shared/components/button/Button";
 import ConfirmPopup from "@/shared/components/confirmPopup/ConfirmPopup";
 import { AuthTypes } from "@/context/authTypes";
-import { useAuth } from "@/context/authContext";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
 import MobileMenu from "@/features/navbar/components/mobileMenu/MobileMenu";
+import { useAuth } from "@hooks/auth/useAuth";
 
 const NavbarAdmin = () => {
   const { translate } = useTranslate();

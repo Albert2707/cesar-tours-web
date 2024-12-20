@@ -3,8 +3,8 @@ import {
 } from "react-router-dom";
 import "./NotFound.scss"
 import useTranslate from "@/shared/hooks/translations/Translate";
-import { useAuth } from "@/context/authContext";
 import { AuthTypes } from "@/context/authTypes";
+import { useAuth } from "@hooks/auth/useAuth";
 const NotFound = () => {
     const { isLoggedIn } = useAuth() as AuthTypes;
 
