@@ -10,9 +10,9 @@ const AdminLayout = () => {
   const { translate } = useTranslate();
 
   return (
-    <>
+    <div id="admin_main">
       <NavbarAdmin />
-      <div className="container">
+      <div className="container" id="admin_main">
         <div className="wrapper-layout">
           <h3>
             {translate("welcome")}, {currentUser.name} 👋
@@ -21,7 +21,7 @@ const AdminLayout = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
