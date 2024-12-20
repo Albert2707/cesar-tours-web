@@ -12,7 +12,7 @@ const AdminLayout = () => {
   return (
     <div id="admin_main">
       <NavbarAdmin />
-      <div className="container" id="admin_main">
+      <div className="container">
         <div className="wrapper-layout">
           <h3>
             {translate("welcome")}, {currentUser.name} 👋
