@@ -80,7 +80,9 @@
   "name": "Name",
   "name_required": "Please enter your name.",
   "navigation": "Navigation",
+  "new_contact_request": "New contact request",
   "new_vehicle": "New vehicle",
+  "no_data": "No data available",
   "no_orders": "No orders registered",
   "no_vehicles_added": "No vehicles added",
   "no_vehicles_available": "No vehicles available",
@@ -152,6 +154,7 @@
   "trip_info": "Journey information",
   "trip_type": "Type of Trip",
   "upload_image": "Upload image",
+  "user_message": "has sent a message",
   "valores": [
     "Service excellence",
     "Integrity",
@@ -170,8 +173,5 @@
   "vehicles": "Vehicles",
   "vision": "To be the leading company in comprehensive tourism services, recognized for providing memorable and high-quality experiences to travelers worldwide, facilitating their adventures with comfort, safety, and efficiency.",
   "welcome": "Welcome",
-  "yourDestinationIsOurDestination": "Your destination is our destination!",
-  "user_message": "has sent a message",
-  "new_contact_request": "New contact request",
-  "no_data": "No data available"
+  "yourDestinationIsOurDestination": "Your destination is our destination!"
 }

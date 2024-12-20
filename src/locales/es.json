@@ -80,7 +80,9 @@
   "name": "Nombre",
   "name_required": "Por favor, ingresa tu nombre.",
   "navigation": "Navegación",
+  "new_contact_request": "Nueva solicitud de contacto",
   "new_vehicle": "Nuevo vehículo",
+  "no_data": "No hay datos disponibles",
   "no_orders": "No hay órdenes registradas",
   "no_vehicles_added": "No hay vehículos agregados",
   "no_vehicles_available": "No hay vehiculos disponibles",
@@ -152,6 +154,7 @@
   "trip_info": "Información de viaje",
   "trip_type": "Tipo de viaje",
   "upload_image": "Subir imagen",
+  "user_message": "ha enviado un mensaje",
   "valores": [
     "Excelencia en el servicio",
     "Integridad",
@@ -170,8 +173,5 @@
   "vehicles": "Vehículos",
   "vision": "Ser la empresa líder en servicios turísticos integrales, reconocida por proporcionar experiencias memorables y de alta calidad a los viajeros de todo el mundo, facilitando sus aventuras con comodidad, seguridad y eficiencia.",
   "welcome": "Bienvenido",
-  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!",
-  "user_message": "ha enviado un mensaje",
-  "new_contact_request": "Nueva solicitud de contacto",
-  "no_data": "No hay datos disponibles"
+  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!"
 }
