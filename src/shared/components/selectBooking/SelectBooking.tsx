@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { CSSProperties, FC } from "react";
 import Select from "react-select";
 import useTranslate from "@hooks/translations/Translate";
 interface SelectProps {
@@ -9,12 +9,16 @@ interface SelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (e: any) => void;
   placeholder: string;
+  isSearchable?: boolean;
+  customStyles?:CSSProperties
 }
 const SelectBooking: FC<SelectProps> = ({
   options,
   value,
   onChange,
   placeholder,
+  isSearchable,
+  customStyles
 }) => {
   const { translate } = useTranslate();
 
@@ -22,9 +26,12 @@ const SelectBooking: FC<SelectProps> = ({
     <Select
       options={options}
       value={value}
+      className="invalid"
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,
+          borderColor: "rgba(51, 55, 64, 0.3)",
+          ...customStyles,
           backgroundColor: "transparent",
           borderRadius: "10px",
           display: "flex",
@@ -32,7 +39,6 @@ const SelectBooking: FC<SelectProps> = ({
           justifyContent: "center",
           alignItems: "center",
           fontSize: "12px",
-          borderColor: "rgba(51, 55, 64, 0.3)",
           boxShadow: "none",
           "&:hover": {
             borderColor: "none",
@@ -41,7 +47,7 @@ const SelectBooking: FC<SelectProps> = ({
         menu: (baseStyles) => ({
           ...baseStyles,
           borderRadius: "10px",
-          fontSize: "12px",
+          fontSize: "14px",
           backgroundColor: "#f2f2f2",
           fontWeight: 600,
         }),
@@ -66,11 +72,13 @@ const SelectBooking: FC<SelectProps> = ({
         valueContainer: (baseStyles) => ({
           ...baseStyles,
           padding: "0",
+
           margin: "0 8px",
         }),
         singleValue: (baseStyles) => ({
           ...baseStyles,
           margin: "0",
+          fontSize: "14px",
           paddingLeft: "0",
         }),
       }}
@@ -79,7 +87,7 @@ const SelectBooking: FC<SelectProps> = ({
       menuPortalTarget={document.body}
       menuPlacement="auto"
       menuPosition="fixed"
-      isSearchable={false}
+      isSearchable={isSearchable}
     />
   );
 };
