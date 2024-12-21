@@ -1,0 +1,36 @@
+@use "../../../index.scss" as *;
+
+.order-confirm {
+  box-sizing: border-box;
+  min-height: calc(100vh - 80px);
+  height: auto;
+  padding: 1rem;
+  .wrapper {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .order {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .order_item {
+        span, strong {
+          font-size: 1.1rem;
+        }
+        &:nth-child(2){
+          span{
+            color:#f59e0b;
+            background-color: #fff3cd;
+          }
+        }
+      }
+    }
+    @include responsive-container;
+  }
+  @include mobile {
+    height: auto;
+  }
+}

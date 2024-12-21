@@ -1,35 +1,42 @@
-import { lazy, Suspense, useEffect } from "react";
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { lazy, Suspense } from "react";
 const NotFound = lazy(() => import("./pages/public/notFound/NotFound"));
-const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Login = lazy(() => import("./pages/private/sigIn/Siging"));
-const PrivateRoutes = lazy(() => import("./shared/hooks/privateRoutes/PrivateRoutes"));
+const PrivateRoutes = lazy(
+  () => import("./shared/hooks/privateRoutes/PrivateRoutes")
+);
 const Dashboard = lazy(() => import("./pages/private/dashboard/Dashboard"));
 const AdminLayout = lazy(() => import("./layout/privateLayout/AdminLayout"));
-import { HelmetProvider } from 'react-helmet-async';
-import Home from "./pages/public/home/Home";
-import FallBack from "./pages/public/fallBack/FallBack";
-import MainLayout from "./layout/MainLayout";
+const Home = lazy(() => import("./pages/public/home/Home"));
+import { HelmetProvider } from "react-helmet-async";
+const FallBack = lazy(() => import("./pages/public/fallBack/FallBack"));
+const MainLayout = lazy(() => import("./layout/MainLayout"));
+const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
+const Confirm = lazy(() => import("./pages/public/confirm/Confirm"));
+const Vehicles = lazy(() => import("./pages/private/vehicles/Vehicles"));
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+const OrderDetail = lazy(
+  () => import("./pages/private/orderDetail/OrderDetail")
+);
 function App() {
+  history.scrollRestoration = "manual";
 
   const router = createBrowserRouter([
     {
-      path: "/",
       element: <MainLayout />,
       children: [
         {
-          path: '/',
-          element: <Home />
+          path: "/",
+          element: <Home />,
         },
         {
-          path: '/checkout',
-          element: <Checkout />
-        }
-      ]
+          path: "/order/confirmation",
+          element: <Confirm />,
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />,
+        },
+      ],
     },
     {
       path: "/login",
@@ -37,35 +44,39 @@ function App() {
     },
     {
       path: "/admin",
-      element: <PrivateRoutes>
-        <AdminLayout />
-      </PrivateRoutes>,
-      children:[
+      element: (
+        <PrivateRoutes>
+          <AdminLayout />
+        </PrivateRoutes>
+      ),
+      children: [
         {
-          path: '/admin/orders',
-          element: <Dashboard />
-        }
-      ]
+          path: "/admin/orders",
+          element: <Dashboard />,
+        },
+        {
+          path: "/admin/vehicles",
+          element: <Vehicles />,
+        },
+        {
+          path: "/admin/order-detail/:id",
+          element: <OrderDetail />, // Add your component here
+        },
+      ],
     },
     {
       path: "*",
       element: <NotFound />,
-    }
+    },
   ]);
-  useEffect(() => {
-    const { hash } = window.location;
-    // Solo ejecuta replaceState si hay un hash en la URL.
-    if (hash) {
-      history.replaceState(null, "", window.location.pathname);
-    }
-    window.scrollTo(0, 0);
-  }, []);
+
   const helmetContext = {};
+
   return (
     <HelmetProvider context={helmetContext}>
-    <Suspense fallback={<FallBack />}>
-      <RouterProvider router={router} />
-    </Suspense>
+      <Suspense fallback={<FallBack />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </HelmetProvider>
   );
 }

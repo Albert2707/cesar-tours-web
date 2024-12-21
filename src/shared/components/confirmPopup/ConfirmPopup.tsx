@@ -10,7 +10,7 @@ interface Props {
 const ConfirmPopup: FC<Props> = ({ onConfirm, onCancel,title,subTitle }) => {
     return (
         <div className="confirm-popup">
-            <motion.div initial={{ scale: 0 }} transition={{ duration: 0.5, type: "spring" }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="container">
+            <motion.div initial={{ scale: 0 }} transition={{ duration: 0.5, type: "spring" }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="popup_container">
                 <h2 className="mesagge">{title}</h2>
                 <span className="sub-message">{subTitle || ""}</span>
                 <div className="options">

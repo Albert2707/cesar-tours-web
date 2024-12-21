@@ -1,5 +1,5 @@
 import "./Experience.scss"
-import useTranslate from '../../shared/hooks/translations/Translate';
+import useTranslate from '@/shared/hooks/translations/Translate';
 
 const Experience = () => {
     const { translate } = useTranslate();
@@ -12,21 +12,14 @@ const Experience = () => {
                 <div className="experience-pictures">
                     <div className="picture">
                         <img
-                            src="images/view.jpg"
+                            src="images/view.webp"
                             alt="" loading="lazy"
                         />
                     </div>
-                    {/* <div className="picture">
-
-                        <img
-                            src="https://images.pexels.com/photos/20734769/pexels-photo-20734769/free-photo-of-hombre-vacaciones-arena-mujer.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/"
-                            alt="" loading="lazy"
-                        />
-                    </div> */}
                     <div className="picture">
 
                         <img
-                            src="images/viva.jpg"
+                            src="images/viva.webp"
                             alt="" loading="lazy"
                         />
                     </div>
@@ -34,28 +27,28 @@ const Experience = () => {
 
 
                         <img
-                            src="images/ocean.jpg"
+                            src="images/ocean.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/beach.jpg"
+                            src="images/beach.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/beach2.jpg"
+                            src="images/beach2.webp"
                             alt="" loading="lazy"
                         />
                     </div>
                     <div className="picture">
 
                         <img
-                            src="images/travel.jpg"
+                            src="images/travel.webp"
                             alt="" loading="lazy"
                         />
                     </div>

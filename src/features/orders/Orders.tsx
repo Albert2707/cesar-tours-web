@@ -1,35 +1,64 @@
 import { OrderServices } from "./services/orderServices";
 import { useQuery } from "react-query";
-import { moneyFormant } from "../../utils/functions/moneyFormat";
-import { format } from "date-fns";
 import "./Order.scss";
-import { es } from "date-fns/locale";
-import { useEffect, useState } from "react";
-import Button from "../../shared/components/button/Button";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import Button from "@/shared/components/button/Button";
+import useTranslate from "@hooks/translations/Translate";
+import Table2 from "@/shared/components/table2/Table2";
+import { IOrder } from "@/shared/interfaces/interfaces";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
   const [pageCount, setPageCount] = useState<number>(0);
-  const [skip, setSkip] = useState<number>(0);
+  const { translate } = useTranslate();
+  const [skip, setSkip] = useState<number>(1);
+  const [reservation_num, setReservation_num] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [limit, setLimit] = useState<number>(5);
+  const limit: number = 5;
   const { data, isLoading, error, refetch } = useQuery(`orders`, async () => {
-    const res = await OrderServices.getOrders(filter, skip, limit);
+    const res = await OrderServices.getOrders(
+      filter,
+      skip,
+      limit,
+      reservation_num
+    );
     setHasNextPage(res.hasNextPage);
     setPageCount(res.totalPages);
     return res.order;
   });
 
-  const orderStatus = (status: number): { name: string; class: string } => {
-    if (status === 0) {
-      return{ name: "Agendada", class: "pending" };
-    } else if (status === 1) {
-      return { name: "En proceso", class: "in-progress" };
-    } else if (status === 2) {
-      return{ name: "Completada", class: "completed" };
-    } else {
-      return { name: "Cancelada", class: "cancelled" };
-    }
-  };
+  const translateKeys = useMemo(
+    () => [
+      {
+        column: "order_number",
+        key: "order_num",
+      },
+      {
+        column: "date",
+        key: "departureDate",
+      },
+      {
+        column: "status",
+        key: "status",
+      },
+      {
+        column: "customer",
+        key: "customer.name",
+      },
+      {
+        column: "vehicle",
+        key: "vehicle.brand",
+      },
+      {
+        column: "total",
+        key: "total",
+      },
+      {
+        column: "",
+        key: "button",
+      },
+    ],
+    []
+  );
 
   const order = () => {
     if (error) {
@@ -37,107 +66,128 @@ const Orders = () => {
     } else if (isLoading) {
       return <h1>Loading...</h1>;
     } else {
-      return data.map((e: any) => (
-        <div className="tbl-body-row" key={crypto.randomUUID()}>
-          <div className="cell">{e.order_num}</div>
-          <div className="cell">
-            {format(new Date(e.createAt), "MMM d, yyyy", { locale: es })}
-          </div>
-
-          <div className={`cell ${orderStatus(e.status).class}`}>
-            {orderStatus(e.status).name}
-          </div>
-          <div className="cell">
-            {`${e.customer.name} ${e.customer.lastName}`}
-          </div>
-
-          <div className="cell">{e.origin}</div>
-          <div className="cell">{e.destination}</div>
-
-          <div className="cell">{moneyFormant(e.total)}</div>
-          <div className="cell">
-            <button
-              style={{
-                border: "none",
-                backgroundColor: "transparent",
-                cursor: "pointer",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-ellipsis-vertical"
-              >
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="5" r="1" />
-                <circle cx="12" cy="19" r="1" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      ));
+      return (
+        <Table2<IOrder>
+          data={data as unknown as IOrder[]}
+          headers={translateKeys}
+          isOrder={true}
+        />
+      );
     }
   };
 
   useEffect(() => {
     refetch();
-  }, [filter, skip, limit]);
+  }, [filter, skip, refetch]);
+
+  useEffect(() => {
+    if (reservation_num === "") refetch();
+  }, [reservation_num, refetch]);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    refetch();
+  };
   return (
     <div className="orders">
       <div className="filter">
-        <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("all") }}
-        >
-          Todos
-        </Button>
-        <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("0") }}
-        >
-          Agendadas
-        </Button>
-        <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("1") }}
-        >
-          En proceso
-        </Button>
-        <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("2") }}
-        >
-          Completadas
-        </Button>
-        <Button
-          properties={{ type: "filter", onClickfn: () => setFilter("3") }}
-        >
-          Canceladas
-        </Button>
-      </div>
-      <div className="table">
-        <div className="tbl-header">
-          <div className="cell">Order num</div>
-          <div className="cell">Date</div>
-          <div className="cell">Status</div>
-          <div className="cell">Customer</div>
-          <div className="cell">Origin</div>
-          <div className="cell">Destination</div>
-          <div className="cell">Total</div>
+        <div className="button_filter">
+          <Button
+            properties={{
+              type: "filter",
+              btnClass: `${filter == "all" ? "selected" : ""}`,
+              onClickfn: () => {
+                setFilter("all");
+                setSkip(1);
+              },
+            }}
+          >
+            {translate("all")}
+          </Button>
+          <Button
+            properties={{
+              type: "filter",
+              btnClass: `${filter == "0" ? "selected" : ""}`,
+              onClickfn: () => {
+                setFilter("0");
+                setSkip(1);
+              },
+            }}
+          >
+            {translate("scheduled")}
+          </Button>
+          <Button
+            properties={{
+              type: "filter",
+              btnClass: `${filter == "1" ? "selected" : ""}`,
+              onClickfn: () => {
+                setFilter("1");
+                setSkip(1);
+              },
+            }}
+          >
+            {translate("in_progress")}
+          </Button>
+          <Button
+            properties={{
+              type: "filter",
+              btnClass: `${filter == "2" ? "selected" : ""}`,
+              onClickfn: () => {
+                setFilter("2");
+                setSkip(1);
+              },
+            }}
+          >
+            {translate("completed")}
+          </Button>
+          <Button
+            properties={{
+              type: "filter",
+              btnClass: `${filter == "3" ? "selected" : ""}`,
+              onClickfn: () => {
+                setFilter("3");
+                setSkip(1);
+              },
+            }}
+          >
+            {translate("canceled")}
+          </Button>
         </div>
-        <div className="tbl-body">{order()}</div>
+        <form className="order_search" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder={translate("reservationNumber")}
+            onChange={(e) => {
+              setReservation_num(e.target.value);
+            }}
+          />
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-search"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+        </form>
       </div>
+      {order()}
       <div className="pagination">
         <Button
           properties={{
             type: "filter",
             onClickfn: () => {
-              if (skip === 0) return;
-              setLimit(limit - 5);
-              setSkip(skip - 5);
+              if (skip === 1) return;
+              setSkip(skip - 1);
             },
           }}
         >
@@ -146,7 +196,15 @@ const Orders = () => {
         <div className="page-numbers">
           {Array.from({ length: pageCount }, (_, index) => index + 1).map(
             (e) => (
-              <span key={crypto.randomUUID()}>{e}</span>
+              <span
+                key={crypto.randomUUID()}
+                style={{
+                  color: e === skip ? "#f24b0f" : "",
+                  fontWeight: e === skip ? "bold" : "normal",
+                }}
+              >
+                {e}
+              </span>
             )
           )}
         </div>
@@ -155,8 +213,7 @@ const Orders = () => {
             type: "filter",
             onClickfn: () => {
               if (!hasNextPage) return;
-              setLimit(limit + 5);
-              setSkip(skip + 5);
+              setSkip(skip + 1);
             },
           }}
         >

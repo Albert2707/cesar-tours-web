@@ -2,23 +2,23 @@ import {
     useNavigate,
 } from "react-router-dom";
 import "./NotFound.scss"
-import useTranslate from "../../../shared/hooks/translations/Translate";
-import { useAuth } from "../../../context/authContext";
-import { AuthTypes } from "../../../context/authTypes";
+import useTranslate from "@/shared/hooks/translations/Translate";
+import { AuthTypes } from "@/context/authTypes";
+import { useAuth } from "@hooks/auth/useAuth";
 const NotFound = () => {
-    const {isLoggedIn } = useAuth() as AuthTypes;
+    const { isLoggedIn } = useAuth() as AuthTypes;
 
     const navigate = useNavigate();
     const { translate } = useTranslate();
     return (
         <div className="not-found">
             <div className="left">
-                <img src="images/Cesar-logo.png" alt="" />
+                <img src="/images/Cesar-logo.webp" alt="Cesar logo" loading="lazy" />
             </div>
             <div className="line"></div>
             <div className="right">
                 <span className="title">404</span>
-                <button onClick={() => isLoggedIn ? navigate('/login'):navigate('/') }> 
+                <button onClick={() => isLoggedIn ? navigate('/login') : navigate('/')}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

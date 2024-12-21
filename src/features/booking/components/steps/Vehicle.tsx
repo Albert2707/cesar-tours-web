@@ -1,61 +1,132 @@
 import { motion } from "framer-motion";
 import "./Vehicle.scss";
 import { format } from "date-fns";
-import { FC } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../../utils/api/request";
-import { VehicleModel } from "../../../../models/booking/vehicle";
-import { useIdiom } from "../../../../context/idiomContext";
-import { IdiomTypes } from "../../../../context/idiomTypes";
-import Loader from "../../../loader/Loader";
+import { request } from "@/utils/api/request";
+import { VehicleModel } from "@/models/booking/vehicle";
+import { IdiomTypes } from "@/context/idiomTypes";
 import { useNavigate } from "react-router-dom";
-import { useBookingStore } from "../../../../shared/hooks/booking/useBookingStore";
-import useTranslate from "../../../../shared/hooks/translations/Translate";
+import { useBookingStore } from "@hooks/booking/useBookingStore";
+import useTranslate from "@hooks/translations/Translate";
+import { moneyFormant } from "@/utils/functions/moneyFormat";
+import { calculateTripCost } from "@/utils/functions/caculateTripCost";
+import { VITE_CESAR_API } from "@/config/config";
+import Loader from "@/features/loader/Loader";
+import { formatHour } from "@/utils/functions/formatHour";
+import { useIdiom } from "@hooks/idiom/useIdiom";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
-
+const variants = {
+  initial: {
+    x: 100,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 const Vehicle: FC<Props> = ({ setStep }) => {
   const { idiom } = useIdiom() as IdiomTypes;
-  const { passengerNo, bagsNo, departureHour, departureDate } =
-    useBookingStore();
+  const {
+    passengerNo,
+    bagsNo,
+    departureHour,
+    departureDate,
+    distance,
+    trip_type,
+    duration,
+    origin,
+    destination,
+    returnHours,
+    returnDate,
+  } = useBookingStore();
+  let kilometers = 0;
+  if (distance) {
+    kilometers = Math.ceil(distance.value / 1000);
+  }
   const { translate } = useTranslate();
+  const order = useMemo(
+    () => ({
+      origin,
+      destination,
+      trip_type,
+      passengerNo,
+      distance,
+      duration,
+      bagsNo,
+      departureDate,
+      departureHour,
+      returnHours,
+      returnDate,
+    }),
+    [
+      origin,
+      destination,
+      trip_type,
+      passengerNo,
+      distance,
+      duration,
+      bagsNo,
+      departureDate,
+      departureHour,
+      returnHours,
+      returnDate,
+    ]
+  );
+  const [vehicleData, setVehicleData] = useState<VehicleModel[] | null>(null);
   const navigate = useNavigate();
-
-  const variants = {
-    initial: {
-      x: 100,
-      opacity: 0,
-    },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
+  console.log(departureDate);
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
-      const res = await request.get(
-        `vehicle/getVehicles/${passengerNo}/${bagsNo}`
-      );
+      const res = await request.get(`vehicle/getVehicles`, {
+        params: {
+          capacity: passengerNo,
+          luggage_capacity: bagsNo,
+          departureDate,
+          returnDate,
+        },
+      });
       return res.data;
     },
     { refetchOnWindowFocus: false }
   );
+  const memoizedVehicles = useMemo(() => {
+    if (!vehicleData) return null;
+    return vehicleData.map((e: VehicleModel) => ({
+      ...e,
+      totalCost: calculateTripCost(+e.price_per_km, kilometers, trip_type),
+    }));
+  }, [vehicleData, kilometers, trip_type]);
 
-  const content = () => {
+  const memoizedContent = useMemo(() => {
     if (isError) {
-      return "Something went wrong";
+      return (
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <span>Something went wrong</span>
+        </div>
+      );
     } else if (isLoading) {
-      return <Loader />;
+      return (
+        <div
+          style={{ height: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <Loader />
+        </div>
+      );
+    } else if (!memoizedVehicles || memoizedVehicles.length === 0) {
+      return <div>{translate("no_vehicles_available")}</div>;
     } else {
-      return data.map((e: VehicleModel) => (
+      return memoizedVehicles.map((e) => (
         <motion.div
           key={crypto.randomUUID()}
           className="vehicle"
@@ -63,10 +134,8 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         >
           <div className="vehicle-img">
             <img
-              src={e.img_url}
+              src={VITE_CESAR_API + "/" + e.img_url}
               alt="Tahoe Suburban"
-              width={200}
-              height={1200}
               loading="lazy"
             />
           </div>
@@ -76,7 +145,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
               <span>
                 {e.brand} {e.model}
               </span>
-              <span className="price">$&nbsp;{e.price_per_km}</span>
+              <span className="price">{moneyFormant(e.totalCost)}</span>
             </div>
 
             <div className="book-now">
@@ -117,44 +186,59 @@ const Vehicle: FC<Props> = ({ setStep }) => {
                   <span>{e.luggage_capacity}</span>
                 </div>
               </div>
-              <button onClick={() => navigate("/checkout")}>BOOK NOW</button>
+              <button
+                onClick={() => {
+                  navigate("/checkout", {
+                    state: { vehicle: e, total: e.totalCost, order },
+                  });
+                }}
+              >
+                {translate("book")}
+              </button>
             </div>
           </div>
         </motion.div>
       ));
     }
-  };
+  }, [isError, isLoading, memoizedVehicles, navigate, order, translate]);
 
+  useEffect(() => {
+    if (!isLoading && data) {
+      setVehicleData(data);
+    }
+  }, [isLoading, data]);
   return (
     <div className="select-vehicle">
       <div className="booking-info">
         <div className="container-info">
-          <h2>Journey Information</h2>
+          <h2>{translate("trip_info")}</h2>
           <div className="route">
-            <span>Route</span>
+            <span>{translate("route")}</span>
             <span>
-              Aeropuerto Las Americas Santo Domingo, Ruta 66 Salida Del
-              Aeropuerto las Americas Santo Domingo Dominican Republic -- San
-              Juan de la Maguana, Dominican Republic
+              {origin} <span> {"->"} </span> {destination}
             </span>
           </div>
+          <div className="route">
+            <span>{translate("trip_type")}</span>
+            <span>{trip_type == 1 ? "Ida" : "Ida y vuelta"}</span>
+          </div>
           <div className="collection-time">
-            <span>Collection Time</span>
+            <span>{translate("pickup_time")}</span>
             <span>
               {format(
                 departureDate,
                 idiom === "es" ? "dd/MM/yyyy" : "MM/dd/yyy"
               )}
-              - {departureHour}
+              - {formatHour(departureHour)}
             </span>
           </div>
           <div className="distance">
-            <span>Distance</span>
-            <span>135.9 km</span>
+            <span>{translate("distance2")}</span>
+            <span>{distance?.text}</span>
           </div>
           <div className="duration">
-            <span>Duration</span>
-            <span>3 horas 20 minutos</span>
+            <span>{translate("time2")}</span>
+            <span>{duration?.text}</span>
           </div>
         </div>
         <button onClick={() => setStep(1)} className="back-button">
@@ -182,7 +266,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         animate="animate"
         variants={variants}
       >
-        {content()}
+        {memoizedContent}
       </motion.div>
     </div>
   );

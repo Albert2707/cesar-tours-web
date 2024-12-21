@@ -6,10 +6,9 @@
   justify-content: center;
   scroll-margin-top: 80px;
   align-items: center;
-  padding: 2rem !important;
-  min-height: calc(100vh - 112px);
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
   max-height: fit-content !important;
-  height: auto;
   overflow: hidden;
 
   .wrapper {
@@ -22,7 +21,7 @@
     justify-content: center;
     align-items: center;
 
-    h2 {
+    .booking_title {
       justify-self: center;
       color: #f2f2f2;
       font-size: calc(1.3vw + 1rem);
@@ -40,6 +39,7 @@
       height: 700px;
       border-radius: 10px;
       display: flex;
+      justify-content: center;
       align-items: center;
       flex-direction: column;
 
@@ -52,7 +52,7 @@
         align-items: center;
 
         .step {
-          width: 39px;
+          width: 40px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -104,17 +104,21 @@
             width: 20%;
           }
         }
+        @include tablet {
+          width: 90%;
+        }
 
         @media (max-width: 390px) {
           padding: 0 1rem;
         }
       }
 
-      .container {
+      .contain {
         display: flex;
         flex-direction: row;
         height: 90%;
         padding: 1rem;
+        gap: 20px;
         align-items: center;
         width: 90%;
 
@@ -123,12 +127,10 @@
           height: 100%;
           display: flex;
           width: 100%;
-          justify-content: center;
 
           .booking-form {
             display: flex;
-            width: 80%;
-            padding: 0 1rem;
+            width: 100%;
             gap: 20px;
             flex-direction: column;
 
@@ -136,10 +138,10 @@
               display: flex;
               flex-direction: column;
               width: 100%;
+              gap: 5px;
 
               .datePicker {
-                width: 95%;
-
+                width: 100%;
                 h2 {
                   color: black;
                 }
@@ -147,10 +149,10 @@
 
               input {
                 border-radius: 10px;
-                padding: 5px 10px;
+                padding: 10px;
                 border: 1px solid rgba(51, 55, 64, 0.3);
                 background: transparent;
-                height: 35px;
+                height: 47px;
                 outline: transparent;
                 caret-color: #22a2f2;
                 appearance: none;
@@ -175,7 +177,7 @@
               display: flex;
               justify-content: space-between;
               width: 100%;
-
+              gap: 10px;
               .departure-datePicker,
               .departure-hour {
                 display: flex;
@@ -183,10 +185,10 @@
 
                 input {
                   border-radius: 10px;
-                  padding: 5px 10px;
+                  padding: 10px;
                   border: 1px solid rgba(51, 55, 64, 0.3);
                   background: transparent;
-                  height: 35px;
+                  height: 47px;
                   outline: transparent;
                   caret-color: #22a2f2;
                   appearance: none;
@@ -199,19 +201,17 @@
                 overflow: hidden;
 
                 .datePicker {
-                  width: 91%;
-
-                  h2 {
-                    color: black;
-                  }
+                  width: 100%;
                 }
               }
 
               .departure-hour {
                 flex: 2;
               }
+              @include mobile {
+                flex-direction: column;
+              }
             }
-
           }
         }
 
@@ -221,7 +221,7 @@
           height: 100%;
 
           .map {
-            height: 85%;
+            height: 86%;
             width: 100%;
             overflow: hidden;
             border-radius: 10px;
@@ -287,9 +287,11 @@
               border: 1px solid transparent;
               background-color: transparent;
               color: #030136;
-              margin: 5px 3px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
               width: 200px;
-              height: 40px;
+              height: 47px;
               align-self: flex-end;
               margin-top: 10px;
               position: relative;
@@ -304,7 +306,7 @@
               &::before {
                 content: "";
                 border: 1px solid #f24b0f;
-                height: 40px;
+                height: 47px;
                 width: 25px;
                 border-radius: 50px;
                 top: -2px;
@@ -346,14 +348,6 @@
               height: 500px;
             }
           }
-
-          @include tablet {
-            padding: 0 1rem 0 0;
-          }
-
-          @include mobile {
-            padding: 0 1rem;
-          }
         }
 
         @include mobile {
@@ -372,6 +366,9 @@
         height: auto;
       }
     }
+  }
+  @include mobile{
+    padding:1rem;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import useTranslate from "../../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 
 interface Cardprops {
   isInView: boolean;

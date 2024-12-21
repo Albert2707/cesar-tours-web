@@ -6,7 +6,7 @@ import { Arrow, AutoPlay, Pagination } from "@egjs/flicking-plugins";
 import "@egjs/flicking-plugins/dist/pagination.css";
 import "@egjs/flicking-plugins/dist/arrow.css";
 import ReviewCard from "./ReviewCard";
-import { ReviewsCardType } from "../../models/reviews/reviewCardType";
+import { ReviewsCardType } from "@/models/reviews/reviewCardType";
 import { useRef } from "react";
 
 const reviews: ReviewsCardType[] = [

@@ -1,38 +1,185 @@
-.btn-logout {
-    background-color: transparent;
-    border-radius: 50px;
-    height: 40px;
-    display: flex;
-    width: 120px;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px; 
-    gap:5px;
-    color: #f2f2f2;
-    cursor: pointer;
-    font-weight: 600;
-    border:1px solid #e11d48;
-    transition: all 0.3s ease-in-out;
-    &:hover{
-        background-color: #e11d48;
-        color:white;
+@use "../../../index.scss" as *;
 
-    }
-
-    svg{
-        color:#f2f2f2;
-        height: 25px;
-        width: 25px;
-    }
+button {
+  cursor: pointer;
+  height: 47px;
 }
-.btn-filter{
-    height: 40px;
-    border:1px solid #e0e0e0;
-    background-color: white;
-    width: max-content;
-    padding: 3px 10px;
-    border-radius: 10px;
-    color: #222;
-    font-weight: 500;
-    cursor: pointer;
+.btn-logout {
+  background-color: transparent;
+  border-radius: 50px;
+  display: flex;
+  width: 120px;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  gap: 5px;
+  color: #f2f2f2;
+  font-weight: 600;
+  border: 1px solid #e11d48;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #e11d48;
+    color: white;
+  }
+
+  svg {
+    color: #f2f2f2;
+    height: 25px;
+    width: 25px;
+    @include mobile {
+      display: none;
+    }
+  }
+  @include mobile {
+    font-size: 24px;
+  }
+}
+.btn-filter {
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  width: max-content;
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: #222;
+  font-weight: 500;
+  &.selected {
+    background-color: #e0e0e0;
+  }
+}
+
+.btn-secondary {
+  align-self: flex-end;
+  font-weight: 500;
+  width: max-content;
+  background-color: #e0e0e0;
+  padding: 0 20px;
+  border: none;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #ccc;
+    scale: 1.01;
+  }
+}
+.btn-primary {
+  align-self: flex-end;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 0 20px;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #ccc;
+    scale: 1.01;
+  }
+}
+
+.btn-options {
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  width: max-content;
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: #222;
+  font-weight: 500;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn_icon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.btn-toast {
+  border: none;
+  width: 40px;
+  height: 40px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  font-weight: 500;
+  display: flex;
+  float: right;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-back {
+  width: 100px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50px;
+  border: 1px solid #f24b0f;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  color: #222;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    transition: all 0.3s ease-in-out;
+    stroke-width: 2;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background: #f2f2f2;
+    color: $primary-bg-color;
+    border-color: transparent;
+
+    svg {
+      transform: translateX(-5px);
+    }
+  }
+}
+
+.btn-back-login {
+  width: 100px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-bottom-color: #f24b0f;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  color: #222;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    transition: all 0.3s ease-in-out;
+    stroke-width: 2;
+  }
+
+  &:hover {
+    background: #333;
+    border-radius: 50px;
+    border-bottom-color: transparent;
+    color: #f2f2f2;
+
+    svg {
+      transform: translateX(-5px);
+    }
+  }
 }

@@ -1,7 +1,8 @@
 import { useRef } from "react";
-import useTranslate from "../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 import "./HeroSection.scss";
 import { useScroll, useTransform, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   const wrapperRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -11,14 +12,23 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const { translate } = useTranslate();
   return (
-    <section className="hero-section" id="home">
-      <motion.div initial={{ opacity: 0, x: -100 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.3 }} className="wrapper" ref={wrapperRef} style={{ y }}>
-        <h3>{translate("yourDestinationIsOurDestination")} </h3>
-        <h1>{translate("cesarDestination")}</h1>
-        <p>{translate("travelFastAndSafe")}</p>
-        <a href="#booking">{translate("bookNow")}</a>
-      </motion.div>
-    </section>
+    <div className="hero-section" id="home">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="wrapper"
+          ref={wrapperRef}
+          style={{ y }}
+        >
+          <h3>{translate("yourDestinationIsOurDestination")} </h3>
+          <h1>{translate("cesarDestination")}</h1>
+          <p>{translate("travelFastAndSafe")}</p>
+          <Link to="/#booking">{translate("bookNow")}</Link>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import "./Contact.scss";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import useTranslate from "../../shared/hooks/translations/Translate";
+import useTranslate from "@/shared/hooks/translations/Translate";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useForm,
@@ -10,9 +10,11 @@ import {
   FieldErrors,
 } from "react-hook-form";
 import { render } from "@react-email/render";
-import Email from "../email/Email";
-import { EmailProps } from "../../models/email/Email";
+import Email from "@/features/email/Email";
+import { EmailProps } from "@/models/email/Email";
 import { EmailService } from "./services/email/emailService";
+import { customToast } from "@/utils/functions/customToast";
+import { VITE_RESEND_API_KEY } from "@/config/config";
 type Inputs = {
   name: string;
   message: string;
@@ -26,18 +28,26 @@ const Contact = () => {
     register,
     setValue,
     handleSubmit,
-    // watch,
     control,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const send = async ({ email, name, message, html }: EmailProps) => {
+  const send = async ({
+    email,
+    name,
+    message,
+    html,
+    key = VITE_RESEND_API_KEY,
+    subject,
+  }: EmailProps) => {
     try {
       const props = {
         email,
         name,
         message,
         html,
+        key,
+        subject,
       };
       toast.promise(EmailService.sendEmail(props), {
         loading: translate("sending"),
@@ -51,119 +61,122 @@ const Contact = () => {
         error: translate("message_failed"),
       });
     } catch (error: unknown) {
-      toast.error(translate("message_failed"));
+      customToast("error", translate("message_failed"));
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const html = await render(<Email url={"https://netflix.com"} />, {
-      pretty: true,
-    });
-
     const { name, message, email, phone } = data;
-    if (!name || !message || !email || !phone) {
-      return toast.error(translate("fill_all_fields"));
-    }
-    await send({ email, name, message, html });
+    const subject = translate("new_contact_request");
+    const labels = {
+      preview: translate("new_contact_request"),
+      header: translate("user_message"),
+      email: translate("email"),
+      phone: translate("phone"),
+      name: translate("name"),
+      message: translate("message"),
+    };
+    const html = await render(
+      <Email parameters={{ name, message, email, phone, labels }} />,
+      {
+        pretty: true,
+      }
+    );
+    await send({ email, name, message, html, subject });
   };
   const onError = (errors: FieldErrors<Inputs>) => {
     if (errors.name) {
-      toast.error(translate("name_required"));
+      customToast("error", translate("name_required"));
     } else if (errors.email) {
-      toast.error(translate("email_required"));
+      customToast("error", translate("email_required"));
     } else if (errors.phone) {
-      console.log(errors.phone)
-      toast.error(translate("phone_required"));
+      customToast("error", translate("phone_required"));
     } else if (errors.message) {
-      toast.error(translate("message_required"));
+      customToast("error", translate("message_required"));
     }
   };
 
   return (
-    <section className="contact-section" id="contact">
+    <div className="contact-section" id="contact">
       <Toaster />
-      <div className="wrapper">
-        <div className="left">
-          <span>{translate("contact_message")}</span>
-          <img src="images/tahoe.png" alt="Tahoe" loading="lazy" />
-        </div>
-        <div className="right">
-          <form
-            action=""
-            className="contact-form"
-            onSubmit={handleSubmit(onSubmit, onError)}
-          >
-            <div className="form-item">
-              <label htmlFor="name">{translate("name")}</label>
-              <input
-                id="name"
-                type="text"
-                {...register("name", { required: true })}
-                className={`name ${errors.name ? "invalid" : ""}`}
-              />
+      <div className="container">
+        <div className="wrapper">
+          <div className="left">
+            <span>{translate("contact_message")}</span>
+            <div className="contact_img">
+              <img src="images/tahoe.webp" alt="Tahoe" loading="lazy" />
             </div>
-            <div className="form-item">
-              <label htmlFor="email">{translate("email")}</label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                className={`email ${errors.email ? "invalid" : ""}`}
-              />
-            </div>
-            <div className="form-item">
-              <label htmlFor="">{translate("phone")}</label>
-              <Controller
-                name="phone"
-                control={control}
-                rules={{
-                  required: true,
-                  validate: (value) => {
-                    return value.length >=10 || "El número de teléfono es inválido";
-                  }
-                }}
-                render={({ field }) => (
-                  <PhoneInput
-                    {...field}
-                    // disableDialCodePrefill={true}
-                    inputClassName="phone-invalid"
-                    disableDialCodeAndPrefix={true}
-                    defaultCountry="do"
-                    className={`phoneInput ${errors.phone ? "phone-invalid" : ""}`}
-                  />
-                )}
-              />
-              {/* <PhoneInput
-                defaultCountry="do"
-                className="phoneInput"
-                charAfterDialCode=" "
-                // {...register("phone")}
-                // value={phone}
-                // onChange={(phone) => setPhone(phone)}
-              /> */}
-            </div>
-            <div className="form-item">
-              <label htmlFor="">
-                {translate("message")}
-
-              </label>
-              <textarea
-                id=""
-                cols={10}
-                rows={5}
-                {...register("message", { required: true })}
-                className={errors.message ? "invalid" : ""}
-              />
-            </div>
-            <button className="message-button" aria-label="send message">
-              {translate("send_message")}
-            </button>
-          </form>
+          </div>
+          <div className="right">
+            <form
+              action=""
+              className="contact_form"
+              onSubmit={handleSubmit(onSubmit, onError)}
+            >
+              <div className="form_item">
+                <label htmlFor="name">{translate("name")}</label>
+                <input
+                  id="name"
+                  type="text"
+                  {...register("name", { required: true })}
+                  className={`name ${errors.name ? "invalid" : ""}`}
+                />
+              </div>
+              <div className="form_item">
+                <label htmlFor="email">{translate("email")}</label>
+                <input
+                  type="email"
+                  {...register("email", { required: true })}
+                  className={`email ${errors.email ? "invalid" : ""}`}
+                />
+              </div>
+              <div className="form_item">
+                <label htmlFor="">{translate("phone")}</label>
+                <Controller
+                  name="phone"
+                  control={control}
+                  rules={{
+                    required: true,
+                    //   validate: (value) => {
+                    //     return (
+                    //       value.length >= 10 ||
+                    //       "El número de teléfono es inválido"
+                    //     );
+                    //   },
+                  }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      inputClassName="phone-invalid"
+                      disableDialCodeAndPrefix={true}
+                      defaultCountry="do"
+                      className={`phoneInput ${
+                        errors.phone ? "phone-invalid" : ""
+                      }`}
+                    />
+                  )}
+                />
+              </div>
+              <div className="form_item">
+                <label htmlFor="">{translate("message")}</label>
+                <textarea
+                  id=""
+                  cols={10}
+                  rows={5}
+                  {...register("message", { required: true })}
+                  className={errors.message ? "invalid" : ""}
+                />
+              </div>
+              <button className="message-button" aria-label="send message">
+                {translate("send_message")}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

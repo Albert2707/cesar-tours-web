@@ -1,20 +1,17 @@
 @use "../../../../index.scss" as *;
 
 .select-vehicle {
-  margin: 0 auto;
-  border-radius: 10px;
   width: 90%;
   height: 90%;
   display: flex;
   padding: 1rem;
 
   .booking-info {
-    flex: 1;
-    width: 100%;
+    width: 25%;
     display: flex;
-    height: 600px;
+    height: 100%;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 
@@ -22,6 +19,7 @@
       padding: 1rem;
       display: flex;
       height: 100%;
+      width: 100%;
       border-radius: 10px;
       flex-direction: column;
       gap: 10px;
@@ -42,7 +40,7 @@
         }
 
         span:last-child {
-          font-size: 14px;
+          font-size: 16px;
         }
       }
     }
@@ -55,7 +53,7 @@
       align-items: center;
       position: relative;
       background-color: transparent;
-      height: 40px;
+      height: 47px;
       color: #222;
       text-align: center;
       cursor: pointer;
@@ -66,7 +64,7 @@
       &::before {
         content: "";
         border: 1px solid #f24b0f;
-        height: 40px;
+        height: 47px;
         width: 25px;
         border-radius: 50px;
         top: -2px;
@@ -114,14 +112,18 @@
         font-size: 12px;
       }
     }
-    @include mobile{
-    height: 400px;
+    @include mobile {
+      height:550px;
+      width: 100%;
     }
   }
 
   .vehicle-list {
-    flex: 5;
+    width: 75%;
     overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #f59e0b #fff3cd;
     display: flex;
     height: 560px;
     padding: 1rem;
@@ -135,7 +137,7 @@
 
       .vehicle-img {
         width: 600px;
-        height: 170px;
+        height: 150px;
 
         img {
           width: 100%;
@@ -148,7 +150,7 @@
         display: flex;
         width: 100%;
         flex-direction: column;
-        height: 60%;
+        height: 65%;
         margin: auto 0;
         padding: 1rem;
         justify-content: center;
@@ -194,8 +196,9 @@
               display: flex;
               justify-content: center;
               gap: 10px;
+              font-weight: 700;
               align-items: center;
-              color: #888;
+              color: #666;
 
               svg {
                 width: 25px;
@@ -219,7 +222,7 @@
             width: 150px;
             border: none;
             position: relative;
-            height: 40px;
+            height: 47px;
             color: #222;
             text-align: center;
             background-color: transparent;
@@ -233,7 +236,7 @@
             &::before {
               content: "";
               border: 1px solid #f24b0f;
-              height: 40px;
+              height: 47px;
               width: 25px;
               border-radius: 50px;
               top: -2px;
@@ -266,16 +269,20 @@
           }
         }
       }
+
       @include mobile {
         flex-direction: column;
       }
     }
+
     @include mobile {
       height: 100%;
+      width: 100%;
     }
   }
 
   @include mobile {
     flex-direction: column;
+    gap: 20px;
   }
 }

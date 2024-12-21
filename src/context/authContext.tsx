@@ -1,19 +1,14 @@
-import React, {
+import{
   FC,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import { ContextProps } from "../models/context/contextProps";
-const AuthContext = React.createContext({});
-import { request } from "../utils/api/request";
+import { ContextProps } from "@/models/context/contextProps";
+import { request } from "@/utils/api/request";
+import { AuthContext } from "@/context/authctx";
 
-export const useAuth = () => {
-  if (!AuthContext) throw new Error("Debe estar dentro de un componente");
-  return useContext(AuthContext);
-};
 
 const AuthContextProvider: FC<ContextProps> = ({ children }) => {
   const [token, setToken] = useState(sessionStorage.getItem("token") ?? "");

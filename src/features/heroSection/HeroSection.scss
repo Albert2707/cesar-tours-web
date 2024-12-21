@@ -5,16 +5,17 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  height: calc(100vh - 112px);
-  background:linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%),
-  url("/images/hero.jpg") lightgray 50% / cover no-repeat;
+  height: calc(100vh - 80px);
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
+    url("/images/hero.webp") lightgray 50% / cover no-repeat;
   background-attachment: fixed;
   background-size: cover;
 
   .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -30,42 +31,52 @@
     }
 
     h1 {
-      font-size: calc(3vw + 1.8rem);
+      font-size: calc(3vw + 2rem);
       text-align: center;
       font-weight: 600;
     }
 
     p {
-      width: 750px;
+      width: 650px;
       height: 50px;
       text-align: center;
-      overflow-wrap: break-word; 
+      text-wrap: pretty;
+      overflow-wrap: break-word;
       word-wrap: break-word;
       word-break: break-word;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 500;
+      @include mobile{
+        text-align: justify;
+      }
     }
 
     a {
-      margin-top: 30px;
+      margin-top: 40px;
       background-color: #f24b0f;
-      width: 180px;
-      padding: 0 20px;
+      width: 200px;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 70px;
-      border-radius: 12px;
-      font-size: 20px;
+      border-radius: 10px;
+      font-size: 24px;
       font-weight: 700;
       color: #f2f2f2;
-      animation: fadeIn 2s 1 ease forwards;
-      transition: all 0.3s;
+      animation: fadeIn 1s 1 ease forwards;
+      transition: all 0.2s;
 
       &:hover {
         transform: translateY(-5px);
         background-color: #f2f2f2;
         color: $primary-bg-color;
+      }
+      @include laptop{
+        margin-top:60px;
+      }
+      @include mobile{
+        margin-top:40px;
       }
     }
   }

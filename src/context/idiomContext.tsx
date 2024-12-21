@@ -1,12 +1,8 @@
-import { createContext, useContext, useState } from "react";
-import { ContextProps } from "../models/context/contextProps";
+import { useState } from "react";
+import { ContextProps } from "@/models/context/contextProps";
+import { idiomContext } from "@/context/idiomctx";
 
-const idiomContext = createContext({});
 
-export const useIdiom = () => {
-  if (!idiomContext) throw new Error("Debe estar dentro de un componente");
-  return useContext(idiomContext);
-};
 
 export const IdiomContextProvider: React.FC<ContextProps> = ({ children }) => {
   const [idiom, setIdiom] = useState<"es" | "en">(
