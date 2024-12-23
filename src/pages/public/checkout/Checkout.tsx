@@ -44,6 +44,12 @@ export interface OrderData extends Omit<Inputs, "countryId"> {
   destination?: string;
   trip_type?: number;
   passengers?: number;
+  formatted_origin_address?: string
+  formatted_destination_address?: string
+  origin_lat?: number
+  destination_lat?: number
+  origin_lng?: number
+  destination_lng?: number
   luggage?: number;
   departureDate?: Date;
   countryId?: string;
@@ -95,6 +101,8 @@ const Checkout = () => {
   });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  let country = watch("countryId");
+
   const createOrder = useMutation({
     mutationFn: async (order: OrderData) => {
       const res = await CheckoutService.createOrder(order);
@@ -107,6 +115,8 @@ const Checkout = () => {
       navigate("/order/confirmation", {
         state: { orderCreated },
       });
+      setValue("name", "");
+      country = { value: "", label: "" };
       reset();
     },
     onError: () => {
@@ -130,8 +140,12 @@ const Checkout = () => {
       email: data.email,
       phone: data.phone,
       optionalPhone: data.optionalPhone,
-      origin,
-      destination,
+      formatted_origin_address: origin?.formatted_address,
+      formatted_destination_address: destination?.formatted_address,
+      origin_lng: origin?.lng,
+      destination_lng: destination?.lng,
+      origin_lat: origin?.lat,
+      destination_lat: destination?.lat,
       trip_type,
       passengers: passengerNo,
       luggage: bagsNo,
@@ -234,7 +248,6 @@ const Checkout = () => {
     handleSubmit(onSubmit, onError)();
   };
 
-  const country = watch("countryId");
   return (
     <motion.div
       className="checkout"
@@ -314,21 +327,21 @@ const Checkout = () => {
                   rules={{
                     required: "Country is required", // Mensaje de error personalizado
                   }}
-                  render={({fieldState }) => (
-                      <SelectBooking
-                        options={countries}
-                        isSearchable={true}
-                        customStyles={fieldState.error && { borderColor: "Red" }}
-                        placeholder={translate("select_country")}
-                        onChange={(e) => {
-                          setValue("countryId", e, {
-                            shouldValidate: true,
-                          });
-                        }}
-                        value={countries.find(
-                          (e) => e.value === country?.value
-                        )}
-                      />
+                  render={({ fieldState }) => (
+                    <SelectBooking
+                      options={countries}
+                      isSearchable={true}
+                      customStyles={fieldState.error && { borderColor: "Red" }}
+                      placeholder={translate("select_country")}
+                      onChange={(e) => {
+                        setValue("countryId", e, {
+                          shouldValidate: true,
+                        });
+                      }}
+                      value={countries.find(
+                        (e) => e.value === country?.value
+                      )}
+                    />
                   )}
                 />
               </div>
@@ -347,9 +360,8 @@ const Checkout = () => {
                     {translate("flight_number")}
                   </label>
                   <input
-                    className={`forminput ${
-                      errors.flight_number ? "invalid" : ""
-                    }`}
+                    className={`forminput ${errors.flight_number ? "invalid" : ""
+                      }`}
                     type="text"
                     placeholder={translate("flight_number")}
                     {...register("flight_number", { required: true })}
@@ -361,9 +373,8 @@ const Checkout = () => {
                 <label htmlFor="comments">{translate("comments")}</label>
                 <textarea
                   rows={10}
-                  className={`forminput ${
-                    errors.additionalNotes ? "invalid" : ""
-                  }`}
+                  className={`forminput ${errors.additionalNotes ? "invalid" : ""
+                    }`}
                   placeholder={translate("comments")}
                   {...register("additionalNotes", { required: true })}
                 ></textarea>
@@ -377,7 +388,7 @@ const Checkout = () => {
                 <strong>{translate("origin_address")}:</strong>
                 <span>
                   {translateCountry(
-                    origin,
+                    origin?.formatted_address,
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}
@@ -387,7 +398,7 @@ const Checkout = () => {
                 <strong>{translate("destination_address")}:</strong>
                 <span>
                   {translateCountry(
-                    destination,
+                    destination?.formatted_address,
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}

@@ -215,7 +215,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           <div className="route">
             <span>{translate("route")}</span>
             <span>
-              {origin} <span> {"->"} </span> {destination}
+              {origin?.formatted_address} <span> {"->"} </span> {destination?.formatted_address}
             </span>
           </div>
           <div className="route">
