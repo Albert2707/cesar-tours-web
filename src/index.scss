@@ -3,6 +3,7 @@
 $primary-bg-color: #333740;
 $pgreen: #22c55e;
 $pgreen-soft: #f0fdf4;
+$orange:#f24b0f;
 @mixin responsive-container {
   @media (min-width: 640px) {
     max-width: 640px;
