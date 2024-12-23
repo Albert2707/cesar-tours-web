@@ -7,19 +7,16 @@
 
   .order_vehicle {
     display: flex;
-    gap: 10px;
+    gap: 25px;
     align-items: center;
     background-color: #f2f2f2;
     border-radius: 10px;
     padding: 10px;
 
-    div {
-      font-weight: 500;
-      font-size: 1.2rem;
-    }
+
 
     .order_vehicle_img {
-      width: 200px;
+      width: 250px;
       height: 200px;
       border-radius: 10px;
       overflow: hidden;
@@ -30,37 +27,67 @@
         object-fit: cover;
       }
     }
-  }
 
-  .order_container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
-.left, .right {
-    .order_header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .order_body {
+    .order_vehicle_info {
       display: flex;
       flex-direction: column;
       gap: 10px;
 
-      .order_detail_item {
-        display: flex;
-        flex-direction: column;
+      .vehicle_item {
         gap: 10px;
-        font-size: 1rem;
+        display: flex;
+        font-size: 24px;
+      }
 
-        span {
-          font-weight: 600;
-          font-size: 1.2rem;
+      .vehicle_item_features {
+        display: flex;
+        gap: 10px;
+
+        .item_features {
+          display: flex;
+          gap: 5px;
+          font-size: 18px;
+          align-items: center;
+
+          svg {
+            width: 25px;
+            height: 25px;
+          }
         }
       }
     }
   }
+
+  .order_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .left,
+    .right {
+      .order_header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .order_body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .order_detail_item {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          font-size: 1rem;
+
+          span {
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
 
     @include mobile {
       grid-template-columns: 1fr;

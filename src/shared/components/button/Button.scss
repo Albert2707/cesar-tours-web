@@ -37,13 +37,20 @@ button {
 .btn-filter {
   border: 1px solid #e0e0e0;
   background-color: white;
-  width: max-content;
-  padding: 3px 10px;
-  border-radius: 10px;
+  width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 15px;
+  border-radius: 50px;
   color: #222;
   font-weight: 500;
+  transition: all 0.3s ease-in-out;
   &.selected {
     background-color: #e0e0e0;
+  }
+    &:hover{
+      background-color: #e0e0e0;
   }
 }
 
@@ -83,17 +90,21 @@ button {
   border: 1px solid #e0e0e0;
   background-color: white;
   width: max-content;
-  padding: 3px 10px;
-  border-radius: 10px;
+  padding: 3px 15px;
+  border-radius: 50px;
   color: #222;
   font-weight: 500;
   gap: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease-in-out;
   .btn_icon {
     width: 15px;
     height: 15px;
+  }
+  &:hover{
+    background-color: #e0e0e0;
   }
 }
 
