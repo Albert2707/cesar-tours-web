@@ -69,7 +69,7 @@ const Confirm = () => {
             <strong>{translate("origin_address")}:</strong>
             <span>
               {translateCountry(
-                order?.origin,
+                order?.origin?.formatted_address,
                 " Dominican Republic",
                 ` ${translate("do")}`
               )}
@@ -79,7 +79,7 @@ const Confirm = () => {
             <strong>{translate("destination_address")}:</strong>
             <span>
               {translateCountry(
-                order?.destination,
+                order?.destination?.formatted_address,
                 " Dominican Republic",
                 ` ${translate("do")}`
               )}
