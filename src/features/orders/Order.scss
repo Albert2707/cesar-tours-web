@@ -56,19 +56,6 @@
     }
   }
 
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    .page-numbers {
-      width: 70px;
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-    }
-  }
-
   @include mobile {
     width: 90%;
   }
