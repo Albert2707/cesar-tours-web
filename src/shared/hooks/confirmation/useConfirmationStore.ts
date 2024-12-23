@@ -1,9 +1,10 @@
+import { Location } from "@hooks/booking/useBookingStore";
 import { create } from "zustand";
 
 type Order = {
   order_num: string;
-  origin: string;
-  destination: string;
+  origin: Location;
+  destination: Location;
   trip_type: "one_way" | "round_trip";
   passengers: number;
   luggage: number;
