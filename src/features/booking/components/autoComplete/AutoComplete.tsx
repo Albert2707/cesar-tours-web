@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import useTranslate from "@/shared/hooks/translations/Translate";
 import { useBookingStore } from "@/shared/hooks/booking/useBookingStore";
-
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
   isOrigin: boolean;
@@ -45,11 +44,8 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
       onPlaceSelect(place);
     };
 
-    // Agregamos debounce al evento de 'place_changed'
     const debouncedHandlePlaceChanged = debounce(handlePlaceChanged, 300);
-
     placeAutocomplete.addListener("place_changed", debouncedHandlePlaceChanged);
-
     return () => {
       google.maps.event.clearInstanceListeners(placeAutocomplete);
     };
@@ -58,7 +54,7 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
   return (
     <input
       ref={inputRef}
-      defaultValue={isOrigin ? origin: destination}
+      defaultValue={isOrigin ? origin?.formatted_address : destination?.formatted_address}
       placeholder={isOrigin ? translate("origin") : translate("destination")}
     />
   );

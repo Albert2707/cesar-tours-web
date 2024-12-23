@@ -2,7 +2,7 @@ import { useState } from "react";
 import useTranslate from "@hooks/translations/Translate";
 import "./Booking.scss";
 import { generateTimeOptions } from "@/utils/functions/functions";
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
 import Vehicle from "./components/steps/Vehicle";
@@ -16,8 +16,8 @@ import { useBookingStore } from "@hooks/booking/useBookingStore";
 import { AnimatePresence, motion } from "framer-motion";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
 import { customToast } from "@/utils/functions/customToast";
-import { VITE_GOOGLE_API_KEY } from "@/config/config";
 import { useIdiom } from "@hooks/idiom/useIdiom";
+import { CustomMap } from "@/shared/components/map/Map";
 
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
@@ -37,7 +37,6 @@ const Booking = () => {
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
-  const [originAddress, setOriginAddress] = useState<Coordinates | null>(null);
   const {
     passengerNo,
     departureDate,
@@ -54,10 +53,10 @@ const Booking = () => {
     setReturnDate,
     setReturnHour,
     returnHours,
+    setOrigin,
+    setDestination,
     returnDate,
   } = useBookingStore();
-  const [destinationAddress, setDestinationAddress] =
-    useState<Coordinates | null>(null);
   const hours = generateTimeOptions();
   const noPassengers = [];
   const noBags = [];
@@ -74,10 +73,8 @@ const Booking = () => {
   ];
   const handleOriginSelect = (place: google.maps.places.PlaceResult | null) => {
     if (place) {
-      setOriginAddress({
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      });
+      setOrigin({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
+
     }
   };
 
@@ -85,10 +82,8 @@ const Booking = () => {
     place: google.maps.places.PlaceResult | null
   ) => {
     if (place) {
-      setDestinationAddress({
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      });
+      setDestination({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
+
     }
   };
   const handlePlaceSelect = (
@@ -96,9 +91,9 @@ const Booking = () => {
     type: "origin" | "destination"
   ) => {
     if (type === "origin" && place) {
-      handleOriginSelect(place);
+      handleOriginSelect(place)
     } else {
-      handleDestinationSelect(place);
+      handleDestinationSelect(place)
     }
   };
   return (
@@ -112,9 +107,8 @@ const Booking = () => {
               <div className="step done">1</div>
               <div className="steps-progress">
                 <div
-                  className={` progress ${
-                    step === 2 || step === 3 ? "done" : ""
-                  }`}
+                  className={` progress ${step === 2 || step === 3 ? "done" : ""
+                    }`}
                 ></div>
               </div>
               <div
@@ -128,7 +122,7 @@ const Booking = () => {
               <div className={` step ${step === 3 ? "done" : ""}`}>3</div>
             </div>
             {step === 1 && (
-              <APIProvider apiKey={VITE_GOOGLE_API_KEY}>
+              <CustomMap booking={true}>
                 <div className="contain">
                   <div className="left">
                     <motion.form action="" className="booking-form">
@@ -309,30 +303,28 @@ const Booking = () => {
                         gestureHandling={"greedy"}
                         disableDefaultUI={true}
                       >
-                        {originAddress && (
+                        {originTrip?.lat && (
                           <Marker
                             position={{
-                              lat: originAddress.lat ?? 0,
-                              lng: originAddress.lng ?? 0,
+                              lat: originTrip?.lat ?? 0,
+                              lng: originTrip?.lng ?? 0,
                             }}
                             clickable={true}
                             onClick={() => alert("marker was clicked!")}
                             title={"clickable google.maps.Marker"}
                           />
                         )}
-                        {destinationAddress && (
+                        {destination?.lat && (
                           <Marker
                             position={{
-                              lat: destinationAddress.lat ?? 0,
-                              lng: destinationAddress.lng ?? 0,
+                              lat: destination?.lat ?? 0,
+                              lng: destination?.lng ?? 0,
                             }}
                             clickable={true}
                           />
                         )}
                       </Map>
                       <Directions
-                        origin={originAddress}
-                        destination={destinationAddress}
                       />
                       <button
                         type="submit"
@@ -377,7 +369,7 @@ const Booking = () => {
                     </div>
                   </div>
                 </div>
-              </APIProvider>
+              </CustomMap>
             )}
             {step === 2 && <Vehicle setStep={setStep} />}
           </div>

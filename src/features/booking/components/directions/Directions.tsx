@@ -1,24 +1,21 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useTranslate from "@hooks/translations/Translate";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
 import { useIdiom } from "@hooks/idiom/useIdiom";
-import { Coordinates } from "../../Booking";
 
-type DirectionsProps = {
-  origin: Coordinates | null;
-  destination: Coordinates | null;
-};
 
-export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
+export const Directions = () => {
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const {
     setDuration,
     setDistance,
     duration,
+    origin,
     distance,
+    destination,
     setDestination,
     setOrigin,
   } = useBookingStore();
@@ -68,9 +65,6 @@ export const Directions: FC<DirectionsProps> = ({ origin, destination }) => {
         const { routes } = response;
         if (routes) {
           const tripInfo = routes[0]?.legs[0];
-          console.log(tripInfo);
-          setOrigin(tripInfo?.start_address);
-          setDestination(tripInfo?.end_address);
           setDuration({
             text: tripInfo?.duration?.text as string,
             value: tripInfo?.duration?.value as number,
