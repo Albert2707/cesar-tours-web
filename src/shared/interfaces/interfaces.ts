@@ -1,4 +1,5 @@
 import { VehicleModel } from "@/models/booking/vehicle";
+import { Location } from "@hooks/booking/useBookingStore";
 
 export interface ICountry {
   country_id: string;
@@ -17,8 +18,8 @@ export interface ICustomer {
 
 export interface IOrder {
   order_num: string;
-  origin: string;
-  destination: string;
+  origin: Location;
+  destination: Location;
   trip_type: "one_way" | "round_trip";
   passengers: number;
   luggage: number;
