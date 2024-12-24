@@ -47,9 +47,11 @@
   "date": "Fecha",
   "delete": "Borrar",
   "departure_date": "Fecha de salida",
+  "dateTime": "Fecha y hora",
   "departure_date_time": "Fecha y hora de salida",
   "departure_time": "Hora de salida",
   "destination": "Ingresa la dirección de destino",
+  "destination2": "Destino",
   "destination_address": "Dirección de Destino",
   "destinationLocation": "Dirección de Destino",
   "details": "Detalle",
@@ -176,5 +178,9 @@
   "vehicles": "Vehículos",
   "vision": "Ser la empresa líder en servicios turísticos integrales, reconocida por proporcionar experiencias memorables y de alta calidad a los viajeros de todo el mundo, facilitando sus aventuras con comodidad, seguridad y eficiencia.",
   "welcome": "Bienvenido",
-  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!"
+  "yourDestinationIsOurDestination": "¡Tu destino es nuestro destino!",
+  "newReservation": "Nueva reserva",
+  "newReservationMessage": "Ha hecho una nueva reserva",
+  "reservationConfirmation": "Confirmacion de reserva",
+  "thankYouMessage": "Gracias por tu reserva"
 }

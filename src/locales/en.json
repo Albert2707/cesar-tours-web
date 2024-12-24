@@ -50,6 +50,7 @@
   "departure_date_time": "Departure Date and Time",
   "departure_time": "Departure Time",
   "destination": "Enter the destination address",
+  "destination2": "Destination",
   "destination_address": "Destination Address",
   "destinationLocation": "Destination Location",
   "details": "Details",
@@ -95,6 +96,7 @@
   "only_remove_unoccupied_vehicles": "You can only remove vehicles that are not occupied",
   "order_creation_error": "There was an error creating the order",
   "order_number": "Reservation No",
+  "dateTime": "Date and time",
   "origin": "Enter the origin address",
   "origin_address": "Origin Address",
   "origin2": "Origin",
@@ -176,5 +178,9 @@
   "vehicles": "Vehicles",
   "vision": "To be the leading company in comprehensive tourism services, recognized for providing memorable and high-quality experiences to travelers worldwide, facilitating their adventures with comfort, safety, and efficiency.",
   "welcome": "Welcome",
-  "yourDestinationIsOurDestination": "Your destination is our destination!"
+  "yourDestinationIsOurDestination": "Your destination is our destination!",
+  "newReservation": "New reservation",
+  "newReservationMessage": "You have made a new reservation",
+  "reservationConfirmation": "Reservation confirmation",
+  "thankYouMessage": "Thank you for your reservation"
 }
