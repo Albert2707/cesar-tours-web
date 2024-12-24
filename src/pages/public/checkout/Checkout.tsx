@@ -28,6 +28,10 @@ import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
 import { useIdiom } from "@hooks/idiom/useIdiom";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
+import { VITE_RESEND_API_KEY } from "@/config/config";
+import { ConfirmationEmail } from "@/features/email/ConfirmationEmail";
+import { render } from "@react-email/render";
+import { IOrder } from "@/shared/interfaces/interfaces";
 interface Inputs {
   name: string;
   lastName: string;
@@ -102,6 +106,66 @@ const Checkout = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   let country = watch("countryId");
+  const sendEmail = useMutation({
+    mutationFn: async (data: { html: string[], subject: string[], email: string }) => {
+      const res = await request.post("email/send/confirmation", data, { headers: { resendapikey: VITE_RESEND_API_KEY } })
+      return res.data;
+    },
+
+  });
+
+  const emailSend = async (order: IOrder) => {
+    const confirmationEmailProps = {
+      num: translate("order_number"),
+      origen: translate("origin2"),
+      destino: translate("destination2"),
+      dateTime: translate("dateTime"),
+      total: translate("total"),
+    }
+
+    const labels = {
+      ...confirmationEmailProps,
+      preview: translate("newReservation"),
+      header: translate("newReservationMessage"),
+    }
+    const labelsCustomer = {
+      ...confirmationEmailProps,
+      preview: translate("reservationConfirmation"),
+      header: translate("thankYouMessage"),
+    }
+    const formated_origin = translateCountry(
+      order?.origin?.formatted_address,
+      " Dominican Republic",
+      ` ${translate("do")}`
+    );
+    const formated_destination = translateCountry(
+      order?.destination?.formatted_address,
+      " Dominican Republic",
+      ` ${translate("do")}`
+    );
+    const hour = formatHour(departureHour)
+    const dateFormated = idiom === "es" ? fechaEnEspanol : fechaEnIngles
+
+    const html = await render(
+      <ConfirmationEmail parameters={{ name: order?.customer?.name, reservationNum: order?.order_num, origin: formated_origin, destination: formated_destination, date: dateFormated, hour: hour, total: moneyFormant(order?.total as number) }} labels={labels} />,
+      {
+        pretty: true,
+      }
+    );
+    const htmlCustomer = await render(
+      <ConfirmationEmail parameters={{ name: order?.customer?.name, reservationNum: order?.order_num, origin: formated_origin.replace(/\d/g, ""), destination: formated_destination.replace(/\d/g, ""), date: dateFormated, hour: hour, total: moneyFormant(order?.total as number) }} labels={labelsCustomer} />,
+      {
+        pretty: true,
+      }
+    );
+    const dataToSend = {
+      email: order?.customer?.email,
+      subject: [translate("reservationConfirmation"), translate("thankYouMessage")],
+      html: [html, htmlCustomer]
+    }
+    sendEmail.mutate(dataToSend);
+  }
+
 
   const createOrder = useMutation({
     mutationFn: async (order: OrderData) => {
@@ -112,6 +176,7 @@ const Checkout = () => {
       queryClient.invalidateQueries({
         queryKey: ["orders"],
       });
+      emailSend(orderCreated)
       navigate("/order/confirmation", {
         state: { orderCreated },
       });
@@ -415,7 +480,7 @@ const Checkout = () => {
               <div className="item">
                 <strong>{translate("departure_date_time")}:</strong>
                 <span>
-                  {formatHour(departureHour)} -{" "}
+                  {formatHour(departureHour)} -
                   {idiom === "es" ? fechaEnEspanol : fechaEnIngles}
                 </span>
               </div>
