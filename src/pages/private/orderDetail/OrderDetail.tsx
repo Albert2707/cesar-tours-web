@@ -242,6 +242,7 @@ const OrderDetail = () => {
                 </div>
               </div>
             </div>
+            <hr/>
             <div className="right">
               <div className="order_header">
                 <h3>{translate("customer")}</h3>
@@ -265,7 +266,8 @@ const OrderDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="map" style={{ height: "400px", borderRadius: "10px", overflow: "hidden" }}>
+            <hr/>
+            <div className="map" style={{ borderRadius: "10px", overflow: "hidden" }}>
               <CustomMap center={{ lat: 18.6652932, lng: -71.4493516 }}>
 
                 <Marker
