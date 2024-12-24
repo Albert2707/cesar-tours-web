@@ -17,21 +17,38 @@
     font-weight: bold;
     width: 100%;
     justify-items: center;
-    grid-template-columns: repeat(8, minmax(150px, 1fr));
+    grid-template-columns: repeat(8, 1fr);
 
     .cell {
       padding: 10px;
-      width: 100%;
+      width: 170px;
       display: flex;
       justify-content: center;
     }
 
+    @include laptop {
+      grid-template-columns: repeat(4, 1fr);
+
+      .cell:nth-child(2) {
+        display: none;
+      }
+    }
+
     @include tablet {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
+
+      .cell {
+        display: none;
+      }
+
+      .cell:nth-child(1),
+      .cell:nth-child(7) {
+        display: flex;
+      }
     }
 
     @include mobile {
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -49,20 +66,16 @@
       justify-items: center;
       align-content: start;
       align-items: center;
-      grid-template-columns: repeat(8, minmax(150px, 1fr));
+      grid-template-columns: repeat(8, 1fr);
 
       .cell {
         padding: 10px;
         height: 100px;
-        width: 100%;
+        width: 170px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-
-        &:last-child {
-          grid-column: span 2;
-        }
       }
 
       .cell.pending {
@@ -94,12 +107,29 @@
         height: fit-content;
       }
 
+      @include laptop {
+        grid-template-columns: repeat(4, 1fr);
+
+        .cell:nth-child(2) {
+          display: none;
+        }
+      }
+
       @include tablet {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+
+        .cell {
+          display: none;
+        }
+
+        .cell:nth-child(1),
+        .cell:nth-child(7) {
+          display: flex;
+        }
       }
 
       @include mobile {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   }
