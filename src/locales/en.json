@@ -98,6 +98,7 @@
   "one_way": "One Way",
   "only_remove_unoccupied_vehicles": "You can only remove vehicles that are not occupied",
   "order_creation_error": "There was an error creating the order",
+  "order_deleted_successfully": "The order has been deleted successfully",
   "order_number": "Reservation No",
   "origin": "Enter the origin address",
   "origin_address": "Origin Address",
