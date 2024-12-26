@@ -76,6 +76,16 @@
         justify-content: center;
         align-items: center;
         border-radius: 10px;
+        button {
+          @include mobile {
+            span {
+              display: none;
+            }
+          }
+        }
+        @include mobile{
+          width: 100%;
+        }
       }
 
       .cell.pending {
