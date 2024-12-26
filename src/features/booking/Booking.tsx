@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useTranslate from "@hooks/translations/Translate";
 import "./Booking.scss";
 import { generateTimeOptions } from "@/utils/functions/functions";
@@ -13,11 +13,12 @@ import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
 import { customToast } from "@/utils/functions/customToast";
 import { useIdiom } from "@hooks/idiom/useIdiom";
 import { CustomMap } from "@/shared/components/map/Map";
+import { useNavlinksStore } from "@hooks/navlinks/useNavlinksStore";
 
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
@@ -33,10 +34,22 @@ export interface Coordinates {
 const Booking = () => {
   registerLocale("en", enUS);
   registerLocale("es", es);
+  const bookingRef = useRef(null);
+  const view = useInView(bookingRef, {
+    margin: "100px 0px -50px 0px",
+  });
+  const [errors, setErrors] = useState({
+    originError: false,
+    destinationError: false,
+    departureHourError: false,
+    returnHourError: false,
+    returnDateError: false
+  })
   const today = new Date();
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
+  const { setNavlink, navlink } = useNavlinksStore()
   const {
     passengerNo,
     departureDate,
@@ -73,6 +86,7 @@ const Booking = () => {
   ];
   const handleOriginSelect = (place: google.maps.places.PlaceResult | null) => {
     if (place) {
+      setErrors({ ...errors, originError: false })
       setOrigin({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
 
     }
@@ -82,6 +96,7 @@ const Booking = () => {
     place: google.maps.places.PlaceResult | null
   ) => {
     if (place) {
+      setErrors({ ...errors, destinationError: false })
       setDestination({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
 
     }
@@ -96,8 +111,16 @@ const Booking = () => {
       handleDestinationSelect(place)
     }
   };
+
+  useEffect(() => {
+    if (view) {
+      setNavlink({...navlink,booking: true })
+    } else {
+      setNavlink({...navlink,booking: false })
+    }
+  }, [view])
   return (
-    <div className="booking" id="booking">
+    <div className="booking" id="booking" ref={bookingRef}>
       <Toaster />
       <div className="container">
         <div className="wrapper">
@@ -131,6 +154,7 @@ const Booking = () => {
                           {translate("origin_address")}
                         </label>
                         <AutocompleteCustom
+                          classN={errors.originError ? "invalid" : ""}
                           onPlaceSelect={(place) =>
                             handlePlaceSelect(place, "origin")
                           }
@@ -142,6 +166,7 @@ const Booking = () => {
                           {translate("destination_address")}
                         </label>
                         <AutocompleteCustom
+                          classN={errors.destinationError ? "invalid" : ""}
                           onPlaceSelect={(place) =>
                             handlePlaceSelect(place, "destination")
                           }
@@ -228,10 +253,12 @@ const Booking = () => {
                             {translate("departure_time")}
                           </label>
                           <SelectBooking
+                            customStyles={{ borderColor: errors.departureHourError ? "#e11d48" : "rgba(51, 55, 64, 0.3)" }}
                             options={hours}
                             placeholder="time"
                             onChange={(e) => {
                               const { value } = e as { value: string };
+                              if (value) setErrors({ ...errors, departureHourError: false })
                               setDepartureHour(value);
                             }}
                             value={hours.find((e) => e.value === departureHour)}
@@ -253,7 +280,7 @@ const Booking = () => {
                                 {translate("return_date")}
                               </label>
                               <DatePicker
-                                className="datePicker"
+                                className={`datePicker  ${errors.returnDateError ? "invalid" : ""}`}
                                 selected={returnDate}
                                 minDate={departureDate}
                                 placeholderText={
@@ -263,6 +290,7 @@ const Booking = () => {
                                 }
                                 onChange={(date) => {
                                   if (!date) return;
+                                  setErrors({ ...errors, returnDateError: false })
                                   setReturnDate(date as Date);
                                 }}
                                 locale={idiom}
@@ -279,9 +307,11 @@ const Booking = () => {
                               </label>
                               <SelectBooking
                                 options={hours}
+                                customStyles={{ borderColor: errors.returnHourError ? "#e11d48" : "rgba(51, 55, 64, 0.3)" }}
                                 placeholder="time"
                                 onChange={(e) => {
                                   const { value } = e as { value: string };
+                                  if (value) setErrors({ ...errors, returnHourError: false })
                                   setReturnHour(value);
                                 }}
                                 value={hours.find(
@@ -331,36 +361,49 @@ const Booking = () => {
                         aria-label="Seleccionar vehiculo"
                         className="btn-selectec-vehicle"
                         onClick={() => {
-                          if (!departureHour)
+                          if (!originTrip) {
+
+                            setErrors({ ...errors, originError: true })
+                            return customToast(
+                              "error",
+                              translate("select_origin_address")
+                            );
+                          }
+                          if (!destination) {
+
+                            setErrors({ ...errors, destinationError: true })
+                            return customToast(
+                              "error",
+                              translate("select_destination_address")
+                            );
+                          }
+                          if (!departureHour) {
+
+                            setErrors({ ...errors, departureHourError: true })
                             return customToast(
                               "error",
                               translate("select_time")
                             );
+                          }
                           if (!departureDate)
                             return customToast(
                               "error",
                               translate("select_date")
                             );
-                          if (!returnDate && trip_type === 2)
+                          if (!returnDate && trip_type === 2) {
+                            setErrors({ ...errors, returnDateError: true })
                             return customToast(
                               "error",
                               translate("select_date")
                             );
-                          if (trip_type == 2 && !returnHours)
+                          }
+                          if (trip_type == 2 && !returnHours) {
+                            setErrors({ ...errors, returnHourError: true })
                             return customToast(
                               "error",
                               translate("select_return_time")
                             );
-                          if (!originTrip)
-                            return customToast(
-                              "error",
-                              translate("select_origin_address")
-                            );
-                          if (!destination)
-                            return customToast(
-                              "error",
-                              translate("select_destination_address")
-                            );
+                          }
                           setStep(2);
                         }}
                       >
