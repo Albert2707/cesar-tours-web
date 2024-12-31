@@ -39,22 +39,22 @@ const Confirm = () => {
   }, [order]);
 
   useEffect(() => {
+    if (state) {
+      addOrder(state.orderCreated);
+    }
+  }, [state, addOrder]);
+
+  useEffect(() => {
     const target = document.getElementById("main");
     if (target) {
       target.scrollIntoView();
     }
   }, []);
-
-  useEffect(() => {
-    if (state) {
-      addOrder(state.orderCreated);
-    }
-  }, [state, addOrder]);
+  
   if (!order)
     return (
       <StepValidation text={translate("no_orders")} redirectTo="/#booking" />
     );
-
   return (
     <div className="order-confirm">
       <div className="wrapper">
@@ -69,7 +69,7 @@ const Confirm = () => {
             <strong>{translate("origin_address")}:</strong>
             <span>
               {translateCountry(
-                order?.origin?.formatted_address,
+                order?.origin?.formatted_address.replace(/\d/g, ""),
                 " Dominican Republic",
                 ` ${translate("do")}`
               )}
@@ -79,7 +79,7 @@ const Confirm = () => {
             <strong>{translate("destination_address")}:</strong>
             <span>
               {translateCountry(
-                order?.destination?.formatted_address,
+                order?.destination?.formatted_address.replace(/\d/g, ""),
                 " Dominican Republic",
                 ` ${translate("do")}`
               )}
@@ -133,7 +133,7 @@ const Confirm = () => {
             ]}
           />
           <Button
-            properties={{ type: "back", onClickfn: () => navigate("/") }}
+            properties={{ type: "back", onClickfn: () => navigate("/#home") }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
