@@ -82,7 +82,6 @@ const Vehicle: FC<Props> = ({ setStep }) => {
   );
   const [vehicleData, setVehicleData] = useState<VehicleModel[] | null>(null);
   const navigate = useNavigate();
-  console.log(departureDate);
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
@@ -200,7 +199,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </motion.div>
       ));
     }
-  }, [isError, isLoading, memoizedVehicles, navigate, order, translate]);
+  }, [isError, isLoading, memoizedVehicles, navigate, order]);
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -215,7 +214,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           <div className="route">
             <span>{translate("route")}</span>
             <span>
-              {origin?.formatted_address} <span> {"->"} </span> {destination?.formatted_address}
+              {origin?.formatted_address.replace(/\d/g, "")} <span> {"->"} </span> {destination?.formatted_address.replace(/\d/g, "")}
             </span>
           </div>
           <div className="route">

@@ -5,9 +5,10 @@ import { useBookingStore } from "@/shared/hooks/booking/useBookingStore";
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
   isOrigin: boolean;
+  classN?:string
 }
 
-export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
+export const AutocompleteCustom = ({ onPlaceSelect, isOrigin, classN}: Props) => {
   const [placeAutocomplete, setPlaceAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const places = useMapsLibrary("places");
@@ -54,6 +55,7 @@ export const AutocompleteCustom = ({ onPlaceSelect, isOrigin }: Props) => {
   return (
     <input
       ref={inputRef}
+      className={classN}
       defaultValue={isOrigin ? origin?.formatted_address : destination?.formatted_address}
       placeholder={isOrigin ? translate("origin") : translate("destination")}
     />
