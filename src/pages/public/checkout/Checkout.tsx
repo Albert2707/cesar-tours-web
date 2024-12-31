@@ -453,7 +453,7 @@ const Checkout = () => {
                 <strong>{translate("origin_address")}:</strong>
                 <span>
                   {translateCountry(
-                    origin?.formatted_address,
+                    origin?.formatted_address.replace(/\d/g, ""),
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}
@@ -463,7 +463,7 @@ const Checkout = () => {
                 <strong>{translate("destination_address")}:</strong>
                 <span>
                   {translateCountry(
-                    destination?.formatted_address,
+                    destination?.formatted_address.replace(/\d/g, ""),
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}
