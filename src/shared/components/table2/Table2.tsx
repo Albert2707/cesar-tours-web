@@ -25,7 +25,7 @@ const Table2 = <T extends IOrder | VehicleModel>({
   headers,
   isOrder,
 }: Props<T>) => {
-  const { setConfirm, setVehicle, setEditMode, setShow, setVehicleId,setOrderId} =
+  const { setConfirm, setVehicle, setEditMode, setShow, setVehicleId, setOrderId } =
     useVehicleStore();
   const getOrderStatus = (status: number): { name: string; class: string } => {
     switch (status) {
@@ -121,7 +121,9 @@ const Table2 = <T extends IOrder | VehicleModel>({
             }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-info"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+            <span>
             {translate("details")}
+            </span>
           </Button>
           <Button
             properties={{
@@ -149,14 +151,16 @@ const Table2 = <T extends IOrder | VehicleModel>({
               <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
               <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
             </svg>
-            {translate("delete")}
+            <span>
+              {translate("delete")}
+            </span>
           </Button>
         </div>
       );
     }
 
     return (
-      <div className="options" style={{ display: "flex", gap: "5px" }}>
+      <div className="cell" style={{ display: "flex", gap: "5px" }}>
         <Button
           properties={{
             type: "options",
@@ -181,7 +185,9 @@ const Table2 = <T extends IOrder | VehicleModel>({
           >
             <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
           </svg>
-          {translate("edit")}
+          <span>
+            {translate("edit")}
+          </span>
         </Button>
         {e.status && (
           <Button
@@ -209,7 +215,9 @@ const Table2 = <T extends IOrder | VehicleModel>({
               <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
               <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
             </svg>
-            {translate("delete")}
+            <span>
+              {translate("delete")}
+            </span>
           </Button>
         )}
       </div>
