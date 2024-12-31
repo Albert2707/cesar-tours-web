@@ -296,12 +296,13 @@ const OrderDetail = () => {
       );
     }
   };
+
   useEffect(() => {
     if (!isLoading && data) {
       const selectedOption = options.find((e) => e.value == data.status);
       setSelected(selectedOption || { value: 0, label: "" });
     }
-  }, [isLoading, data, options]);
+  }, [isLoading, data]);
 
   useEffect(() => {
     const target = document.getElementById("admin_main");
