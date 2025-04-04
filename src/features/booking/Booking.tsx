@@ -118,6 +118,7 @@ const Booking = () => {
     } else {
       setNavlink({...navlink,booking: false })
     }
+    // eslint-disable-next-line
   }, [view])
   return (
     <div className="booking" id="booking" ref={bookingRef}>

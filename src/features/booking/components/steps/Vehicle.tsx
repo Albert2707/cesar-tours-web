@@ -11,7 +11,6 @@ import { useBookingStore } from "@hooks/booking/useBookingStore";
 import useTranslate from "@hooks/translations/Translate";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { calculateTripCost } from "@/utils/functions/caculateTripCost";
-import { VITE_CESAR_API } from "@/config/config";
 import Loader from "@/features/loader/Loader";
 import { formatHour } from "@/utils/functions/formatHour";
 import { useIdiom } from "@hooks/idiom/useIdiom";
@@ -133,7 +132,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         >
           <div className="vehicle-img">
             <img
-              src={VITE_CESAR_API + "/" + e.img_url}
+              src={e.img_url}
               alt="Tahoe Suburban"
               loading="lazy"
             />
@@ -199,6 +198,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </motion.div>
       ));
     }
+    // eslint-disable-next-line
   }, [isError, isLoading, memoizedVehicles, navigate, order]);
 
   useEffect(() => {
