@@ -1,0 +1,1 @@
+const s=()=>{const o=[];for(let t=0;t<24;t++)for(let n=0;n<60;n+=5){const r=t.toString().padStart(2,"0"),e=n.toString().padStart(2,"0");o.push({value:`${r}:${e}`,label:`${r}:${e}`})}return o},a=(o,t,n)=>o.split(",").map(r=>r===t?n:r).join(","),c=o=>{const t=document.getElementById(o);t&&t.scrollIntoView({behavior:"smooth"})};export{c,s as g,a as t};
