@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { es } from "date-fns/locale";
 import useTranslate from "@hooks/translations/Translate";
 import "./Table2.scss";
-import { VITE_CESAR_API } from "@/config/config";
 import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
 import { VehicleModel } from "@/models/booking/vehicle";
 import { IOrder } from "@/shared/interfaces/interfaces";
@@ -97,7 +96,7 @@ const Table2 = <T extends IOrder | VehicleModel>({
                 width: "100%",
                 objectFit: "cover",
               }}
-              src={VITE_CESAR_API + "/" + order.img_url}
+              src={order.img_url}
               alt={order.brand}
             />
           </div>

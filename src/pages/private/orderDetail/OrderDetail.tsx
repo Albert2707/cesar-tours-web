@@ -8,7 +8,6 @@ import { IdiomTypes } from "@/context/idiomTypes";
 import "./OrderDetail.scss";
 import Select from "react-select";
 import { Marker } from "@vis.gl/react-google-maps";
-import { VITE_CESAR_API } from "@/config/config";
 import { useEffect, useMemo, useState } from "react";
 import { customToast } from "@/utils/functions/customToast";
 import { Toaster } from "react-hot-toast";
@@ -94,7 +93,7 @@ const OrderDetail = () => {
           <div className="order_vehicle">
             <div className="order_vehicle_img">
               <img
-                src={VITE_CESAR_API + "/" + data.vehicle.img_url}
+                src={data.vehicle.img_url}
                 alt={data.vehicle.brand + " " + data.vehicle.model}
               />
             </div>
