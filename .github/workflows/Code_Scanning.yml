@@ -32,7 +32,7 @@ jobs:
 
     - name: Running Horusec Security
       run: |
-        horusec start -i="**/node_modules/**" -o="json" -O="./horusec-report.json"
+        horusec start -p="./" -i="**/node_modules/**,**/dist/**,**/build/**" -e="true" -o="json" -O="./horusec-report.json"
       
     - name: Upload scan results
       uses: actions/upload-artifact@v4
