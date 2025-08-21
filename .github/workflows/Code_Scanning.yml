@@ -29,4 +29,11 @@ jobs:
     - name: Running Horusec Security
       run: |
         curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
-        horusec start -p="./" -e="true" 
+        horusec start -p="./" -e="true" -D -o="json" -O="./horusec-report.json"
+      
+    - name: Upload scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: horusec-security-report
+        path: ./horusec-report.json
+        retention-days: 7 # Optional: how long to keep the artifact (default is 90 days)
