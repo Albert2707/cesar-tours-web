@@ -26,10 +26,13 @@ jobs:
         sudo systemctl enable docker
         docker --version
 
-    - name: Running Horusec Security
+    - name: Install Horusec
       run: |
         curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
-        horusec start -p="./" -e="true" -D -o="json" -O="./horusec-report.json"
+
+    - name: Running Horusec Security
+      run: |
+        horusec start -i="**/node_modules/**" -o="json" -O="./horusec-report.json"
       
     - name: Upload scan results
       uses: actions/upload-artifact@v4
