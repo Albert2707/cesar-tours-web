@@ -5,17 +5,15 @@ type VehiclesPage = {
   vehicle_admin?: VehicleModel;
   editMode: boolean;
   confirm: boolean;
-  show: boolean
-  vehicleId: string;
-  orderId: string
+  show:boolean
+  vehicleId:string;
 };
 
 const values: VehiclesPage = {
   confirm: false,
   editMode: false,
   show: false,
-  vehicleId: "",
-  orderId: ""
+  vehicleId:""
 };
 type Actions = {
   setEditMode: (editMode: boolean) => void;
@@ -23,7 +21,6 @@ type Actions = {
   setShow: (show: boolean) => void;
   setVehicle: (vehicle: VehicleModel) => void;
   setVehicleId: (vehicleId: string) => void;
-  setOrderId: (orderId: string) => void;
 };
 export const useVehicleStore = create<VehiclesPage & Actions>()((set) => ({
   ...values,
@@ -32,5 +29,4 @@ export const useVehicleStore = create<VehiclesPage & Actions>()((set) => ({
   setVehicle: (vehicle) => set({ vehicle_admin: vehicle }),
   setShow: (show) => set({ show }),
   setVehicleId: (vehicleId) => set({ vehicleId }),
-  setOrderId: (orderId) => set({ orderId })
 }));

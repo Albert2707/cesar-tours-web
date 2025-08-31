@@ -1,6 +1,6 @@
 import "./Vehicle.scss";
 import VehicleModal from "@/shared/components/vehicleModal/VehicleModal";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { request } from "@/utils/api/request";
@@ -13,7 +13,6 @@ import useTranslate from "@hooks/translations/Translate";
 import Table2 from "@/shared/components/table2/Table2";
 import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
 import { VehicleModel } from "@/models/booking/vehicle";
-import { Pagination } from "@/shared/components/pagination/Pagination";
 
 const Vehicles = () => {
   const {
@@ -25,19 +24,12 @@ const Vehicles = () => {
     setVehicleId,
     vehicleId,
   } = useVehicleStore();
-  const [pageCount, setPageCount] = useState<number>(0);
-  const [filter, setFilter] = useState<string>("all");
-  const [skip, setSkip] = useState<number>(1);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const limit: number = 5;
   const client = useQueryClient();
   const { translate } = useTranslate();
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["vehicles_admin"],
     queryFn: async () => {
-      const res = await request.get("vehicle/getAllVehicles", { params: { status: filter, skip, limit } });
-      setHasNextPage(res.data.hasNextPage);
-      setPageCount(res.data.totalPages);
+      const res = await request.get("vehicle/getAllVehicles/");
       return res.data.vehicle;
     },
   });
@@ -102,6 +94,8 @@ const Vehicles = () => {
       return <div>{translate("something_went_wrong")}</div>;
     } else if (isLoading) {
       return <Loader />;
+    } else if (data.length === 0) {
+      return <div>{translate("no_vehicles_added")}</div>;
     } else {
       return (
         <Table2<VehicleModel>
@@ -112,9 +106,6 @@ const Vehicles = () => {
       );
     }
   };
-  useEffect(() => {
-    refetch();
-  }, [filter, skip, refetch]);
   return (
     <div className="admin_vehicle">
       <Toaster />
@@ -144,15 +135,10 @@ const Vehicles = () => {
           </span>
         </div>
         <div className="filter">
-          <Button properties={{
-            type: "filter", onClickfn: () => { setFilter("all") }, btnClass: `${filter == "all" ? "selected" : ""}`,
-          }}>
-            {translate("all")}
-          </Button>
-          <Button properties={{ type: "filter", onClickfn: () => { setFilter("1") }, btnClass: `${filter ==="1" ? "selected" : ""}` }}>
+          <Button properties={{ type: "filter", onClickfn: () => {} }}>
             {translate("available")}
           </Button>
-          <Button properties={{ type: "filter", onClickfn: () => { setFilter("0") }, btnClass: `${filter=== "0" ? "selected" : ""}` }}>
+          <Button properties={{ type: "filter", onClickfn: () => {} }}>
             {translate("occupied")}
           </Button>
           <div className="warn">
@@ -206,8 +192,6 @@ const Vehicles = () => {
       </div>
 
       {content()}
-      <Pagination pageCount={pageCount} skip={skip} setSkip={setSkip} hasNextPage={hasNextPage} />
-
       {confirm && (
         <ConfirmPopup
           title="Borrar vehiculo"

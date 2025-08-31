@@ -28,10 +28,6 @@ import { translateCountry } from "@/utils/functions/functions";
 import StepValidation from "@/shared/components/stepValidation/StepValidation";
 import { useIdiom } from "@hooks/idiom/useIdiom";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
-import { VITE_RESEND_API_KEY } from "@/config/config";
-import { ConfirmationEmail } from "@/features/email/ConfirmationEmail";
-import { render } from "@react-email/render";
-import { IOrder } from "@/shared/interfaces/interfaces";
 interface Inputs {
   name: string;
   lastName: string;
@@ -48,12 +44,6 @@ export interface OrderData extends Omit<Inputs, "countryId"> {
   destination?: string;
   trip_type?: number;
   passengers?: number;
-  formatted_origin_address?: string
-  formatted_destination_address?: string
-  origin_lat?: number
-  destination_lat?: number
-  origin_lng?: number
-  destination_lng?: number
   luggage?: number;
   departureDate?: Date;
   countryId?: string;
@@ -105,68 +95,6 @@ const Checkout = () => {
   });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  let country = watch("countryId");
-  const sendEmail = useMutation({
-    mutationFn: async (data: { html: string[], subject: string[], email: string }) => {
-      const res = await request.post("email/send/confirmation", data, { headers: { resendapikey: VITE_RESEND_API_KEY } })
-      return res.data;
-    },
-
-  });
-
-  const emailSend = async (order: IOrder) => {
-    const confirmationEmailProps = {
-      num: translate("order_number"),
-      origen: translate("origin2"),
-      destino: translate("destination2"),
-      dateTime: translate("dateTime"),
-      total: translate("total"),
-    }
-
-    const labels = {
-      ...confirmationEmailProps,
-      preview: translate("newReservation"),
-      header: translate("newReservationMessage"),
-    }
-    const labelsCustomer = {
-      ...confirmationEmailProps,
-      preview: translate("reservationConfirmation"),
-      header: translate("thankYouMessage"),
-    }
-    const formated_origin = translateCountry(
-      order?.origin?.formatted_address,
-      " Dominican Republic",
-      ` ${translate("do")}`
-    );
-    const formated_destination = translateCountry(
-      order?.destination?.formatted_address,
-      " Dominican Republic",
-      ` ${translate("do")}`
-    );
-    const hour = formatHour(departureHour)
-    const dateFormated = idiom === "es" ? fechaEnEspanol : fechaEnIngles
-
-    const html = await render(
-      <ConfirmationEmail parameters={{ name: order?.customer?.name, reservationNum: order?.order_num, origin: formated_origin, destination: formated_destination, date: dateFormated, hour: hour, total: moneyFormant(order?.total as number) }} labels={labels} />,
-      {
-        pretty: true,
-      }
-    );
-    const htmlCustomer = await render(
-      <ConfirmationEmail parameters={{ name: order?.customer?.name, reservationNum: order?.order_num, origin: formated_origin.replace(/\d/g, ""), destination: formated_destination.replace(/\d/g, ""), date: dateFormated, hour: hour, total: moneyFormant(order?.total as number) }} labels={labelsCustomer} />,
-      {
-        pretty: true,
-      }
-    );
-    const dataToSend = {
-      email: order?.customer?.email,
-      subject: [translate("reservationConfirmation"), translate("thankYouMessage")],
-      html: [html, htmlCustomer]
-    }
-    sendEmail.mutate(dataToSend);
-  }
-
-
   const createOrder = useMutation({
     mutationFn: async (order: OrderData) => {
       const res = await CheckoutService.createOrder(order);
@@ -176,12 +104,9 @@ const Checkout = () => {
       queryClient.invalidateQueries({
         queryKey: ["orders"],
       });
-      emailSend(orderCreated)
       navigate("/order/confirmation", {
         state: { orderCreated },
       });
-      setValue("name", "");
-      country = { value: "", label: "" };
       reset();
     },
     onError: () => {
@@ -205,12 +130,8 @@ const Checkout = () => {
       email: data.email,
       phone: data.phone,
       optionalPhone: data.optionalPhone,
-      formatted_origin_address: origin?.formatted_address,
-      formatted_destination_address: destination?.formatted_address,
-      origin_lng: origin?.lng,
-      destination_lng: destination?.lng,
-      origin_lat: origin?.lat,
-      destination_lat: destination?.lat,
+      origin,
+      destination,
       trip_type,
       passengers: passengerNo,
       luggage: bagsNo,
@@ -313,6 +234,7 @@ const Checkout = () => {
     handleSubmit(onSubmit, onError)();
   };
 
+  const country = watch("countryId");
   return (
     <motion.div
       className="checkout"
@@ -392,21 +314,21 @@ const Checkout = () => {
                   rules={{
                     required: "Country is required", // Mensaje de error personalizado
                   }}
-                  render={({ fieldState }) => (
-                    <SelectBooking
-                      options={countries}
-                      isSearchable={true}
-                      customStyles={fieldState.error && { borderColor: "Red" }}
-                      placeholder={translate("select_country")}
-                      onChange={(e) => {
-                        setValue("countryId", e, {
-                          shouldValidate: true,
-                        });
-                      }}
-                      value={countries.find(
-                        (e) => e.value === country?.value
-                      )}
-                    />
+                  render={({fieldState }) => (
+                      <SelectBooking
+                        options={countries}
+                        isSearchable={true}
+                        customStyles={fieldState.error && { borderColor: "Red" }}
+                        placeholder={translate("select_country")}
+                        onChange={(e) => {
+                          setValue("countryId", e, {
+                            shouldValidate: true,
+                          });
+                        }}
+                        value={countries.find(
+                          (e) => e.value === country?.value
+                        )}
+                      />
                   )}
                 />
               </div>
@@ -425,8 +347,9 @@ const Checkout = () => {
                     {translate("flight_number")}
                   </label>
                   <input
-                    className={`forminput ${errors.flight_number ? "invalid" : ""
-                      }`}
+                    className={`forminput ${
+                      errors.flight_number ? "invalid" : ""
+                    }`}
                     type="text"
                     placeholder={translate("flight_number")}
                     {...register("flight_number", { required: true })}
@@ -438,8 +361,9 @@ const Checkout = () => {
                 <label htmlFor="comments">{translate("comments")}</label>
                 <textarea
                   rows={10}
-                  className={`forminput ${errors.additionalNotes ? "invalid" : ""
-                    }`}
+                  className={`forminput ${
+                    errors.additionalNotes ? "invalid" : ""
+                  }`}
                   placeholder={translate("comments")}
                   {...register("additionalNotes", { required: true })}
                 ></textarea>
@@ -453,7 +377,7 @@ const Checkout = () => {
                 <strong>{translate("origin_address")}:</strong>
                 <span>
                   {translateCountry(
-                    origin?.formatted_address.replace(/\d/g, ""),
+                    origin,
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}
@@ -463,7 +387,7 @@ const Checkout = () => {
                 <strong>{translate("destination_address")}:</strong>
                 <span>
                   {translateCountry(
-                    destination?.formatted_address.replace(/\d/g, ""),
+                    destination,
                     " Dominican Republic",
                     ` ${translate("do")}`
                   )}
@@ -480,7 +404,7 @@ const Checkout = () => {
               <div className="item">
                 <strong>{translate("departure_date_time")}:</strong>
                 <span>
-                  {formatHour(departureHour)} -
+                  {formatHour(departureHour)} -{" "}
                   {idiom === "es" ? fechaEnEspanol : fechaEnIngles}
                 </span>
               </div>

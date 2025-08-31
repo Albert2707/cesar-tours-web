@@ -1,5 +1,4 @@
 @use "../../../index.scss" as *;
-
 .table {
   width: 100%;
   border-radius: 10px;
@@ -17,90 +16,52 @@
     font-weight: bold;
     width: 100%;
     justify-items: center;
-    grid-template-columns: repeat(8, 1fr);
-
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     .cell {
       padding: 10px;
-      width: 170px;
+      width: 150px;
       display: flex;
       justify-content: center;
     }
-
-    @include laptop {
-      grid-template-columns: repeat(4, 1fr);
-
-      .cell:nth-child(2) {
-        display: none;
-      }
-    }
-
     @include tablet {
-      grid-template-columns: repeat(2, 1fr);
-
-      .cell {
-        display: none;
-      }
-
-      .cell:nth-child(1),
-      .cell:nth-child(7) {
-        display: flex;
-      }
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
-
     @include mobile {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     }
   }
-
   .tbl-body {
     display: grid;
     grid-template-rows: 1fr;
+
     gap: 10px;
     overflow: auto;
     width: 100%;
     height: auto;
-
     .tbl-body-row {
       display: grid;
       width: 100%;
       justify-items: center;
       align-content: start;
       align-items: center;
-      grid-template-columns: repeat(8, 1fr);
-
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       .cell {
         padding: 10px;
         height: 100px;
-        width: 170px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-        button {
-          @include mobile {
-            span {
-              display: none;
-            }
-          }
-        }
-        @include mobile{
-          width: 100%;
-        }
       }
-
       .cell.pending {
-        background-color: #faefe6;
-        /* Color de fondo para pendiente */
-        color: #d97706;
-        /* Color del texto para pendiente */
+        background-color: #faefe6; /* Color de fondo para pendiente */
+        color: #d97706; /* Color del texto para pendiente */
         height: fit-content;
       }
 
       .cell.in-progress {
-        background-color: #fff3cd;
-        /* Color de fondo para en proceso */
-        color: #f59e0b;
-        /* Color del texto para en proceso */
+        background-color: #fff3cd; /* Color de fondo para en proceso */
+        color: #f59e0b; /* Color del texto para en proceso */
         height: fit-content;
       }
 
@@ -111,35 +72,15 @@
       }
 
       .cell.cancelled {
-        background-color: #f8d7da;
-        /* Color de fondo para cancelada */
+        background-color: #f8d7da; /* Color de fondo para cancelada */
         color: #dc3545;
         height: fit-content;
       }
-
-      @include laptop {
-        grid-template-columns: repeat(4, 1fr);
-
-        .cell:nth-child(2) {
-          display: none;
-        }
-      }
-
       @include tablet {
-        grid-template-columns: repeat(2, 1fr);
-
-        .cell {
-          display: none;
-        }
-
-        .cell:nth-child(1),
-        .cell:nth-child(7) {
-          display: flex;
-        }
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       }
-
-      @include mobile {
-        grid-template-columns: repeat(2, 1fr);
+      @include mobile{
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
     }
   }

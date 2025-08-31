@@ -5,18 +5,11 @@ import { AnimatePresence } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 import useTranslate from "@/shared/hooks/translations/Translate";
 import SelectIdiom from "@/shared/components/selectIdiom/SelectIdiom";
-import { useNavlinksStore } from "@hooks/navlinks/useNavlinksStore";
-import { customScrollTo } from "@/utils/functions/functions";
 
 const Navbar = () => {
   const { translate } = useTranslate();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { navlink } = useNavlinksStore()
-
-  const activeLink = (linkNav: { home: boolean, booking: boolean, aboutUs: boolean, contact: boolean }, linkHash: keyof typeof linkNav): boolean => {
-    return linkNav[linkHash];
-  }
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -50,33 +43,25 @@ const Navbar = () => {
           <ul className="link-list">
             <li>
               <NavLink
-                to="/#home" className={
-                  activeLink(navlink, "home") ? "link-active" : ""
-                }
-                preventScrollReset={false}
+                to="/#home"
                 onClick={() => {
-                  customScrollTo("home")
+                  const target = document.getElementById("home");
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
                 }}
               >
                 {translate("home")}
               </NavLink>
             </li>
             <li>
-              <NavLink to="/#booking" className={
-                activeLink(navlink, "booking") ? "link-active" : ""
-              } onClick={() => {
-                customScrollTo("booking")
-              }}>{translate("reservations")}</NavLink>
+              <NavLink to="/#booking">{translate("reservations")}</NavLink>
             </li>
             <li>
-              <NavLink to="/#aboutUs" className={
-                activeLink(navlink, "aboutUs") ? "link-active" : ""
-              }>{translate("aboutUs")}</NavLink>
+              <NavLink to="/#aboutUs">{translate("aboutUs")}</NavLink>
             </li>
             <li>
-              <NavLink to="/#contact" className={
-                activeLink(navlink, "contact") ? "link-active" : ""
-              }>{translate("contactUs")}</NavLink>
+              <NavLink to="/#contact">{translate("contactUs")}</NavLink>
             </li>
             <li>
               <SelectIdiom />

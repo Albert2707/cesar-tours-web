@@ -11,6 +11,7 @@ import { useBookingStore } from "@hooks/booking/useBookingStore";
 import useTranslate from "@hooks/translations/Translate";
 import { moneyFormant } from "@/utils/functions/moneyFormat";
 import { calculateTripCost } from "@/utils/functions/caculateTripCost";
+import { VITE_CESAR_API } from "@/config/config";
 import Loader from "@/features/loader/Loader";
 import { formatHour } from "@/utils/functions/formatHour";
 import { useIdiom } from "@hooks/idiom/useIdiom";
@@ -81,6 +82,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
   );
   const [vehicleData, setVehicleData] = useState<VehicleModel[] | null>(null);
   const navigate = useNavigate();
+  console.log(departureDate);
   const { data, isLoading, isError } = useQuery(
     "vehicles",
     async () => {
@@ -132,7 +134,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         >
           <div className="vehicle-img">
             <img
-              src={e.img_url}
+              src={VITE_CESAR_API + "/" + e.img_url}
               alt="Tahoe Suburban"
               loading="lazy"
             />
@@ -198,8 +200,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
         </motion.div>
       ));
     }
-    // eslint-disable-next-line
-  }, [isError, isLoading, memoizedVehicles, navigate, order]);
+  }, [isError, isLoading, memoizedVehicles, navigate, order, translate]);
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -214,7 +215,7 @@ const Vehicle: FC<Props> = ({ setStep }) => {
           <div className="route">
             <span>{translate("route")}</span>
             <span>
-              {origin?.formatted_address.replace(/\d/g, "")} <span> {"->"} </span> {destination?.formatted_address.replace(/\d/g, "")}
+              {origin} <span> {"->"} </span> {destination}
             </span>
           </div>
           <div className="route">
