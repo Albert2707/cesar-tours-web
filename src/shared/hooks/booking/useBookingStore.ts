@@ -6,6 +6,12 @@ type TripFeature = {
   value: number;
 };
 
+export interface Location {
+  formatted_address: string;
+  lat: number;
+  lng: number;
+}
+
 type BookInfo = {
   trip_type: number;
   passengerNo?: number;
@@ -15,8 +21,8 @@ type BookInfo = {
   departureHour?: string;
   departureDate: Date;
   vehicle?: VehicleModel;
-  origin?: string;
-  destination?: string;
+  origin?: Location;
+  destination?: Location;
   distance?: TripFeature;
   duration?: TripFeature;
   total: number;
@@ -41,8 +47,8 @@ type Actions = {
   setVehicle: (vehicle: VehicleModel) => void;
   setBagsNo: (bagsNo: number) => void;
   setPaymentMethod: (payment: "Cash" | "Card") => void;
-  setOrigin(origin: string): void;
-  setDestination(destination: string): void;
+  setOrigin(origin: Location): void;
+  setDestination(destination: Location): void;
   setDistance(distance: TripFeature): void;
   setDuration(duration: TripFeature): void;
   setTotal(total: number): void;

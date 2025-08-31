@@ -13,13 +13,11 @@ const MainLayout = lazy(() => import("./layout/MainLayout"));
 const Checkout = lazy(() => import("./pages/public/checkout/Checkout"));
 const Confirm = lazy(() => import("./pages/public/confirm/Confirm"));
 const Vehicles = lazy(() => import("./pages/private/vehicles/Vehicles"));
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
 const OrderDetail = lazy(
   () => import("./pages/private/orderDetail/OrderDetail")
 );
 function App() {
-  history.scrollRestoration = "manual";
-
   const router = createBrowserRouter([
     {
       element: <MainLayout />,

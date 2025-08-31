@@ -15,6 +15,9 @@ import { EmailProps } from "@/models/email/Email";
 import { EmailService } from "./services/email/emailService";
 import { customToast } from "@/utils/functions/customToast";
 import { VITE_RESEND_API_KEY } from "@/config/config";
+import { useEffect, useRef } from "react";
+import { useNavlinksStore } from "@hooks/navlinks/useNavlinksStore";
+import { useInView } from "framer-motion";
 type Inputs = {
   name: string;
   message: string;
@@ -23,7 +26,12 @@ type Inputs = {
 };
 const Contact = () => {
   const { translate } = useTranslate();
-
+  const { setNavlink, navlink  } = useNavlinksStore()
+const aboutRef = useRef(null);
+  const view = useInView(aboutRef, {
+    amount:"all",
+    margin: "50px 0px 0px 0px",
+  });
   const {
     register,
     setValue,
@@ -97,9 +105,15 @@ const Contact = () => {
       customToast("error", translate("message_required"));
     }
   };
-
+  useEffect(() => {
+    if (view) {
+      setNavlink({...navlink, contact: true })
+    } else {
+      setNavlink({ ...navlink, contact: false })
+    }
+  }, [view])
   return (
-    <div className="contact-section" id="contact">
+    <div className="contact-section" id="contact" ref={aboutRef}>
       <Toaster />
       <div className="container">
         <div className="wrapper">

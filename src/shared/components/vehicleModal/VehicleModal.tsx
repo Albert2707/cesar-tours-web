@@ -5,7 +5,6 @@ import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { QueryClient, useMutation } from "react-query";
 import { customToast } from "@/utils/functions/customToast";
 import { request } from "@/utils/api/request";
-import { VITE_CESAR_API } from "@/config/config";
 import useTranslate from "@hooks/translations/Translate";
 import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
 interface Inputs {
@@ -182,7 +181,7 @@ const VehicleModal: FC<Props> = ({ properties }) => {
         return (
           <div className="foto">
             <img
-              src={VITE_CESAR_API + "/" + vehicle?.img_url}
+              src={vehicle?.img_url}
               alt="Previsualización de la imagen"
             />
             <button

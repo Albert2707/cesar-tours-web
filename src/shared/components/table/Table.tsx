@@ -17,7 +17,7 @@ export const Table: FC<TableProps> = ({ data, columns }) => {
       </div>
       <div className="tbl-body">
         {data.map((e) => (
-          <div key={crypto.randomUUID()} className="tbl-body-row">
+          <div key={crypto.randomUUID()} className="tbl2-body-row">
             <div className="cell">{e[e.key]}</div>
             <div className="cell">{e[e.value]}</div>
           </div>

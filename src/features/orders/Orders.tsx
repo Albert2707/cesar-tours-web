@@ -1,19 +1,48 @@
 import { OrderServices } from "./services/orderServices";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import "./Order.scss";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Button from "@/shared/components/button/Button";
 import useTranslate from "@hooks/translations/Translate";
 import Table2 from "@/shared/components/table2/Table2";
 import { IOrder } from "@/shared/interfaces/interfaces";
+import { Pagination } from "@/shared/components/pagination/Pagination";
+import ConfirmPopup from "@/shared/components/confirmPopup/ConfirmPopup";
+import { useVehicleStore } from "@hooks/vehicles/useVehicleStore";
+import { request } from "@/utils/api/request";
+import { customToast } from "@/utils/functions/customToast";
+import { Toaster } from "react-hot-toast";
 const Orders = () => {
   const [filter, setFilter] = useState<string>("all");
+  const client = useQueryClient();
+  const {
+    confirm,
+    setConfirm,
+    orderId
+  } = useVehicleStore();
   const [pageCount, setPageCount] = useState<number>(0);
   const { translate } = useTranslate();
   const [skip, setSkip] = useState<number>(1);
   const [reservation_num, setReservation_num] = useState<string>("");
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const limit: number = 5;
+  const deleteOrder = useMutation({
+    mutationFn: async (orderNum: string) => {
+      await request.delete("order/deleteOrder/" + orderNum);
+    },
+    onSuccess: () => {
+      customToast("success", translate("order_deleted_successfully"));
+      client.invalidateQueries({
+        queryKey: ["orders"],
+      })
+      setConfirm(false);
+    },
+
+    onError: () => {
+      customToast("error", translate("error_deleting_vehicle"));
+      setConfirm(false);
+    }
+  })
   const { data, isLoading, error, refetch } = useQuery(`orders`, async () => {
     const res = await OrderServices.getOrders(
       filter,
@@ -56,6 +85,7 @@ const Orders = () => {
         column: "",
         key: "button",
       },
+
     ],
     []
   );
@@ -76,6 +106,10 @@ const Orders = () => {
     }
   };
 
+  const handleDelete = () => {
+    deleteOrder.mutate(orderId);
+  }
+
   useEffect(() => {
     refetch();
   }, [filter, skip, refetch]);
@@ -90,6 +124,7 @@ const Orders = () => {
   };
   return (
     <div className="orders">
+      <Toaster />
       <div className="filter">
         <div className="button_filter">
           <Button
@@ -181,45 +216,17 @@ const Orders = () => {
         </form>
       </div>
       {order()}
-      <div className="pagination">
-        <Button
-          properties={{
-            type: "filter",
-            onClickfn: () => {
-              if (skip === 1) return;
-              setSkip(skip - 1);
-            },
+      <Pagination pageCount={pageCount} skip={skip} setSkip={setSkip} hasNextPage={hasNextPage} />
+      {confirm && (
+        <ConfirmPopup
+          title="Borrar esta reserva"
+          subTitle="Esta reserva sera eliminada completamente ¿Seguro que deseas continuar? "
+          onConfirm={handleDelete}
+          onCancel={() => {
+            setConfirm(false);
           }}
-        >
-          {"<"}
-        </Button>
-        <div className="page-numbers">
-          {Array.from({ length: pageCount }, (_, index) => index + 1).map(
-            (e) => (
-              <span
-                key={crypto.randomUUID()}
-                style={{
-                  color: e === skip ? "#f24b0f" : "",
-                  fontWeight: e === skip ? "bold" : "normal",
-                }}
-              >
-                {e}
-              </span>
-            )
-          )}
-        </div>
-        <Button
-          properties={{
-            type: "filter",
-            onClickfn: () => {
-              if (!hasNextPage) return;
-              setSkip(skip + 1);
-            },
-          }}
-        >
-          {">"}
-        </Button>
-      </div>
+        />
+      )}
     </div>
   );
 };

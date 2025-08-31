@@ -1,0 +1,1 @@
+import{j as s}from"./index-CJpT4Mpi.js";import{L as a}from"./Loader-Dqsd4B3d.js";const o=()=>s.jsxs("div",{className:"fallBack",children:[s.jsx("img",{src:"/images/Cesar-logo.webp",alt:""}),s.jsx(a,{})]});export{o as default};

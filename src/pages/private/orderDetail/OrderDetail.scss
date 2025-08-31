@@ -4,22 +4,20 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-inline: auto;
+  width: 100%;
 
   .order_vehicle {
     display: flex;
-    gap: 10px;
+    gap: 25px;
+    width: 100%;
     align-items: center;
     background-color: #f2f2f2;
     border-radius: 10px;
     padding: 10px;
 
-    div {
-      font-weight: 500;
-      font-size: 1.2rem;
-    }
-
     .order_vehicle_img {
-      width: 200px;
+      width: 250px;
       height: 200px;
       border-radius: 10px;
       overflow: hidden;
@@ -30,40 +28,119 @@
         object-fit: cover;
       }
     }
-  }
 
-  .order_container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
-.left, .right {
-    .order_header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .order_body {
+    .order_vehicle_info {
       display: flex;
       flex-direction: column;
       gap: 10px;
 
-      .order_detail_item {
+      .vehicle_item {
+        gap: 10px;
+        display: flex;
+        font-size: 24px;
+      }
+
+      .vehicle_item_features {
+        display: flex;
+        gap: 10px;
+
+        .item_features {
+          display: flex;
+          gap: 5px;
+          font-size: 18px;
+          align-items: center;
+
+          svg {
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+
+      @include mobile {
+        align-items: center;
+      }
+    }
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .order_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+
+    .left,
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .order_header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        h3 {
+          font-size: 1.5rem;
+
+          @include tablet {
+            font-size: 1.3rem;
+
+          }
+        }
+      }
+
+      .order_body {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        font-size: 1rem;
 
-        span {
-          font-weight: 600;
-          font-size: 1.2rem;
+        .order_detail_item {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          font-size: 1rem;
+
+          span {
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+        }
+
+        @include mobile {
+          gap: 20px;
+          ;
         }
       }
+
+      @include mobile {
+        gap: 20px;
+      }
     }
-  }
+
+    hr {
+      background-color: lightgray;
+      border-radius: 50px;
+      display: none;
+      border: 1px solid lightgray;
+      @include mobile {
+        display: block;
+      }
+    }
+
+    .map {
+      height: 400px;
+    }
 
     @include mobile {
       grid-template-columns: 1fr;
+      gap: 20px;
     }
   }
+
+  @include responsive-container
 }

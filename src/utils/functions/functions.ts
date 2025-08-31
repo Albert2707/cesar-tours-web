@@ -26,3 +26,10 @@ export const translateCountry = (
     })
     .join(",");
 };
+
+export const customScrollTo = (to:string)=>{
+  const target = document.getElementById(to);
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
+  }
+}

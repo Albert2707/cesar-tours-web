@@ -1,0 +1,1 @@
+.ws{background-color:#25d366;border-radius:50%;position:fixed;z-index:10;display:flex;justify-content:center;align-items:center;bottom:20px;right:20px;width:60px;height:60px;cursor:pointer;transition:all .3s ease-in-out}.ws a{height:100%;width:100%;display:flex;justify-content:center;align-items:center}.ws a svg{color:#fff;width:35px;height:35px}.ws:hover{scale:1.0875}

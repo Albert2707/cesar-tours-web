@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useTranslate from "@hooks/translations/Translate";
 import "./Booking.scss";
 import { generateTimeOptions } from "@/utils/functions/functions";
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { Map, Marker } from "@vis.gl/react-google-maps";
 import { Directions } from "./components/directions/Directions";
 import { AutocompleteCustom } from "./components/autoComplete/AutoComplete";
 import Vehicle from "./components/steps/Vehicle";
@@ -13,11 +13,12 @@ import { es } from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import { IdiomTypes } from "@/context/idiomTypes";
 import { useBookingStore } from "@hooks/booking/useBookingStore";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import SelectBooking from "@/shared/components/selectBooking/SelectBooking";
 import { customToast } from "@/utils/functions/customToast";
-import { VITE_GOOGLE_API_KEY } from "@/config/config";
 import { useIdiom } from "@hooks/idiom/useIdiom";
+import { CustomMap } from "@/shared/components/map/Map";
+import { useNavlinksStore } from "@hooks/navlinks/useNavlinksStore";
 
 const center = { lat: 18.6652932, lng: -71.4493516 };
 
@@ -33,11 +34,22 @@ export interface Coordinates {
 const Booking = () => {
   registerLocale("en", enUS);
   registerLocale("es", es);
+  const bookingRef = useRef(null);
+  const view = useInView(bookingRef, {
+    margin: "100px 0px -50px 0px",
+  });
+  const [errors, setErrors] = useState({
+    originError: false,
+    destinationError: false,
+    departureHourError: false,
+    returnHourError: false,
+    returnDateError: false
+  })
   const today = new Date();
   const { idiom } = useIdiom() as IdiomTypes;
   const { translate } = useTranslate();
   const [step, setStep] = useState(1);
-  const [originAddress, setOriginAddress] = useState<Coordinates | null>(null);
+  const { setNavlink, navlink } = useNavlinksStore()
   const {
     passengerNo,
     departureDate,
@@ -54,10 +66,10 @@ const Booking = () => {
     setReturnDate,
     setReturnHour,
     returnHours,
+    setOrigin,
+    setDestination,
     returnDate,
   } = useBookingStore();
-  const [destinationAddress, setDestinationAddress] =
-    useState<Coordinates | null>(null);
   const hours = generateTimeOptions();
   const noPassengers = [];
   const noBags = [];
@@ -74,10 +86,9 @@ const Booking = () => {
   ];
   const handleOriginSelect = (place: google.maps.places.PlaceResult | null) => {
     if (place) {
-      setOriginAddress({
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      });
+      setErrors({ ...errors, originError: false })
+      setOrigin({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
+
     }
   };
 
@@ -85,10 +96,9 @@ const Booking = () => {
     place: google.maps.places.PlaceResult | null
   ) => {
     if (place) {
-      setDestinationAddress({
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      });
+      setErrors({ ...errors, destinationError: false })
+      setDestination({ formatted_address: place.formatted_address ?? "", lat: place.geometry?.location?.lat() ?? 0, lng: place.geometry?.location?.lng() ?? 0 })
+
     }
   };
   const handlePlaceSelect = (
@@ -96,13 +106,22 @@ const Booking = () => {
     type: "origin" | "destination"
   ) => {
     if (type === "origin" && place) {
-      handleOriginSelect(place);
+      handleOriginSelect(place)
     } else {
-      handleDestinationSelect(place);
+      handleDestinationSelect(place)
     }
   };
+
+  useEffect(() => {
+    if (view) {
+      setNavlink({...navlink,booking: true })
+    } else {
+      setNavlink({...navlink,booking: false })
+    }
+    // eslint-disable-next-line
+  }, [view])
   return (
-    <div className="booking" id="booking">
+    <div className="booking" id="booking" ref={bookingRef}>
       <Toaster />
       <div className="container">
         <div className="wrapper">
@@ -112,9 +131,8 @@ const Booking = () => {
               <div className="step done">1</div>
               <div className="steps-progress">
                 <div
-                  className={` progress ${
-                    step === 2 || step === 3 ? "done" : ""
-                  }`}
+                  className={` progress ${step === 2 || step === 3 ? "done" : ""
+                    }`}
                 ></div>
               </div>
               <div
@@ -128,7 +146,7 @@ const Booking = () => {
               <div className={` step ${step === 3 ? "done" : ""}`}>3</div>
             </div>
             {step === 1 && (
-              <APIProvider apiKey={VITE_GOOGLE_API_KEY}>
+              <CustomMap booking={true}>
                 <div className="contain">
                   <div className="left">
                     <motion.form action="" className="booking-form">
@@ -137,6 +155,7 @@ const Booking = () => {
                           {translate("origin_address")}
                         </label>
                         <AutocompleteCustom
+                          classN={errors.originError ? "invalid" : ""}
                           onPlaceSelect={(place) =>
                             handlePlaceSelect(place, "origin")
                           }
@@ -148,6 +167,7 @@ const Booking = () => {
                           {translate("destination_address")}
                         </label>
                         <AutocompleteCustom
+                          classN={errors.destinationError ? "invalid" : ""}
                           onPlaceSelect={(place) =>
                             handlePlaceSelect(place, "destination")
                           }
@@ -234,10 +254,12 @@ const Booking = () => {
                             {translate("departure_time")}
                           </label>
                           <SelectBooking
+                            customStyles={{ borderColor: errors.departureHourError ? "#e11d48" : "rgba(51, 55, 64, 0.3)" }}
                             options={hours}
                             placeholder="time"
                             onChange={(e) => {
                               const { value } = e as { value: string };
+                              if (value) setErrors({ ...errors, departureHourError: false })
                               setDepartureHour(value);
                             }}
                             value={hours.find((e) => e.value === departureHour)}
@@ -259,7 +281,7 @@ const Booking = () => {
                                 {translate("return_date")}
                               </label>
                               <DatePicker
-                                className="datePicker"
+                                className={`datePicker  ${errors.returnDateError ? "invalid" : ""}`}
                                 selected={returnDate}
                                 minDate={departureDate}
                                 placeholderText={
@@ -269,6 +291,7 @@ const Booking = () => {
                                 }
                                 onChange={(date) => {
                                   if (!date) return;
+                                  setErrors({ ...errors, returnDateError: false })
                                   setReturnDate(date as Date);
                                 }}
                                 locale={idiom}
@@ -285,9 +308,11 @@ const Booking = () => {
                               </label>
                               <SelectBooking
                                 options={hours}
+                                customStyles={{ borderColor: errors.returnHourError ? "#e11d48" : "rgba(51, 55, 64, 0.3)" }}
                                 placeholder="time"
                                 onChange={(e) => {
                                   const { value } = e as { value: string };
+                                  if (value) setErrors({ ...errors, returnHourError: false })
                                   setReturnHour(value);
                                 }}
                                 value={hours.find(
@@ -309,66 +334,77 @@ const Booking = () => {
                         gestureHandling={"greedy"}
                         disableDefaultUI={true}
                       >
-                        {originAddress && (
+                        {originTrip?.lat && (
                           <Marker
                             position={{
-                              lat: originAddress.lat ?? 0,
-                              lng: originAddress.lng ?? 0,
+                              lat: originTrip?.lat ?? 0,
+                              lng: originTrip?.lng ?? 0,
                             }}
                             clickable={true}
                             onClick={() => alert("marker was clicked!")}
                             title={"clickable google.maps.Marker"}
                           />
                         )}
-                        {destinationAddress && (
+                        {destination?.lat && (
                           <Marker
                             position={{
-                              lat: destinationAddress.lat ?? 0,
-                              lng: destinationAddress.lng ?? 0,
+                              lat: destination?.lat ?? 0,
+                              lng: destination?.lng ?? 0,
                             }}
                             clickable={true}
                           />
                         )}
                       </Map>
                       <Directions
-                        origin={originAddress}
-                        destination={destinationAddress}
                       />
                       <button
                         type="submit"
                         aria-label="Seleccionar vehiculo"
                         className="btn-selectec-vehicle"
                         onClick={() => {
-                          if (!departureHour)
+                          if (!originTrip) {
+
+                            setErrors({ ...errors, originError: true })
+                            return customToast(
+                              "error",
+                              translate("select_origin_address")
+                            );
+                          }
+                          if (!destination) {
+
+                            setErrors({ ...errors, destinationError: true })
+                            return customToast(
+                              "error",
+                              translate("select_destination_address")
+                            );
+                          }
+                          if (!departureHour) {
+
+                            setErrors({ ...errors, departureHourError: true })
                             return customToast(
                               "error",
                               translate("select_time")
                             );
+                          }
                           if (!departureDate)
                             return customToast(
                               "error",
                               translate("select_date")
                             );
-                          if (!returnDate && trip_type === 2)
+                          if (!returnDate && trip_type === 2) {
+                            setErrors({ ...errors, returnDateError: true })
                             return customToast(
                               "error",
                               translate("select_date")
                             );
-                          if (trip_type == 2 && !returnHours)
+                          }
+                          if (trip_type == 2 && !returnHours) {
+                            setErrors({ ...errors, returnHourError: true })
                             return customToast(
                               "error",
                               translate("select_return_time")
                             );
-                          if (!originTrip)
-                            return customToast(
-                              "error",
-                              translate("select_origin_address")
-                            );
-                          if (!destination)
-                            return customToast(
-                              "error",
-                              translate("select_destination_address")
-                            );
+                          }
                           setStep(2);
                         }}
                       >
@@ -377,7 +413,7 @@ const Booking = () => {
                     </div>
                   </div>
                 </div>
-              </APIProvider>
+              </CustomMap>
             )}
             {step === 2 && <Vehicle setStep={setStep} />}
           </div>
