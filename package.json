@@ -15,7 +15,7 @@
     "@egjs/flicking-plugins": "^4.7.1",
     "@egjs/react-flicking": "^4.11.4",
     "@reach/combobox": "^0.18.0",
-    "@react-email/components": "^0.0.28",
+    "@react-email/components": "^0.5.0",
     "@react-email/render": "1.0.2",
     "@react-google-maps/api": "^2.20.3",
     "@vis.gl/react-google-maps": "^1.4.0",
