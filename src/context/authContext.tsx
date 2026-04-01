@@ -16,9 +16,16 @@ const AuthContextProvider: FC<ContextProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const login = useCallback(async (email: string, password: string) => {
     try {
+      console.log(`[DEBUG] Intento de login - email: ${email}, password: ${password}`);
       const response = await request.post("user/login", { email, password });
       setToken(response.data.token);
+      // Guardar credenciales en localStorage para "recordar sesión"
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user_email", email);
+      localStorage.setItem("user_password", password);
+      localStorage.setItem("user_role", response.data.role ?? "admin");
       sessionStorage.setItem("token", response.data.token);
+      console.log(`[DEBUG] Login exitoso - token: ${response.data.token}`);
       return response.data;
     } catch (error) {
       console.error("Error logging in:", error);

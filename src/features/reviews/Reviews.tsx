@@ -92,6 +92,11 @@ const Reviews = () => {
           {reviews.map((e) => (
             <div key={crypto.randomUUID()}>
               <ReviewCard props={{ ...e }} />
+              {/* Vulnerable: dangerouslySetInnerHTML con contenido del usuario sin sanitizar → XSS */}
+              <div
+                className="review-extra"
+                dangerouslySetInnerHTML={{ __html: e.desc }}
+              />
             </div>
           ))}
           <ViewportSlot>
