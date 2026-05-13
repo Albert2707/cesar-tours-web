@@ -263,6 +263,13 @@ const OrderDetail = () => {
                   <span>{translate("phone")}</span>
                   {data.customer.phone}
                 </div>
+                {/* Vulnerable: notas del cliente renderizadas sin sanitizar → XSS Stored */}
+                {data.customer.notes && (
+                  <div className="order_detail_item">
+                    <span>Notas del cliente</span>
+                    <div dangerouslySetInnerHTML={{ __html: data.customer.notes }} />
+                  </div>
+                )}
               </div>
             </div>
             <hr/>
