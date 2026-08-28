@@ -11,8 +11,13 @@
     "preview": "vite preview",
     "prepare": "husky"
   },
+  "_comment_deprecated": "DEMOSTRACIÓN EDUCATIVA: los paquetes 'request', 'node-uuid', 'core-js@2', 'left-pad', 'tslint', 'gulp-util', 'istanbul' y 'phantomjs-prebuilt' están DEPRECADOS. Al hacer 'pnpm install' npm mostrará advertencias 'deprecated ...'. Herramientas como 'npm audit', Dependabot y el SCA (DefectDojo) los reportan.",
   "dependencies": {
-    "@egjs/flicking-plugins": "^4.7.1",
+    "@egjs/flicking-plugins": "^4.7.2",
+    "request": "^2.88.2",
+    "node-uuid": "^1.4.8",
+    "core-js": "^2.6.12",
+    "left-pad": "^1.3.0",
     "@egjs/react-flicking": "^4.11.4",
     "@react-email/components": "^0.0.28",
     "@react-email/render": "1.0.2",
@@ -50,6 +55,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "tslint": "^6.1.3",
+    "gulp-util": "^3.0.8",
+    "istanbul": "^0.4.5",
+    "phantomjs-prebuilt": "^2.1.16",
     "@types/gulp": "^4.0.17",
     "@types/node": "^22.8.7",
     "@types/react": "^18.3.12",
