@@ -20,7 +20,7 @@
     "@vis.gl/react-google-maps": "^1.4.0",
     "axios": "0.21.1",
     "date-fns": "^4.1.0",
-    "ejs": "3.1.6",
+    "ejs": "3.1.10",
     "follow-redirects": "1.14.7",
     "framer-motion": "^11.11.11",
     "jsonwebtoken": "8.5.1",
